@@ -1,0 +1,70 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/layoutDashboard.twig" %}
+
+{% block title %}{{ lang.schedule }}{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/mockup/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="dashboard-content">
+                    <div>
+                        {% include "@Schola/public/mockup/leftNavigation.twig" %}
+                    </div>
+                    <div class="clearfix">
+                        <div class="page-title">Choose your <span class="color-orange">action</span></div>
+                        <div class="row main-navigation">
+                            <div class="col-sm-6 col-xs-12">
+                                <a href="{{ route_url('Schola::chooseClass') }}" class="nav-item">
+                                    <div class="nav-item-icon">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/icon/nav-item-1.png') }}" alt="BOOK A CLASS">
+                                    </div>
+                                    <div class="nav-item-name"><span>BOOK A CLASS</span></div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <a href="{{ route_url('Schola::practiceAndLessonReview') }}" class="nav-item">
+                                    <div class="nav-item-icon">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/icon/nav-item-2.png') }}" alt="BOOK A CLASS">
+                                    </div>
+                                    <div class="nav-item-name"><span>PRACTICE & REVIEW</span></div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <a href="{{ route_url('Schola::learningProgress') }}" class="nav-item">
+                                    <div class="nav-item-icon">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/icon/nav-item-3.png') }}" alt="BOOK A CLASS">
+                                    </div>
+                                    <div class="nav-item-name"><span>CHECK LEARNING PROGRESS</span></div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <a href="#" class="nav-item">
+                                    <div class="nav-item-icon">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/icon/nav-item-4.png') }}" alt="BOOK A CLASS">
+                                    </div>
+                                    <div class="nav-item-name"><span>GO TO NEXT CLASS</span></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dot-color">
+                    <div class="dot-1"></div>
+                    <div class="dot-2"></div>
+                    <div class="dot-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

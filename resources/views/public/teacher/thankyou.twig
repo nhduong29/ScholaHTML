@@ -1,0 +1,16 @@
+{% set lang = Schola.language('teacher') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.thank_you }}{% endblock %}
+{% block content %}
+{% set isTeacher = 1 %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <h1 class="message-thank">{{ lang.thank_you_siging }}</h1>
+        </div>
+    </div>
+{% endblock %}

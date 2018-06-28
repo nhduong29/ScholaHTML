@@ -1,0 +1,23 @@
+{% set lang = Schola.language('teacher') %}
+
+<div class="schedule-tooltip-detail">
+	
+	<div>
+        <strong>{{ lang.lesson_sn }}</strong> GroupClass
+    </div>
+    <div>
+        <strong>{{ lang.lesson_name }}</strong> {{ detail.group_lesson_name }}
+    </div> 
+	<!-- <div class="text-danger">
+		{%if detail.schedule_status == 1%}
+			{{ lang.this_class_canceled }}
+		{%endif%}
+	</div> -->
+	<div class="mt15 mb5">
+		{%if false%}
+			<button type="button" onclick="{%if displayBtn%}schedule.gotoClassroom(this);{%else%}return false;{%endif%}" data-schedule-id="{{detail.schedule_id}}" class="btn btn-primary {%if not displayBtn%}disabled{%endif%}">{{ lang.go_to_classroom }}</button>
+		{%endif%}
+		<!-- <button type="button" onclick="schedule.classDetail(this);" data-schedule-id="{{detail.schedule_id}}" class="btn btn-primary">{{ lang.class_detail }}</button> -->
+	</div>
+	
+</div>

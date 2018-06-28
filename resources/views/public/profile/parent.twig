@@ -1,0 +1,101 @@
+{% set lang = Schola.language('userprofile') %}
+<div class="col-lg-4">
+	<div class="control-item ">
+		<div class="wrapper-control student_avatar-control">
+			<div class="upload-avatar gender-{{ studentInfo.profile_gender }}">
+				<img id="srcAvatar" src="{{avatar}}" />
+				<div class="change-avatar" onclick="$('#studentAvatar').click();">
+					<span class="fa fa-camera"></span>
+				</div>
+			</div>
+			<input
+				style="display: none"
+				onchange="profile.changeAvatar(event);"
+				type="file" 
+				id="studentAvatar" 
+				name="studentAvatar" />	
+			<div class="error"></div>
+		</div>
+	</div>
+</div>
+<div class="col-lg-8">
+	<div class="control-item ">
+		<label for="profile_firstname">{{ lang.firstname }}</label>
+		<div class="wrapper-control profile_firstname-control">
+			<div class="control">
+				<input value="{{ profileInfo.profile_firstname }}" type="text" name="profile_firstname" id="profile_firstname"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item ">
+		<label for="profile_lastname">{{ lang.lastname }}</label>
+		<div class="wrapper-control profile_lastname-control">
+			<div class="control">
+				<input value="{{ profileInfo.profile_lastname }}" type="text" name="profile_lastname" id="profile_lastname"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item">
+		<label for="timezone_id">{{ lang.timezone }}</label>
+		<div class="wrapper-control timezone_id-control">
+			<div class="control">
+				<select data-timezone="{{profileInfo.timezone_id}}" class="select-single" id="timezone_id" name="timezone_id">
+					{%for timezone in listTimezones%}
+						<option {{profileInfo.timezone_id == timezone.timezone_id ? 'selected':''}} data-gmt-offset="{{timezone.gmt_offset}}" value="{{timezone.timezone_id}}" label="{{timezone.timezone_name}}">
+							{{timezone.timezone_name}}
+						</option>
+					{%endfor%}
+				</select>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item ">
+		<label for="profile_lastname">{{ lang.email }}</label>
+		<div class="wrapper-control profile_email-control">
+			<div class="control">
+				<input value="{{ profileInfo.profile_email }}" type="text" name="profile_email" id="profile_email"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item phone-number-design">
+		<label for="profile_phone">{{ lang.phone }}</label>
+		<div class="wrapper-control profile_phone-control">
+			<div class="control">
+				<select id="profile_country_code" name="profile_country_code" class="form-control profile_country_code">
+	               {% for listCountryCodes in listCountryCode %}
+	               		{% if profileInfo.profile_country_code is not empty%}
+	               			<option value="{{ listCountryCodes.code }}" "{% if profileInfo.profile_country_code == listCountryCodes.code %} selected='selected' {% endif %}">+{{ listCountryCodes.code }}</option>
+	               		{% else %}
+	                   		<option value="{{ listCountryCodes.code }}" "{% if  listCountryCodes.code == 84 %} selected='selected' {% endif %}">+{{ listCountryCodes.code }}</option>
+	               		{% endif %}
+                    {% endfor %}
+            	</select>
+				<input value="{{ profileInfo.profile_phone }}" type="text" name="profile_phone" id="profile_phone"  class="profile_phone"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item ">
+		<label for="profile_skype">{{ lang.skype }}</label>
+		<div class="wrapper-control profile_skype-control">
+			<div class="control">
+				<input value="{{ profileInfo.profile_skype }}" type="text" name="profile_skype" id="profile_skype"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-item ">
+		<label for="profile_lastname">{{ lang.class_access_code }} </label>
+		<div class="wrapper-control access_code-control">
+			<div class="control">
+				<input value="{{ profileInfo.access_code }}" type="text" readonly="readonly" disabled="disabled"></input>
+				<span class="error"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<input id="profileMode" name="profileMode" type="hidden" value="{{tab}}"></input>

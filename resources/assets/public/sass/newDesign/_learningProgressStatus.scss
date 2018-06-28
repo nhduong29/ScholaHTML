@@ -1,0 +1,61 @@
+.progress-status {
+  border: 1px solid #E0E0E0;
+  box-shadow: 0px 4px 10px #F2F2F2;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 6px;
+  ul,li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  ul {
+    margin: 0 auto;
+    text-align: center;
+    display: table;
+    li {
+      width: 200px;
+      float: left;
+      height: 30px;
+      border-right: 1px solid #E0E0E0;
+      &:last-child {
+        border: none;
+      }
+      &:first-child,&:last-child {
+        width: 130px;
+      }
+      @include width-x-small {
+        width: 140px;
+        &:first-child,&:last-child {
+          width: 80px;
+        }
+      }
+    }
+  }
+  .point {
+    font-size: 24px;
+    color: $primary_color_2;
+    font-weight: 600;
+  }
+  .icon-star {
+    font-size: 24px;
+    margin-left: 18px;
+    color: #F2C94C;
+  }
+  .icon-medal {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    background: url("../images/icon/medal.png") no-repeat;
+    background-size: contain;
+    margin-bottom: -4px;
+  }
+}
+
+.counter-class-completed {
+  border: 1px solid #E0E0E0;
+  box-shadow: 0px 4px 10px #F2F2F2;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 23px 5px 12px;
+}

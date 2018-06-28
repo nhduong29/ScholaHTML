@@ -1,0 +1,89 @@
+{% set lang = Schola.language('user') %}
+
+{% extends "@Schola/public/layout/layoutClass.twig" %}
+
+{% block title %}{{ lang.class_access }}{% endblock %}
+{% block head %}
+
+    <!-- HTTPS required. HTTP will give a 403 forbidden response -->
+ <script src="{{ Schola.helper( 'assetUrl' , '/public/js/classAccess/classAccess.js' ) }}" type="text/javascript"></script>  
+ <script type="text/javascript">
+        var URL = {
+            checkPin: '{{ route_url('Schola::check-access-code') }}',
+            studentRedirect: '{{ route_url('Schola::access-upcoming-classes') }}',
+        };
+        var MESSAGE= {
+            checkPinBefore: '{{ lang.enter_class_before_schedule_time }}',
+            checkPinAfter: '{{ lang.enter_class_after_schedule_time }}',
+            checkPinInvalid : '{{ lang.enter_class_invalid_code }}',
+        };
+
+        $(function () {
+            classView.init(URL,MESSAGE);
+        });
+    </script>
+{% endblock %}
+{% block content %}
+<div class="classaccess_wrapper">
+    <div class="classaccess_container">
+        <div class="fail-error">
+                   
+            {% if error_message == 'failBefore' %}
+            <div class="access_error">
+                {{ lang.enter_class_before_schedule_time }}
+            </div>
+            {% endif %}
+            {% if error_message == 'failAfter' %}
+            <div class="access_error">
+                {{ lang.enter_class_after_schedule_time }}
+            </div>
+            {% endif %}
+       
+        <div class="classaccess-page">
+            <div class="logo">
+                <a href="{{ route_url('Schola::home') }}"><img src="{{ Schola.helper('assetUrl', '/public/images/schola2.png') }}"/></a>
+            </div>
+   
+            <form class="">
+
+                <div>
+                    
+                    <div>
+                         <div class="control profile_country_code-control">
+                            <select id="profile_country_code" name="profile_country_code" class="form-control">
+                               
+                               {% for listCountryCodes in listCountryCode %}
+                                   <option value="{{ listCountryCodes.code }}" "{% if  listCountryCodes.code == 84 %} selected='selected' {% endif %}">+{{ listCountryCodes.code }}</option>
+                                    }
+                                {% endfor %}
+                            </select>
+                            <div class="error"></div>
+                        </div>
+                        <div class="control profile_phone_number-control">
+                            <input type="text" id="profile_phone_number" name="profile_phone_number" placeholder="{{ lang.phone_number }}" />
+                            <div class="error"></div>
+                        </div>
+                    </div>    
+                </div>
+
+                <div class="control">
+                           
+                    <input type="text" placeholder="{{ lang.class_access_code }}" id="schedulecode" name="schedulecode"/>
+                </div>
+        
+                <button type="button" id="btn-classcode" class="btn btn-primary-2 button--size-s">
+                    {{ lang.access_class }}
+                </button>
+                <div class="user_access_error">
+                
+               </div>
+          
+            </form>
+        </div>
+        
+        
+    </div>
+</div>
+   
+
+{% endblock %}

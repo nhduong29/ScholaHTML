@@ -1,0 +1,100 @@
+{% set lang = Schola.language('home') %}
+{% set locale = Schola.locale %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lang.effective_personalised }} {{ lang.international_english_learning }}</title>
+
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+
+    <meta name="description" content="{{ lang.home_description }}">
+    <meta property="og:title" content="American International School At Home" />
+    <meta property="og:description" content="Ages 5-12 years experience American syllabus, activities, and English speaking confidence with trained and qualified teachers! Learn & have fun!">
+    <meta property="og:image" content="https://schola.tv/wp-content/plugins/schola/resources/assets/public/images/landing-page/laptop.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ host }}" />
+    <meta property="fb:app_id" content="234311713641907" />
+    <!-- BOOTSTRAP -->
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/jquery.min.js' ) }}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap.min.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap-theme.min.css' ) }}" media="screen"/>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/js/bootstrap.min.js' ) }}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <link rel="stylesheet" href="{{ Schola.helper('assetUrl', '/public/css/landing-page.css') }}">
+    <style type="text/css">
+
+
+</style>
+</head>
+<body>
+    {% include "@Schola/public/layout/web_service_header.twig" %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <div class="extra-content">
+                        <h2>{{ lang.about_us }}</h2>
+                        <p>{{ lang.about_us_1 }}</p>
+                        <p>{{ lang.about_us_2 }}</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+
+            </div>
+        </div>
+        <div class="row main_team_about">
+            <div class="main_team">
+                <h2 class="main_team_title">{{ lang.team }}</h2>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">
+                    <div class="team-person">
+                        <div class="team-person-image">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/landing-page/team-image-1.png') }}" class="" alt="Sample image">
+                        </div>
+                        <div class="team-person-detail">
+                            <h3 class="team-person-title">Aditya Gupta</h3>
+                            <span class="team-person-desi">{{ lang.ceo_co_founder }}</span>
+                            <p class="team-person-about">{{ lang.aditya_gupta_quote }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-person">
+                        <div class="team-person-image">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/landing-page/team-image-2.png') }}" class="" alt="Sample image">
+                        </div>
+                        <div class="team-person-detail">
+                            <h3 class="team-person-title">Nhu Tran</h3>
+                            <span class="team-person-desi">{{ lang.marketing_advisor }}</span>
+                            <p class="team-person-about">{{ lang.nhu_tran_quote }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+    </div>
+        {% include "@Schola/public/layout/web_service_footer.twig" %}
+    </body>
+    </html>

@@ -1,0 +1,74 @@
+{% set lang = Schola.language('userprofile') %}
+
+<div id="dialogExperience" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">{{ lang.experience }}</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmEditExperience" class="text-center">
+                    <input type="hidden" id="experience-id" name="experience-id" value="{{experience.experience_id}}"/>
+                    <div class="form-group custom inline-block mb0">
+                        <div class="control-item">
+                            <label for="experience-title">{{ lang.experience_title }}</label>
+                            <div class="wrapper-control experience-title-control">
+                                <div class="control">
+									<input name="experience-title" id="experience-title" type="text" value="{{experience.experience_title}}"/>
+									<div class="error"></div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <label for="experience-from">{{ lang.from }}</label>
+                            <div class="wrapper-control experience-from-control">
+                                <div class="control">
+									<input type="text" id="experience-from" name="experience-from" value="{{experience.experience_from}}"/>
+									<div class="error"></div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <label for="experience-to">{{ lang.to }}</label>
+                            <div class="wrapper-control experience-to-control">
+                                <div class="control">
+									<input type="text" name="experience-to" id="experience-to" value="{{experience.experience_to}}"/>
+									<div class="error"></div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <label for="experience-location">{{ lang.location }}</label>
+                            <div class="wrapper-control experience-location-control">
+								<div class="control">
+									 <input type="text" id="experience-location" name="experience-location" value="{{experience.experience_location}}"/>
+									<div class="error"></div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <label for="experience-description">{{ lang.description }}</label>
+                            <div class="wrapper-control experience-description-control">
+                                <div class="control">
+									<textarea name="experience-description" id="experience-description">{{experience.experience_description}}</textarea>
+									<div class="error"></div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button type="button" id="btnUpdateExperience"
+                            class="button button--saqui button--inverted button--round-l button--text-thick button--size-s ml0"
+                            data-text="{{ lang.update }}">{{ lang.update }}</button>
+                    <button type="button" data-dismiss="modal"
+                            class="button button--saqui button--round-l button--text-thick button--size-s button--grey"
+                            data-text="{{ lang.cancel }}">{{ lang.cancel }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

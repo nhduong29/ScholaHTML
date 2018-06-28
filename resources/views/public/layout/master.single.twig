@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "@Schola/public/partial/header.twig" %}
+    {% include "@Schola/public/partial/pluginsForLanding.twig" %}
+    <title>{% block title %}{% endblock %} - Schola</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<div id="spinner" class="spinner show-on-top">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div id="content">{% block content %}{% endblock %}</div>
+{% include "@Schola/public/layout/facebookPixel.twig" %}
+{% include "@Schola/public/layout/scriptLiveChat.twig" %}
+</body>
+</html>

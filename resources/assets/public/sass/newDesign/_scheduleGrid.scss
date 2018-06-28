@@ -1,0 +1,353 @@
+.panel-schedule {
+  border: 1px solid #E0E0E0;
+  box-shadow: 0px 4px 10px #F2F2F2;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 20px 15px;
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $color_blue;
+    margin-bottom: 15px;
+  }
+
+  .schedule-grid {
+    .filter-week {
+      .radio-orange {
+        label {
+          font-weight: 500;
+          font-size: 14px;
+        }
+      }
+    }
+    .choice-week {
+      padding: 10px;
+      background: $white_0;
+      border: 1px solid $gray_4;
+      border-bottom: 0;
+      border-radius: 6px 6px 0 0;
+    }
+    .schedule-grid-content {
+      overflow: auto;
+      .schedule-table {
+        table {
+          width: 100%;
+          min-width: 650px;
+          font-size: 12px;
+          thead{
+            border: 1px solid $gray_4;
+            tr {
+              th {
+                width: 14.28572%;
+                text-align: center;
+                padding: 15px 0;
+                background: $color_blue;
+                color: $white_0;
+              }
+            }
+          }
+          tbody {
+            tr{
+              td {
+                border: 1px solid $gray_4;
+                background: #f6f4f4;
+                text-align: center;
+                font-size: 12px;
+                @media (max-width: 800px) {
+                  -webkit-touch-callout: none; /* iOS Safari */
+                  -webkit-user-select: none; /* Safari */
+                  -khtml-user-select: none; /* Konqueror HTML */
+                  -moz-user-select: none; /* Firefox */
+                  -ms-user-select: none; /* Internet Explorer/Edge */
+                  user-select: none;
+                }
+                div {
+                  font-weight: 700;
+                  line-height: 26px;
+                  border: 1px solid transparent;
+                  @include transition(all, 0.2s, ease);
+                }
+                &.peak-hour {
+                  background: #fff6d3 !important;
+                }
+                &.active-time {
+                  background: #fff;
+                  cursor: pointer;
+                }
+                &.disable-time {
+                  background: $white_1;
+                  color: #ccc;
+                  cursor: default;
+                  div {
+                    border-color: transparent !important;
+                    background: transparent !important;
+                  }
+                }
+                &.scheduled-time {
+                  font-size: 12px;
+                  cursor: default;
+                }
+                &.scheduled {
+                  > div {
+                    border-color: #00a905 !important;
+                    background: #acf7af !important;
+                  }
+                }
+                &.student-booked {
+                  > div {
+                    border-color: #2f70a8 !important;
+                    background: #77b3e6 !important;
+                    &:before {
+                      @include fontawesome;
+                      content: "\f058";
+                      color: #004886;
+                      margin-right: 5px;
+                    }
+                  }
+                }
+                &.disable-time.scheduled {
+                  color: #171717;
+                  > div {
+                    border-color: #9e9e9e !important;
+                    background: #c5c5c5 !important;
+                  }
+                }
+                &.info-time {
+                  color: #ccc;
+                  font-size: 11px;
+                  &:hover {
+                    > div {
+                      border-color: transparent;
+                      background: #fff;
+                      cursor: default;
+                    }
+                  }
+                }
+                &:hover {
+                  > div {
+                    border-color: $primary_color;
+                    background: #ffc58f;
+                  }
+                }
+              }
+            }
+          }
+        }
+        @include width-x-small {
+          table {
+            thead {
+              border: 1px solid $gray_4;
+              tr {
+                th {
+                  background: $color_blue;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include width-x-small {
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    .panel-filter-teacher, .panel-grid {
+      border: 1px solid #E0E0E0;
+      box-shadow: 0px 4px 10px #F2F2F2;
+      background: #FFFFFF;
+      border-radius: 10px;
+      padding: 20px 15px;
+      .filter-week, .filter-radio {
+        border: 0;
+        .dropdown-custom {
+          .dropdown-toggle {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: 1px solid $primary_color_2;
+            padding: 5px 15px;
+            box-shadow: none;
+            font-weight: 600;
+            color: $primary_color_2;
+            .caret {
+              float: right;
+              margin-top: 9px;
+              margin-right: -8px;
+            }
+          }
+          .dropdown-menu {
+            min-width: 260px;
+            left: 50%;
+            margin-left: -130px;
+          }
+        }
+      }
+    }
+    .panel-grid {
+      padding: 20px 0;
+      .title {
+        padding: 0 15px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.radio-blue input[type="radio"]:checked + label::after {
+  background-color: $primary_color_2;
+}
+.radio-blue input[type="radio"]:checked + label::before {
+  border-color: $color_blue;
+}
+.radio-blue input[type="radio"] + label {
+  color: $color_blue;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+.teacher-filter-list {
+  .carousel-teacher {
+    padding: 15px 0 15px 7px;
+    @include width-x-small {
+      padding-left: 0;
+    }
+  }
+  .teacher-item {
+    float: left;
+    padding: 10px 5px 40px 5px;
+    width: 120px;
+    position: relative;
+    border-radius: 10px;
+    margin-right: 5px;
+    border: 1px solid #f5f5f5;
+    background: #fff;
+    @include width-x-small {
+      width: 108px;
+    }
+    .img-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      background-size: cover;
+      img {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        background: #fff url("../images/avatar-blank.png") no-repeat;
+        background-size: contain;
+        &.gender-0 {
+          background: #fff url("../images/avatar-female.png") no-repeat;
+          background-size: contain;
+        }
+      }
+    }
+    .img-box.teacherAvatar {
+      cursor: pointer;
+    }
+
+    .favorite, .not-favorite {
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid #f5f5f5;
+      line-height: 30px;
+      color: red;
+      border-radius: 0 0 10px 0;
+      z-index: 9;
+      &:before {
+        @include fontawesome();
+        content: "\f004";
+      }
+    }
+    .not-favorite:before {
+      content: "\f08a";
+    }
+    .teacher-name {
+      font-size: 14px;
+      text-align: center;
+      font-weight: 600;
+      color: $color_blue;
+      margin-top: 5px;
+    }
+    .check-teacher {
+      position: absolute;
+      left: -1px;
+      bottom: -1px;
+      right: -1px;
+      height: 30px;
+      margin: 0;
+      padding: 0;
+      border: 1px solid #f5f5f5;
+      border-radius: 0 0 10px 10px;
+      label {
+        font-size: 14px;
+        display: block;
+        line-height: 28px;
+        padding-left: 27px;
+        padding-bottom: 3px;
+        text-align: left;
+        &:before, &:after {
+          border-radius: 3px;
+          left: 5px;
+          top: 5px;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .owl-controls .owl-buttons .owl-prev {
+    position: absolute;
+    left: 0;
+    top: 58px;
+    margin: 0;
+    border-radius: 0 3px 3px 0;
+    font-size: 0;
+    padding: 5px 7px;
+    &:before {
+      @include fontawesome();
+      content: "\f104";
+      font-size: 26px;
+    }
+  }
+  .owl-controls .owl-buttons .owl-next {
+    position: absolute;
+    right: 0;
+    top: 46px;
+    margin: 0;
+    border-radius: 3px 0 0 3px;
+    font-size: 0;
+    padding: 5px 7px;
+    &:before {
+      @include fontawesome();
+      content: "\f105";
+      font-size: 26px;
+    }
+  }
+  &.list-center {
+    text-align: center;
+    .teacher-item {
+      display: inline-block;
+      float: none;
+    }
+  }
+  &.no-select {
+    .teacher-item {
+      padding-bottom: 5px;
+      width: 110px;
+      .check-teacher, .favorite, .not-favorite {
+        display: none;
+      }
+    }
+  }
+}

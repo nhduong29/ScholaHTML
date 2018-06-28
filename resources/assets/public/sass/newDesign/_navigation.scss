@@ -1,0 +1,70 @@
+.wrap-login-info {
+  .login-info{
+    position: relative;
+    .avatar {
+      .username {
+        color: $color_blue;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 4px;
+      }
+      .arrow {
+        font-size: 12px;
+        color: $color_blue;
+      }
+    }
+    &.open {
+      .dropdown-menu {
+        right: -50px;
+      }
+    }
+    &:last-child {
+      &.open {
+        .dropdown-menu {
+          right: 0px;
+        }
+      }
+    }
+  }
+  .lang-choose {
+    padding: 14px 16px 16px 20px;
+    @include width-x-small {
+      padding: 6px 5px 9px;
+    }
+    .arrow {
+      font-size: 12px;
+      color: $color_blue;
+      position: absolute;
+      right: -8px;
+      top: 16px;
+    }
+    .dropdown-change-lang.dropdown-custom{
+      .dropdown-menu{
+        @include width-x-small {
+          left: 50%;
+          margin-left: -120px;
+          top: 41px;
+          &:before, &:after {
+            right: 53px;
+          }
+        }
+      }
+    }
+  }
+  .dropdown-timezone {
+    padding: 17px 5px;
+    @include width-x-small {
+      padding: 9px 5px;
+    }
+    .dropdown.dropdown-custom {
+      .dropdown-toggle{
+        padding: 7px 15px;
+        border-radius: 30px;
+        color: $color_blue;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}

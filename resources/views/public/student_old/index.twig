@@ -1,0 +1,281 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.student_dashboard }}{% endblock %}
+{% block head %}
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/student/schedule.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            deleteSchedule: '{{ route_url('Schola::schola-student-schedule-delete') }}',
+            listClassroom: '{{ route_url('Schola::schola-student-get-list-classroom')}}',
+			action: '{{ route_url('Schola::schola_student_action')}}',
+			getLession:'{{route_url('Schola::schola-student-get-lesson')}}'
+        };
+		var selectedScheduleId = 0;
+		var selectedLessionId = -1;
+        var selectedTimekey = '';
+        var selectedBasetime = '';
+        var studyView = {
+            init: function() {
+                var base = this;
+                $('#listClassroom').on('click', '.btnCancelClass', function() {
+                    var scheduleId = $(this).data('schedule-id');
+                    base.cancelClass(scheduleId);
+                });
+                $('#listClassroom').on('click', '.btnDetailClass', function() {
+                    var scheduleId = $(this).data('schedule-id');
+                    window.location.href = '{{ route_url('Schola::schola-class-detail') }}?id=' + scheduleId;
+                });
+
+                $('#filterScheduleClass').on('click','a',function(){
+                    var type = parseInt($(this).data('type'));
+                    base.getClassroom(type);
+                });
+				
+				$('#listClassroom').on("click",".teacherAvatar", function(){
+					base.showProfile(this);
+				});
+				$('#listClassroom').on("click",".btnBookClass", function(){
+					selectedScheduleId = parseInt($(this).data('schedule-id'));
+					selectedLessionId = parseInt($(this).data('lesson-id'));
+                    selectedTimekey = $(this).data('timekey');
+                    selectedBasetime = $(this).data('basetime');
+					base.initLessionDropdown();
+					$('#dialogScheduleLesson').modal('show');
+				});
+				
+				$("#pnlLessonDialog").on("click", "#btnUpdateSchedule", function(){
+					base.reBooked();
+				});
+				
+            },getClassroom: function(type){
+                $.ajax({
+                    type: 'POST',
+                    url: URL.listClassroom,
+                    data: {type:type},
+                    success: function (data) {
+                        $('#listClassroom').html(data);
+                        var label = $('#filterScheduleClass a[data-type="' + type + '"]').text();
+                        $('#filterScheduleClass .dropdown-label').text(label);
+                    }
+                });
+            },
+            checkCanceledTime: function(scheduleId){
+                var res = false;
+                var base = this;
+                $.ajax({
+                    url: URL.action,
+                    type: 'POST',
+                    async:false,
+                    data: {action:15, scheduleId:scheduleId},
+                    success: function (data) {
+                        var objJson = JSON.parse(data);
+                        if(parseInt(objJson.status) === 1){
+                            res = true;
+                        }
+                    }
+                });
+                return res;
+            },
+            cancelClass: function (scheduleId) {
+                $('#scheduleIdCancel').val(scheduleId);
+                $('#dialogConfirmCancel').modal('show');
+                var checkCanceled = this.checkCanceledTime(scheduleId);
+                if(checkCanceled === true){
+                    $('#confirmCancelClassNormal').hide();
+                    $('#confirmCancelClassAround24h').show();
+                }else{
+                    $('#confirmCancelClassNormal').show();
+                    $('#confirmCancelClassAround24h').hide();
+                }
+                $('#btnConfirmCancel').unbind().click(function(){
+                    $.ajax({
+                        type: 'POST',
+                        url: URL.deleteSchedule,
+                        data: {
+                            scheduleId: scheduleId
+                        },
+                        success: function (data) {
+                            var res = JSON.parse(data);
+                            $('#dialogConfirmCancel').modal('hide');
+                            if (res.status == true) {
+                                location.reload();
+                            } else {
+                                alert('{{ lang.cant_cancel_schedule }}');
+                            }
+                        }
+                    });
+                });
+            },
+			showProfile: function(target){
+				var teacherId = $(target).data('teacher_id');
+				$.ajax({
+					type: 'POST',
+					url: URL.action,
+					data:{teacherId:teacherId, action:10},
+					success: function (data) {
+                        $("#pnlDialogTeacherProfile").html(data);
+						$("#dialogTeacherProfile").modal("show");
+                    }
+				});
+			},
+			initLessionDropdown: function(){
+				var base = this;
+				$.ajax({
+					type: 'POST',
+					url: URL.getLession,
+                    async:false,
+					data:{selected:selectedLessionId, timeSelected:selectedTimekey, baseTime:selectedBasetime},
+					success: function (data) {
+						$($('#pnlLessonDialog')[0]).html(data);
+						$('.select-single').select2({
+							language: 'en'
+						});
+                        scheduleView.data.bookTeacher = 0;
+					}
+				});
+			},
+            checkRemainClass: function(){
+                var res = true;
+                var base = this;
+                $.ajax({
+                    type:"POST",
+                    url:URL.action,
+                    data:{action:14},
+                    async:false,
+                    success: function(data){
+                        var json = JSON.parse(data);
+                        if(parseInt(json.remain) === 0){
+                            res = false;
+                        }
+                    }
+                });
+                return res;
+            },
+			reBooked: function(){
+                if(!this.checkRemainClass()){
+                     $('.remainingClassMessage').show();
+                    return;
+                }
+				var lessonId = parseInt($("#topic").val());
+                var listOfTeacherSize = parseInt($('#tmpHiddenTeacherSize').val());
+                if(listOfTeacherSize === 1){
+                    scheduleView.data.bookTeacher = parseInt($('#dialogScheduleLesson .teacherAvatar').data('teacher-id'));
+                }   
+                if(scheduleView.data.bookTeacher === 0){
+                    $('.pleaseChooseTeacherMessage').show();
+                    return;
+                }
+				$.ajax({
+					type: 'POST',
+					url: URL.action,
+					data:{scheduleId:selectedScheduleId, lessonId:lessonId, teacherId:scheduleView.data.bookTeacher ,action:11},
+					success: function (data) {
+						$('#dialogScheduleLesson').modal('hide');
+						var json = JSON.parse(data);
+						$("#alertMessage").html(json.message);
+						$("#dialogAlert").modal("show");
+					}
+				});
+			}
+        };
+        $(document).ready(function(){
+            studyView.init();
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="row student-dashboard">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        {% include "@Schola/public/student/leftPanel.twig" %}
+                    </div>
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+                        <div class="study-board">
+                            <div>
+                                <h3 class="title">{{ lang.learning_progress }}</h3>
+                                <div class="learning-progress-2 row">
+                                    <div class="col-sm-4 col-xs-4 plr0-xs">
+                                        <div class="level-icon">{{ profile.profile_level }}</div>
+                                        <h4 class="progress-label"><span class="fa fa-list-ol"></span> {{ lang.current_level }}</h4>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 plr0-xs">
+                                        <span class="level-icon">{{hourComplete}}</span>
+                                        <h4 class="progress-label"><span class="fa fa-clock-o"></span> {{ lang.hour_completed }}</h4>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 plr0-xs">
+                                        <span class="level-icon">{{goal}} / 3</span>
+                                        <h4 class="progress-label"><span class="fa fa-check-circle-o"></span> {{ lang.weedly_goal_finish }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="title mt20i">{{ lang.my_lesson }}</h3>
+                                <div class="my-lesson">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="dropdown dropdown-custom" id="filterScheduleClass">
+                                                <button class="btn btn-default dropdown-toggle" type="button"
+                                                        data-toggle="dropdown">
+                                                    <span class="dropdown-label">{{ lang.all_lesson }}</span> <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a data-type="0" href="javascript:void(0)">{{ lang.all_lesson }}</a></li>
+                                                    <li><a data-type="2" href="javascript:void(0)">{{ lang.scheduled }}</a></li>
+                                                    <li><a data-type="3" href="javascript:void(0)">{{ lang.this_weed }}</a></li>
+                                                    <li><a data-type="4" href="javascript:void(0)">{{ lang.completed }}</a></li>
+                                                    <li><a data-type="5" href="javascript:void(0)">{{ lang.canceled }}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a href="{{ route_url('Schola::schola-student-schedule') }}"
+                                               class="button button--saqui button--inverted button--round-l button--text-thin button--size-s pull-right margin-0i"
+                                               data-text="{{ lang.schedule_now }}">{{ lang.schedule_now }}</a>
+                                        </div>
+                                    </div>
+                                    <div id="listClassroom">
+                                        {% include "@Schola/public/student/listClassroom.twig" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div id="pnlDialogTeacherProfile">
+	</div>
+	<div id="pnlLessonDialog" class="schedule-board">
+		
+	</div>
+								
+	<div id="dialogAlert" class="modal fade" role="dialog" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">{{ lang.message }}</h4>
+				</div>
+				<div class="modal-body">
+					<div id="alertMessage">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<button type="button" 
+								onclick="window.location.reload();"
+								class="button button--saqui button--inverted button--round-l button--text-thick button--size-s"
+								data-text="{{ lang.ok }}">{{ lang.ok }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

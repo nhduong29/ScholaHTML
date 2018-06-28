@@ -1,0 +1,82 @@
+<table class="wp-list-table widefat fixed striped posts">
+    <thead>
+        <tr>
+            <th scope="col" class="manage-column column-primary">Student name</th>
+            <th scope="col" class="manage-column">Parent</th>
+            <th scope="col" class="manage-column">Date joining</th>
+            <th scope="col" class="manage-column">Completed class</th>
+            <th scope="col" class="manage-column">Booked class</th>
+            <th scope="col" class="manage-column">Canceled class</th>
+            <th scope="col" class="manage-column">Level</th>
+            <th scope="col" class="manage-column starting-class">Starting</th>
+            <th scope="col" class="manage-column starting-class">Next</th>
+            <th scope="col" class="manage-column ">
+                Class remaining
+                <br/>
+                <span title="Native class remaining" class="label label-primary">Native</span>
+                <span title="Expert class remaining" class="label label-success">Expert</span>
+                <span title="Group class remaining" class="label label-warning">Group</span>
+            </th>
+            <th scope="col" class="manage-column">Edit</th>
+        </tr>
+    </thead>
+    <tbody id="the-list">
+        {%for student in listStudents%}
+        
+
+            <tr>
+                <td>{{student.profile_name}}</td>
+                <td>{{student.display_name}}</td>
+                <td>{{student.user_registered|date('d/m/Y')}}</td>
+                <td>{{student.completed_class}}</td>
+                <td>{{student.booked_class}}</td>
+                <td>{{student.canceled_class}}</td>
+                <td>
+                    <span class="toogle-edit-{{student.profile_id}}">{{student.profile_level}}</span>
+                    <select id="studentLevel{{student.profile_id}}" style="display:none" class="toogle-edit-{{student.profile_id}}">
+                        <option value="0" {{student.profile_level == 0 ?'selected':''}}>0</option>
+                        <option value="1" {{student.profile_level == 1 ?'selected':''}}>1</option>
+                        <option value="2" {{student.profile_level == 2 ?'selected':''}}>2</option>
+                        <option value="3" {{student.profile_level == 3 ?'selected':''}}>3</option>
+                        <option value="4" {{student.profile_level == 4 ?'selected':''}}>4</option>
+                    </select>
+                </td>
+                <td class="starting-class">
+                    <span class="toogle-edit-{{student.profile_id}} starting">{{student.startLesson.lesson_title}}</span>
+                    <select id="startingLesson{{student.profile_id}}" style="display:none" class="toogle-edit-{{student.profile_id}} starting-class">
+                        
+                    </select>
+                </td>
+                <td class="starting-class">
+                   <span class="toogle-edit-{{student.profile_id}} next">{{student.nextLesson.lesson_title}}</span>
+                    <select id="nextLesson{{student.profile_id}}" style="display:none" class="toogle-edit-{{student.profile_id}} starting-class">
+                        
+                    </select>
+                </td>
+                <td>
+                    <span class="toogle-edit-{{student.profile_id}}">
+                        <span title="Native class remaining" class="label label-primary native_remain">{{student.class_remaining}}</span>
+                        <span title="Expert class remaining" class="label label-success expert_remain">{{student.class_remaining_expert}}</span>
+                        <span title="Group class remaining" class="label label-warning group_remain">{{student.class_remaining_group}}</span>
+                    </span>
+                    <input id="remainingClass{{student.profile_id}}" class="numberOnly toogle-edit-{{student.profile_id}}" type="text" value="{{student.class_remaining}}" style="width:100%; display:none"/>
+                    <input id="remainingExpertClass{{student.profile_id}}" class="numberOnly toogle-edit-{{student.profile_id}}" type="text" value="{{student.class_remaining_expert}}" style="width:100%; display:none"/>
+                    <input id="remainingGroupClass{{student.profile_id}}" class="numberOnly toogle-edit-{{student.profile_id}}" type="text" value="{{student.class_remaining_group}}" style="width:100%; display:none"/>
+                </td>
+                <td>
+                    <input data-profile-id="{{student.profile_id}}" 
+                        class="editProfile btn btn-primary toogle-edit-{{student.profile_id}}" 
+                        type='button' 
+                        value="Edit">
+                    </input>
+                    <input data-profile-id="{{student.profile_id}}" 
+                        style="display:none" 
+                        class="saveProfile btn btn-primary toogle-edit-{{student.profile_id}}" 
+                        type='button' 
+                        value="Save">
+                    </input>
+                </td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+{% set lang = Schola.language('home') %}
+{% set locale = Schola.locale%}
+<div class="clearfix">
+    <nav class="navbar navbar-default navbar-custom bg-white no-sub-nav">
+        <div>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <a class="navbar-brand" href="/">
+                <div class="logo">
+                    <img class="logo-white" src="{{ Schola.helper('assetUrl', '/public/images/schola2.png') }}" height="60px"/>
+                    <img class="logo-original" src="{{ Schola.helper('assetUrl', '/public/images/schola.png') }}" height="60px"/>
+                </div>
+            </a>
+            <div class="wrap-dropdown-change-lang">
+                <div class="dropdown dropdown-custom dropdown-change-lang lang-{{locale.locale}}" id="changeLang">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="dropdown-label">vi</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/lang/vi"> <span class="icon-vi"></span> Tiếng Việt</a></li>
+                        <li><a href="/lang/en"><span class="icon-en"></span>English</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse padding-0" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden-xs">
+                        <span>
+                            <a href="{{ route_url('Schola::becomeTeacher') }}" class="btn btn-default btn-link color-white mr15">{{ lang.become_teacher }}</a>
+                        </span>
+                    </li>
+                    <li class="hidden-xs">
+                        <span>
+                            <button id="btnLoginFacebook" class="btn btn-default btn-facebook"><span class="fa fa-facebook-f"></span>  {{ lang.login_with_facebook }}</button>
+                        </span>
+                    </li>
+                    <li class="hidden-xs">
+                        <span>
+                            <button id="btnLoginAccountKit" class="btn btn-default btn-facebook"><span class="fa fa-mobile"></span>  {{ lang.login_via_sms }}</button>
+                        </span>
+                    </li>
+                    <li class="hidden-xs">
+                        <span>
+                            <div class="blank-dropdown-change-lang"></div>
+                        </span>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+</div>

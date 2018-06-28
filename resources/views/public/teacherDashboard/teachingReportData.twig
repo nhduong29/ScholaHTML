@@ -1,0 +1,99 @@
+{% set lang = Schola.language('teacher') %}
+<div class="panel-list tabs-panel-teacher classes-data-table-panel" data-id="{{ id }}">
+    <select class="custom-select classes-filter-select">
+        <option selected>Choose your filter</option>
+        <option value="today">Today</option>
+        <option value="tomorrow">Tomorrow</option>
+        <option value="this-week">This week</option>
+        <option value="this-month">This month</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="completed">Completed</option>
+    </select>
+    <div class="tabs-content table-responsive">
+        <div class=" mb30 tab-item tab-0 active">
+            <table class="table classes-data-table" data-id="{{ id }}" data-empty-flag="{{ (classes|length) == 0 ? 'true' : 'false' }}">
+                <thead>
+                <tr>
+                    <th colspan="9" class="text-center">
+                        {{monthName}} {{year}}
+                    </th>
+                </tr>
+                <tr>
+                		<th class="w10 no-sort">{{ lang.lesson_sn }}</th>
+                		<th class="w20 no-sort">{{ lang.lesson_name }}</th>
+                		<th>{{ lang.student_name }}</th>
+                		<th class="no-sort">{{ lang.number_students }}</th>
+                		<th>{{ lang.schedule_time }}</th>
+                		<th>{{ lang.status }}</th>
+                		<th class="no-sort">{{ lang.action }}</th>
+                	</tr>
+                </thead>
+                <tbody>
+                	{%if (classes|length) == 0 %}
+                		<tr>
+                			<td class="text-center" colspan="8">{{ lang.no_data }}</td>
+                		</tr>
+                	{%endif%}
+                    {% for class in classes %}
+                    <tr>
+                        {% set isGroupClass = (class.group_id != null) %}
+                        {%if class.lesson_id is not null and class.lesson_id != ""%}
+                            {% if isGroupClass%}
+                                {% set lessonName = isGroupClass ? class.groupClass.lession_name : class.studentSchedules[0].lesson.lession_name %}
+                                {% set lessonSn = isGroupClass ? class.groupClass.lesson_sn : class.studentSchedules[0].lesson.lession_sn %}
+                            {%else%}
+                                {% set lessonName = class.lesson_title %}
+                                {% set lessonSn = "L"~class.lesson_level ~ "U"~class.lesson_unit ~ "LS"~class.lesson_lesson  %}
+                            {%endif%}
+                        {%else%}
+                            {% set lessonName = isGroupClass ? class.groupClass.lession_name : class.studentSchedules[0].lesson.lession_name %}
+                            {% set lessonSn = isGroupClass ? class.groupClass.lesson_sn : class.studentSchedules[0].lesson.lession_sn %}
+                        {%endif%}
+                        {% set studentName = isGroupClass ? '' : class.studentSchedules.first().student.profile_name %}
+                        {% set numberOfStudents = isGroupClass ? (class.groupClass.schedule_capacity - class.groupClass.schedule_remaining) : 1 %}
+                        {% set realScheduledTime = (class.schedule_real_date != null) ? class.schedule_real_date : class.schedule_date %}
+                        {% set scheduledTime = realScheduledTime|date_modify('+' ~ timezoneOffset*60 ~ ' minutes') %}
+                        {% set isOver = scheduledTime|date_modify('+' ~ timezoneOffset*60 ~ ' minutes') < date()|date_modify('+' ~ class.schedule_duration ~ ' mins') %}
+
+                        <td>{{ lessonSn }}</td>
+                        <td>{{ lessonName }} {{ (isGroupClass == false and class.studentSchedules[0].is_trial_class == true) ? "<b>(Trial)</b>" : "" }}
+                        </td>
+                        <td>{{ studentName }}</td>
+                        <td>{{ numberOfStudents }}</td>
+                        <td>{{ scheduledTime|date('M d Y H:i') }} - {{ scheduledTime|date_modify('+' ~ class.schedule_duration ~ ' minutes')|date('H:i') }}</td>
+                        <td>
+                            {%if class.studentSchedules[0].schedule_status == 0%}
+                                {{ lang.scheduled }}
+                            {%elseif class.studentSchedules[0].schedule_status == 1 or class.studentSchedules[0].schedule_status == 2%}
+                                {{ lang.canceled }}
+                            {%else%}
+                                {{ lang.finished }}
+                            {%endif%}
+                        </td>
+                        <td>
+                            {%if class.schedule_status == 0 and isOver == '0'%}
+                                {%if isGroupClass or class.zoomSession.join_url is null %}
+                                    <!-- <a class="linkEnterClass" href="{{ route_url('Schola::classroom') }}?id={{ class.schedule_id }}">{{ lang.classroom }}</a> -->
+                                    <a class="linkEnterClassToZoom" href="#" data-id="{{ class.schedule_id }}" data-zoom-id="{{ class.zoomSession.zoom_class_id }}" data-isgroup="{{ isGroupClass }}">{{ lang.classroom }}</a>
+                                {%else%}
+                                    <!-- <a class="linkEnterClass" href="{{class.zoomSession.start_url}}" data-id="{{ class.schedule_id }}" target="_blank">{{ lang.classroom }}</a> -->
+                                    <a class="linkEnterClassToZoom" href="#" data-id="{{ class.schedule_id }}" data-zoom-id="{{ class.zoomSession.zoom_class_id }}">{{ lang.classroom }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% set booking_id = class.studentSchedules.where("teacher_schedule_id", "=" ,class.schedule_id).first().schedule_id %}
+                            <!-- <a class="linkReview" id="review_class" data-isTrial="{{ isTrial }}" data-booking-id="{{ booking_id }}" href="#">{{ lang.review }}</a> -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="rateClassReviewDialog">
+</div>
+<style type="text/css">
+    .btnTeacherClass{
+        min-width: 176px !important;
+    }
+</style>

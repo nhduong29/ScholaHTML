@@ -1,0 +1,233 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/layoutDashboard.twig" %}
+
+{% block title %}{{ lang.schedule }}{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        $(function () {
+            $('#tabGroupClass').scholaTab();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/mockup/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="dashboard-content">
+                    <div>
+                        {% include "@Schola/public/mockup/leftNavigation.twig" %}
+                    </div>
+                    <div class="clearfix">
+                        <div class="page-title">Learning <span class="color-orange">progress</span></div>
+                        <div class="progress-status mb30">
+                            <ul>
+                                <li><span class="point">10</span> <span class="icon-star fa fa-star"></span></li>
+                                <li><span class="point">1000</span> <span class="ml10 color-blue">points</span></li>
+                                <li><span class="point">2</span> <span class="ml20 icon-medal"></span></li>
+                            </ul>
+                        </div>
+
+                        <div id="tabGroupClass" class="tabs-panel">
+                            <ul class="tabs-bar three-tab">
+                                <li class="tab active">
+                                    <div class="title">Booked</div>
+                                </li>
+                                <li class="tab ">
+                                    <div class="title">Completed</div>
+                                </li>
+                                <li class="tab ">
+                                    <div class="title">Canceled</div>
+                                </li>
+                            </ul>
+
+                            <div class="tabs-content">
+                                <div class="panel-list mb30 tab-item tab-0 active">
+                                    <div class="title-list hidden-xs">Booked</div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-12 plr0-xs">
+                                            <div class="mt30">
+                                                <a href="#" class="btn btn-primary-2 btn-green-xs">Enter Class</a>
+                                                <a href="#" class="btn btn-icon btn-close"><i class="material-icons">highlight_off</i><span class="label-xs">Cancel</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-12 plr0-xs">
+                                            <div class="mt30">
+                                                <a href="#" class="btn btn-primary-2 btn-green-xs">Enter Class</a>
+                                                <a href="#" class="btn btn-icon btn-close"><i class="material-icons">highlight_off</i><span class="label-xs">Cancel</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-list mb30 tab-item tab-1">
+                                    <div class="title-list hidden-xs">Completed</div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                            <div class="check-finish hidden-xs"><span class="fa fa-check"></span></div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12">
+                                            <div class="rate-class mt20">
+                                                <div class="rate-icon">
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="empty material-icons">star_border</i>
+                                                </div>
+                                                <a class="rate-link" href="#">Rate the class</a>
+                                            </div>
+                                            <div class="check-finish hidden-sm hidden-md hidden-lg"><span class="fa fa-check"></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                            <div class="check-finish hidden-xs"><span class="fa fa-check"></span></div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12">
+                                            <div class="rate-class mt20">
+                                                <div class="rate-icon">
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="material-icons">star</i>
+                                                    <i class="empty material-icons">star_border</i>
+                                                </div>
+                                                <a class="rate-link" href="#">Rate the class</a>
+                                            </div>
+                                            <div class="check-finish hidden-sm hidden-md hidden-lg"><span class="fa fa-check"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-list tab-item tab-2">
+                                    <div class="title-list hidden-xs">Cancelled</div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-12">
+                                            <div class="cancel-status">
+                                                <span class="icon material-icons">close</span>
+                                                <span class="time-cancel">Canceled on (22/2/18 18:35)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="practice-item">
+                                        <div class="col-sm-2 col-xs-3 plr0-xs">
+                                            <div class="user-info">
+                                                <div class="avatar">
+                                                    <img src="{{ Schola.helper('assetUrl', '/public/images/icon/avatar-tmp.png') }}" alt="Avatar">
+                                                </div>
+                                                <div class="name">First name</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-9 pr0-xs">
+                                            <div class="title">Practice Material title</div>
+                                            <div class="time mb5">23/2/18 from 18:30 - 19:00</div>
+                                            <ul class="label-border">
+                                                <li class="green">Level 1</li>
+                                                <li class="green">Unit 1</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-5 col-xs-12">
+                                            <div class="cancel-status">
+                                                <span class="icon material-icons">close</span>
+                                                <span class="time-cancel">Canceled on (22/2/18 18:35)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dot-color">
+                    <div class="dot-1"></div>
+                    <div class="dot-2"></div>
+                    <div class="dot-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

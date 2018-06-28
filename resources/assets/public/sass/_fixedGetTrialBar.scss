@@ -1,0 +1,245 @@
+.get-trial-bar {
+  position: fixed;
+  bottom: -45px;
+  height: 42px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #f5f5f5;
+  box-shadow: 0 0 6px #0000003d;
+  z-index: 9999;
+  text-align: center;
+  padding-right: 100px;
+  @include transition(all, 0.2s, ease);
+  &.show {
+    bottom: -1px;
+  }
+  .bar-content {
+    display: inline-block;
+    .title-1 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #f65d22;
+      line-height: 1;
+      float: left;
+      margin: 2px 10px 0 0;
+    }
+    .title-2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #f65d22;
+      line-height: 1;
+      float: left;
+      line-height: 47px;
+      margin: 2px 10px 0 0;
+    }
+    .price-group {
+      display: inline-block;
+      position: relative;
+      padding-right: 38px;
+      float: left;
+      margin-right: 20px;
+      .price {
+        color: #f65d22;
+        font-size: 37px;
+        font-weight: 800;
+        line-height: 1;
+      }
+      .sup {
+        position: absolute;
+        right: 0;
+        top: 3px;
+        font-size: 16px;
+        font-weight: 800;
+        color: #f65d22;
+      }
+      .sub {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        font-size: 14px;
+        font-weight: 800;
+        color: #f65d22;
+      }
+    }
+    .input-phone-number {
+      position: relative;
+      float: left;
+      margin-top: 5px;
+      input {
+        padding: 4px 88px 4px 4px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        width: 100%;
+        background: #fff;
+        outline: none;
+        &:focus {
+          border-color: #f65d22;
+        }
+      }
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        border: 0;
+        background: #f65d22;
+        font-size: 14px;
+        padding: 0 10px;
+        color: #fff;
+        border-radius: 0 3px 3px 0;
+        @include transition(all, 0.2s, ease);
+        &:hover {
+          background: $primary_color;
+        }
+      }
+    }
+  }
+  @include width-small {
+    padding: 0;
+    text-align: left;
+    .bar-content {
+      .title-1 {
+        font-size: 28px;
+        margin: 8px 10px 0 0;
+      }
+      .title-2 {
+        font-size: 16px;
+        margin: 4px 10px 0 0;
+      }
+    }
+  }
+  @include width-x-small {
+    display: none !important;
+  }
+}
+
+.get-trial-bar-2 {
+  position: fixed;
+  bottom: -55px;
+  height: 54px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #f5f5f5;
+  box-shadow: 0 0 6px #0000003d;
+  z-index: 9999;
+  text-align: center;
+  padding-right: 80px;
+  @include transition(all, 0.2s, ease);
+  &.show {
+    bottom: -1px;
+  }
+  .bar-content {
+    display: inline-block;
+    .title-1 {
+      font-size: 22px;
+      color: $primary_color;
+      float: left;
+      line-height: 54px;
+      margin-right: 15px;
+      font-family: $font_dumpling;
+    }
+    .input-phone-number {
+      position: relative;
+      float: left;
+      margin-top: 9px;
+      padding-right: 110px;
+      .icon {
+        position: absolute;
+        font-size: 30px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        top: 3px;
+        left: 0;
+        color: #b1b1b1;
+      }
+      input {
+        padding: 7px 7px 7px 30px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        width: 250px;
+        background: #fff;
+        outline: none;
+        &:focus {
+          border-color: #f65d22;
+        }
+      }
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        border: 0;
+        background: #f65d22;
+        font-size: 14px;
+        padding: 0 15px;
+        color: #fff;
+        border-radius: 3px;
+        @include transition(all, 0.2s, ease);
+        &:hover {
+          background: $primary_color;
+        }
+      }
+    }
+    .get-trial-mobile {
+      height: 36px;
+      margin-top: 8px;
+      line-height: 36px;
+      border: 0;
+      background: #f65d22;
+      font-size: 14px;
+      padding: 0 15px;
+      color: #fff;
+      border-radius: 3px;
+      text-decoration: none;
+      @include transition(all, 0.2s, ease);
+      display: none;
+      &:hover {
+        background: $primary_color;
+      }
+    }
+  }
+  @include width-small {
+    padding: 0;
+    text-align: left;
+    .bar-content {
+      .title-1 {
+        font-size: 18px;
+      }
+      .title-2 {
+        font-size: 16px;
+        margin: 4px 10px 0 0;
+      }
+      input {
+        width: 200px;
+      }
+    }
+  }
+  @include width-x-small {
+    padding-right: 0;
+    .bar-content {
+      .title-1 {
+        font-size: 16px;
+        max-width: 160px;
+        line-height: 1.5;
+        margin-right: 5px;
+        display: none;
+      }
+      .input-phone-number {
+        display: none;
+        margin-left: 5px;
+        input {
+          width: 200px;
+        }
+      }
+      .get-trial-mobile {
+        display: block;
+      }
+    }
+  }
+}

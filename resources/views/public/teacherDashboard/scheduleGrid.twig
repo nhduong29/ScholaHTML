@@ -1,0 +1,115 @@
+{% set lang = Schola.language('teacher') %}
+<input type="hidden" id="schola_current_year" value="{{scheduleGrid.currentYear}}"/>
+<input type="hidden" id="schola_current_week" value="{{scheduleGrid.currentWeek}}"/>
+<script>
+    $(document).scroll(function() {
+        Schola.scheduleGrid.fixedGridHeader();
+    });
+    $(document).bind('touchmove', function() {
+        Schola.scheduleGrid.fixedGridHeader();
+    });
+</script>
+<table class="schedule-grid info-booking">
+	<tr>
+		<td>
+			<div class="clearfix">
+				<div class="col-xs-4 plr0-xs">
+					{{lang.slots_opened}}: <span id="slotsOpened" >{{scheduleGrid.selectedTime | length}}</span>
+				</div>
+				<div class="col-xs-4 plr0-xs">
+					{{lang.class_booked}}: {{scheduleGrid.bookedTime | length}}
+				</div>
+				<div class="col-xs-4 plr0-xs">
+					{{lang.complete}}: {{scheduleGrid.completeClass | length}}
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+<div class="relative overflow-hidden">
+    <div class="schedule-grid-content">
+        <div class="relative">
+            <table class="schedule-grid fixed-header">
+                <thead>
+                    <tr>
+                        {%if scheduleGrid.showHostTime%}
+                            <th class="normal" style="width:12.5%">
+                                {{lang.local_time_in_vietnam|raw}}
+                            </th>
+                        {%endif%}
+                        {% for item in scheduleGrid.dayOfWeek %}
+                            <th {%if scheduleGrid.showHostTime%} style="width:12.5%" {%endif%} class="text-center">
+                                <div>{{ item.value }} {{ item.date }}</div>
+                               
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+            </table>
+            <table class="schedule-grid">
+                <thead>
+                <tr>
+                    {%if scheduleGrid.showHostTime%}
+                        <th class="normal" style="width:12.5%">
+                            {{lang.local_time_in_vietnam|raw}}
+                        </th>
+                    {%endif%}
+                    {% for item in scheduleGrid.dayOfWeek %}
+                        <th {%if scheduleGrid.showHostTime%} style="width:12.5%" {%endif%} class="text-center">
+                            <div>{{ item.value }} {{ item.date }}</div>
+                            
+                        </th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {%set offset = -1%}
+                {%set timeCount = 0%}
+                {% for time in scheduleGrid.times %}
+                    <tr>
+                        {%if scheduleGrid.showHostTime%}
+                            <td class="info-time">
+                                <div>
+                                    {{scheduleGrid.hostTime[timeCount].label}}
+                                </div>
+                            </td>
+                        {%endif%}
+                        {%set timeCount = timeCount + 1%}
+                        {% for item in scheduleGrid.dayOfWeek %}
+                            {%set offset = offset + 1%}
+                            {% set timeKey = item.key~'-'~time.key %}
+                            {% set classItem = '' %}
+
+                            {% if scheduleGrid.baseTimes[offset] in scheduleGrid.selectedTime %}
+                                {% if (scheduleGrid.baseTimes[offset] in scheduleGrid.bookedTime) or (scheduleGrid.baseTimes[offset] in scheduleGrid.completeClass) %}
+                                    {% set classItem = classItem~'student-booked scheduled ' %}
+                                {%else%}
+                                    {% set classItem = classItem~'scheduled ' %}
+                                {%endif%}
+                            {% endif %}
+                            {% if ((item.timestamp + time.key) >= scheduleGrid.cTimeStamp) %}
+                                {% set classItem = classItem~'active-time ' %}
+                            {% else %}
+                                {% set classItem = classItem~'disable-time ' %}
+                            {% endif %}
+                            {%set hostHour = scheduleGrid.hostTime[timeCount - 1].value%}
+                            {%if (item.dow < 7 and hostHour >= 18 and hostHour <= 22) or (item.dow >= 7 and hostHour >= 9 and hostHour <= 22)%}
+                                {% set classItem = classItem~'peak-hour ' %}
+                            {%endif%}
+                            <td class="schedule-time-item {{ classItem }} scheduled-{{ item.timestamp + time.key }}"
+                                data-time="{{ timeKey }}"
+                                data-basetime="{{scheduleGrid.baseTimes[offset]}}"
+                                data-timestamp="{{ item.timestamp + time.key }}">
+                                <div>
+                                    {{ time.value }}
+                                </div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="shadow-grid-scroll"></div>
+</div>

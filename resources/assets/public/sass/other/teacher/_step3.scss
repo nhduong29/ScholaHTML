@@ -1,0 +1,6 @@
+.link-change-picture {
+  display: none;
+  @include width-x-small {
+    display: block;
+  }
+}

@@ -1,0 +1,226 @@
+@charset "UTF-8";
+$ease-in-quad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$ease-in-cubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$ease-in-quart: cubic-bezier(0.895, 0.030, 0.685, 0.220);
+$ease-in-quint: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+$ease-in-sine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$ease-in-expo: cubic-bezier(0.950, 0.050, 0.795, 0.035);
+$ease-in-circ: cubic-bezier(0.600, 0.040, 0.980, 0.335);
+$ease-in-back: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+
+$ease-out-quad: cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$ease-out-quart: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$ease-out-quint: cubic-bezier(0.230, 1.000, 0.320, 1.000);
+$ease-out-sine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$ease-out-expo: cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$ease-out-circ: cubic-bezier(0.075, 0.820, 0.165, 1.000);
+$ease-out-back: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+
+$ease-in-out-quad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+$ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+$ease-in-out-quart: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+$ease-in-out-quint: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+$ease-in-out-sine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+$ease-in-out-expo: cubic-bezier(1.000, 0.000, 0.000, 1.000);
+$ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.150, 0.860);
+$ease-in-out-back: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+
+@mixin transition($attribute, $time, $effect) {
+  -moz-transition: $attribute $time $effect;
+  -webkit-transition: $attribute $time $effect;
+  -ms-transition: $attribute $time $effect;
+  transition: $attribute $time $effect;
+}
+
+@mixin transform($effect) {
+  -webkit-transform: $effect;
+  -ms-transform: $effect;
+  -moz-transform: $effect;
+  transform: $effect;
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin fontawesome {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin triangle-corner($color, $width) {
+  content: '';
+  display: block;
+  border-style: solid;
+  border-color: $color;
+  border-width: $width;
+}
+
+// General Media Queries
+@mixin width-x-small {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin width-small {
+  @media (min-width: 768px) and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin width-gt-small {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin width-lt-small {
+  @media (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin width-medium {
+  @media (min-width: 992px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin width-lt-medium {
+  @media (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin width-gt-medium {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin width-large {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin width-x-large {
+  @media (min-width: 1601px) {
+    @content;
+  }
+}
+
+@mixin generateMarginAndPadding($type, $position, $important) {
+  $name: '';
+  @if $position == 'top' {
+    $name: 't';
+  }
+  @if $position == 'right' {
+    $name: 'r';
+  }
+  @if $position == 'bottom' {
+    $name: 'b';
+  }
+  @if $position == 'left' {
+    $name: 'l';
+  }
+  $preClass: '';
+  @if $type == 'margin' {
+    $preClass: 'm';
+  } @else {
+    $preClass: 'p';
+  }
+  @for $i from 0 through 100 {
+    @if $i%5 == 0 {
+      @if $i == 0 {
+        .#{$preClass}#{$name}#{$i} {
+          #{$type}-#{$position}: #{$i};
+        }
+        @if $important {
+          .#{$preClass}#{$name}#{$i}i {
+            #{$type}-#{$position}: #{$i} !important;
+          }
+        }
+      } @else {
+        .#{$preClass}#{$name}#{$i} {
+          #{$type}-#{$position}: #{$i}px;
+        }
+        @if $important {
+          .#{$preClass}#{$name}#{$i}i {
+            #{$type}-#{$position}: #{$i}px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin generateClassWidth($type) {
+  $suffix: '';
+  @if $type == 'px' {
+    $suffix: $type
+  }
+  @for $i from 0 through 100 {
+    .w#{$i}#{$suffix} {
+      width: #{$i}#{$type};
+    }
+    .w#{$i}#{$suffix}i {
+      width: #{$i}#{$type} !important;
+    }
+  }
+}
+
+@mixin generateClassWidthByScreen($type) {
+  $suffixType: '';
+  @if $type == 'px' {
+    $suffixType: $type
+  }
+  @include width-x-small {
+    @for $i from 0 through 100 {
+      .w#{$i}#{$suffixType}-xs {
+        width: #{$i}#{$type};
+      }
+      .w#{$i}#{$suffixType}i-xs {
+        width: #{$i}#{$type} !important;
+      }
+    }
+  }
+  @include width-small {
+    @for $i from 0 through 100 {
+      .w#{$i}#{$suffixType}-sm {
+        width: #{$i}#{$type};
+      }
+      .w#{$i}#{$suffixType}i-sm {
+        width: #{$i}#{$type} !important;
+      }
+    }
+  }
+  @include width-medium {
+    @for $i from 0 through 100 {
+      .w#{$i}#{$suffixType}-md {
+        width: #{$i}#{$type};
+      }
+      .w#{$i}#{$suffixType}i-md {
+        width: #{$i}#{$type} !important;
+      }
+    }
+  }
+  @include width-large {
+    @for $i from 0 through 100 {
+      .w#{$i}#{$suffixType}-lg {
+        width: #{$i}#{$type};
+      }
+      .w#{$i}#{$suffixType}i-lg {
+        width: #{$i}#{$type} !important;
+      }
+    }
+  }
+}

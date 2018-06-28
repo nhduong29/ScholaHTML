@@ -1,0 +1,265 @@
+{% set lang = Schola.language('teacher') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+{% block title %}{{ lang.step_two }}{% endblock %}
+{% block head %}
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/teacher/stepTwo.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            updateEducation: '{{ route_url('Schola::schola-update-education') }}',
+            deleteEducation: '{{ route_url('Schola::schola-delete-education') }}',
+            editEducation: '{{ route_url('Schola::schola-edit-education') }}',
+            deleteExperience: '{{ route_url('Schola::schola-delete-work-exp') }}',
+            editExperience: '{{ route_url('Schola::schola-edit-work-exp') }}',
+            updateExperience: '{{ route_url('Schola::schola-update-work-exp') }}',
+            saveStepTwo: '{{ route_url('Schola::teacherBasicInfoStep2Update') }}',
+            stepOne: '{{ route_url('Schola::teacherBasicInfoStep1') }}',
+			stepThree: '{{ route_url('Schola::teacherBasicInfoStep3') }}',
+        };
+
+        $(document).ready(function () {
+            manageViewStep2.init();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content mt70">
+                <div class="step-loader step-2 clearfix">
+                    <div class="current-step">Step 2 of 3</div>
+                    <div class="loader"></div>
+                </div>
+                <div class="basic-information-form">
+                    <h2 class="title-large mb30i">{{ lang.please_input_basic|raw }}</h2>
+                    <form id="frmStepTwo" action="{{ route_url('Schola::teacherBasicInfoStep2Update') }}" method="post">
+                        <div class="form-group custom">
+							
+							<!-- STEP 1 -->
+							
+							<div class="control-item">
+                                <label for="native-lang">{{ lang.what_your_native }}</label>
+                                <div class="control">
+                                    <select class="select-single" id="native-lang" name="native-lang">
+                                        {% for lang in langs %}
+                                            <option {{ teacher.native_language == lang.language_id ? 'selected' : '' }} value="{{ lang.language_id }}">{{ lang.language_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label for="fluent-lang">{{ lang.what_other_language }}</label>
+                                <div class="wrapper-control fluent-lang-control">
+                                    <div class="control">
+                                        <select class="select-multi" id="fluent-lang" name="fluent-lang[]" multiple="">
+                                            {% for lang in langs %}
+                                                <option {{ lang.language_id in teacher.fluent_languages ? 'selected' : '' }} value="{{ lang.language_id }}">{{ lang.language_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label for="teach">{{ lang.how_would_you }}</label>
+                                <div class="wrapper-control teach-control">
+                                    <div class="control">
+                                        <select class="select-multi" id="teach" name="teach[]" multiple="">
+                                            {% for teach in teachs %}
+                                                <option {{ teach.speciality_id in teacher.teacher_specialities ? 'selected' : '' }} value="{{ teach.speciality_id }}">{{ teach.speciality_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+							<!-- STEP 1 -->
+                            <div class="control-item">
+                                <label for="teacher-firstname">{{ lang.your_education }}</label>
+                                <div class="control">
+                                    <button id="btnShowDialogAddEducation" class="button button--sacnite button-round"
+                                            type="button">
+                                        <i class="button__icon fa fa-plus"></i><span>{{ lang.add }}</span>
+                                    </button>
+                                    <span>{{ lang.click_button_education }}</span>
+                                </div>
+                                <div class="clearfix mt20" style="max-width: 100%; overflow: auto;">
+                                    <table id="tableEducation" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="w40">{{ lang.schola_name }}</th>
+                                            <th class="w10">{{ lang.from }}</th>
+                                            <th class="w10">{{ lang.to }}</th>
+                                            <th class="w20">{{ lang.major }}</th>
+                                            <th class="w15">{{ lang.level }}</th>
+                                            <th class="w15"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in listEducations %}
+                                            <tr id="educationRow{{ item.education_id }}"
+                                                data-education-id="{{ item.education_id }}">
+                                                <td class="education-school">{{ item.education_school }}</td>
+                                                <td class="education-from">{{ item.education_from }}</td>
+                                                <td class="education-to">{{ item.education_to }}</td>
+                                                <td class="education-major">{{ item.education_major }}</td>
+                                                <td class="education-level">
+													{% if item.education_level == 1%} 
+														{{ lang.master }} 
+													{% elseif item.education_level == 2 %} 
+														{{ lang.bachelor }} 
+													{% elseif item.education_level == 3 %} 
+														{{ lang.other }} 
+													{% endif %}
+												</td>
+                                                <td>
+                                                    <span class="editEducation fa fa-edit"></span>
+                                                    <span class="deleteEducation fa fa-trash"></span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label for="teacher-firstname">{{ lang.any_teaching_experience }}</label>
+                                <div class="control">
+                                    <div>
+                                        <div class="radio radio-orange">
+                                            <input type="radio" name="selected-certification" id="selectedCertification1"
+                                                   value="1" {{ teacher.teacher_selected_certification == 1 ? 'checked' : '' }} >
+                                            <label for="selectedCertification1">
+                                                {{ lang.nbpts_state_issue }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="radio radio-orange">
+                                            <input type="radio" name="selected-certification" id="selectedCertification2"
+                                                   value="2" {{ teacher.teacher_selected_certification == 2 ? 'checked' : '' }} >
+                                            <label for="selectedCertification2">
+                                                {{ lang.tefl_celta_tesol }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="radio radio-orange">
+                                            <input type="radio" name="selected-certification" id="selectedCertification3"
+                                                   value="3" {{ teacher.teacher_selected_certification == 3 ? 'checked' : '' }} >
+                                            <label for="selectedCertification3">
+                                                {{ lang.other }}
+											</label>
+											<div class="wrapper-control teacher-certification-control">
+												<div class="control">
+													<input type="text"
+													   id="teacherCertification"
+													   name="teacher-certification"
+													   value="{{ teacher.teacher_selected_certification == 3 ? teacher.teacher_certification : '' }}"/>
+													<div class="error"></div>
+												</div>
+											</div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="control-item">
+                                <label for="teacher-firstname">{{ lang.any_teaching_experience }}</label>
+                                <div class="control">
+                                    <button id="btnShowDialogAddExperience" class="button button--sacnite button-round"
+                                            type="button">
+                                        <i class="button__icon fa fa-plus"></i><span>{{ lang.add }}Add</span>
+                                    </button>
+                                    <span>{{ lang.click_button_experience }}</span>
+                                </div>
+                                <div class="clearfix mt20" style="max-width: 100%; overflow: auto;">
+                                    <table id="tableExperience" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="w40">{{ lang.title }}</th>
+                                            <th class="w10">{{ lang.from }}</th>
+                                            <th class="w10">{{ lang.to }}</th>
+                                            <th class="w20">{{ lang.location }}</th>
+                                            <th class="w15">{{ lang.description }}</th>
+                                            <th class="w15"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in listExp %}
+                                            <tr id="experienceRow{{ item.experience_id }}"
+                                                data-experience-id="{{ item.experience_id }}">
+                                                <td class="experience-title">{{ item.experience_title }}</td>
+                                                <td class="experience-from">{{ item.experience_from }}</td>
+                                                <td class="experience-to">{{ item.experience_to }}</td>
+                                                <td class="experience-location">{{ item.experience_location }}</td>
+                                                <td class="experience-description">{{ item.experience_description }}</td>
+                                                <td>
+                                                    <span class="editExperience fa fa-edit"></span>
+                                                    <span class="deleteExperience fa fa-trash"></span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label class="block">{{ lang.teaching_avalability }}</label>
+                                <label for="number-of-hours">{{ lang.how_many_hour }}</label>
+                                <div class="control">
+                                    <select class="select-single" name="number-of-hours" id="number-of-hours">
+                                        {% for i in 1..40 %}
+                                            <option {{ i == teacher.number_of_hours ? 'selected' : '' }} value="{{ i }}">{{ i }}
+                                                {{ lang.hour }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+							<div class="control-item">
+								<label class="block">{{ lang.would_you_able }} ({{timeZone}})</label>
+								<div class="wrapper-control teacher-time-to-work-control">
+									<div class="control">
+										{%for times in timesToWork%}	
+											<div class="checkbox checkbox-orange">
+												<input id="timeToWork{{times.id}}" 
+														type="checkbox" 													
+														value="{{times.id}}" 
+														name="teacher-time-to-work[]" {{times.checked}}/>
+												<label for="timeToWork{{times.id}}">
+													<span>{{times.current}} {{times.note}}</span>
+													{%if teacher.timezone_id != 410%}
+														<span style="color: #f68720"> {{times.yourlocate}} (your timezone)</span>
+													{%endif%}
+												</label>
+											</div>
+										{%endfor%}
+										<div class="error"></div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                        <div class="mb40">
+                            <button id="backStep" class="button button--saqui button--round-l button--text-thick button--size-s button--grey ml0" type="button" data-text="{{ lang.back }}">
+                                <span class="icon fa fa-arrow-left"></span> {{ lang.back }}
+                            </button>
+                            <button id="nextStep" class="button button--saqui button--inverted button--round-l button--text-thick button--size-s ml5" type="button" data-text="{{ lang.next }}">
+                                <span class="icon fa fa-arrow-right"></span> {{ lang.next }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="wrapDialogEducation"></div>
+    <div id="wrapDialogExperience"></div>
+{% endblock %}

@@ -1,0 +1,101 @@
+.dot-color {
+  .dot-1 {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #43B5C3;
+    position: absolute;
+    z-index: 1;
+    @include width-large {
+      top: 45px;
+      left: 30%;
+    }
+    @include width-medium {
+      top: 45px;
+      left: 30%;
+    }
+    @include width-small {
+      top: 45px;
+      left: 20%;
+    }
+    @include width-x-small {
+      display: none;
+    }
+  }
+  .dot-2 {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #7FBD42;
+    position: absolute;
+    z-index: 1;
+    @include width-large {
+      top: 45px;
+      right: 15%;
+    }
+    @include width-medium {
+      top: 45px;
+      right: 15%;
+    }
+    @include width-small {
+      top: 45px;
+      right: 15%;
+    }
+    @include width-x-small {
+      overflow: hidden;
+      width: 14px;
+      height: 67px;
+      background: transparent;
+      right: -15px;
+      top: 70px;
+      border-radius: 0;
+      &:before {
+        content: "";
+        width: 67px;
+        height: 67px;
+        border-radius: 50%;
+        background: #7FBD42;
+        display: block;
+      }
+    }
+  }
+  .dot-3 {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #263C8F;
+    position: absolute;
+    z-index: 1;
+    @include width-large {
+      top: 240px;
+      left: 12%;
+    }
+    @include width-medium {
+      top: 240px;
+      left: 12%;
+    }
+    @include width-small {
+      top: 240px;
+      left: 4%;
+    }
+    @include width-x-small {
+      overflow: hidden;
+      width: 15px;
+      height: 128px;
+      background: transparent;
+      left: -15px;
+      top: 400px;
+      border-radius: 0;
+      &:before {
+        content: "";
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        background: #263C8F;
+        display: block;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}

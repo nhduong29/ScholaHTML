@@ -1,0 +1,291 @@
+.classaccess-page{
+  width: 360px;
+  padding: 8% 20% 0 1%;
+  margin: auto;
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+}
+.classaccess-page .logo{
+    margin: 10px 0;
+}
+.classaccess-page input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #ffffff;
+  width: 93%;
+  border: 3px solid #e2e2e2;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 3px;
+}
+.classaccess-page button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #f68720;
+  width: 93%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius:2px;
+}
+
+.classaccess-page.message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.classaccess-page .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}.classaccess-page.register-form {
+  display: none;
+}
+.classaccess_container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 120px 0;
+  text-align: center;
+}
+.classaccess_wrapper {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    min-height: 550px;
+}
+
+.class_accss_body {
+    width: 100%;
+    background: #c5af17;
+    -webkit-animation: mymove 5s infinite; /* Safari 4.0 - 8.0 */
+    animation: mymove 5s infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes mymove {
+    50% {background-color: #fdfac7;}
+}
+
+@keyframes mymove {
+    50% {background-color: #fdfac7;}
+}
+
+.access_error{
+    font-weight: 300;
+    font-size: 16px;
+    border: 2px solid red;
+    border-radius: 0;
+    padding: 15px 10px;
+    bottom: 78px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.user_access_error{
+    font-weight: 300;
+    font-size: 16px;
+	border: 2px solid red;
+    border-radius: 0;
+    padding: 15px 10px;
+    bottom: 78px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    display: none;
+}
+.access_class_upcoming .mt30{
+    margin-top: 8px;
+}
+@media (max-width: 400px) {
+ .access_class_upcoming .btnAccessEnterClass {
+      width: 135px;
+  }
+}
+@media (max-width: 350px) {
+  .access_class_upcoming .btnAccessEnterClass {
+      width: 125px;
+  }
+}
+.access_class_upcoming .title {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+   .access_class_upcoming .panel-list .practice-item{
+        padding-bottom: 12px!important;
+   }
+@media (max-width: 768px){
+    .access_class_upcoming .title {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .access_class_upcoming .panel-list .practice-item.label-top-xs {
+        padding-top: 0px!important;
+    }
+    .access_class_upcoming .panel-list .practice-item{
+        padding-bottom: 15px!important;
+    }
+}
+@media (max-width: 375px){
+    .access_class_upcoming .title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+@media (max-width: 500px){
+    .access_class_upcoming .panel-list .practice-item .mt30{
+        margin-top: 8px!important;
+    }
+    .access_class_upcoming .mobile-view-from{
+        display: none;
+    }
+}
+@media (max-width: 375px){
+    .access_class_upcoming .panel-list .practice-item.label-top-xs {
+        padding-top: 0px!important;
+    }
+    .access_class_upcoming .panel-list .practice-item{
+        padding-bottom: 15px!important;
+    }
+    .access_class_upcoming .panel-list .practice-item .mt30{
+        margin-top: 8px!important;
+    }
+}
+
+.dashboard_upcoming_class .mt30{
+    margin-top: 8px;
+}
+@media (max-width: 400px) {
+  .dashboard_upcoming_class .btnAccessEnterClass {
+      width: 135px;
+  }
+}
+@media (max-width: 350px) {
+  .dashboard_upcoming_class .btnAccessEnterClass {
+      width: 125px;
+  }
+}
+
+.dashboard_upcoming_class .title {
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dashboard_upcoming_class .panel-list .practice-item{
+    padding-bottom: 12px!important;
+}
+@media (max-width: 768px){
+    .dashboard_upcoming_class .title {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .dashboard_upcoming_class .panel-list .practice-item.label-top-xs {
+        padding-top: 0px!important;
+    }
+    .dashboard_upcoming_class .panel-list .practice-item{
+        padding-bottom: 15px!important;
+    }
+}
+@media (max-width: 375px){
+    .dashboard_upcoming_class .title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+@media (max-width: 500px){
+    .dashboard_upcoming_class .panel-list .practice-item .mt30{
+        margin-top: 8px!important;
+    }
+    .dashboard_upcoming_class .mobile-view-from{
+        display: none;
+    }
+}
+@media (max-width: 375px){
+    .dashboard_upcoming_class .panel-list .practice-item.label-top-xs {
+        padding-top: 0px!important;
+    }
+    .dashboard_upcoming_class .panel-list .practice-item{
+        padding-bottom: 15px!important;
+    }
+    .dashboard_upcoming_class .panel-list .practice-item .mt30{
+        margin-top: 8px!important;
+    }
+    
+}
+
+.classaccess-page select {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #ffffff;
+    width: 32%;
+    border: 3px solid #e2e2e2;
+    margin: 0 2px 0 9px;
+    height: 46px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 3px;
+    float:left;
+}
+.classaccess-page #profile_phone_number {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #ffffff;
+    width: 60%;
+    border: 3px solid #e2e2e2;
+    margin: 0 0 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 3px;
+    float:left;
+}
+#btn-classcode
+{
+    border: 1px solid transparent;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 9px 25px;
+    color: #fff;
+    background: #F2994A;
+    border-radius: 10px;
+    font-weight: 500;
+    min-width: 214px;
+    margin-bottom: 5px;
+}
+#btn-classcode:hover {
+    background: #ffa656;
+}
+#btn-classcode{
+
+    font-size: 14px;
+    font-weight: 400;
+
+}

@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'Avo';
+  font-style: normal;
+  font-weight: normal;
+  src: url(../fonts/UTM-Avo.ttf);
+}
+@font-face {
+  font-family: 'Avo';
+  font-style: normal;
+  font-weight: 700;
+  src: url(../fonts/UTM-AvoBold.ttf);
+}
+
+@font-face {
+  font-family: 'Avo';
+  font-style: italic;
+  font-weight: normal;
+  src: url(../fonts/UTM-AvoItalic.ttf);
+}
+@font-face {
+  font-family: 'Avo';
+  font-style: italic;
+  font-weight: 700;
+  src: url(../fonts/UTM-AvoBold_Italic.ttf);
+}

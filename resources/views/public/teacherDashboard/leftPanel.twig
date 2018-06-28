@@ -1,0 +1,11 @@
+{% set lang = Schola.language('teacher') %}
+
+<div class="left-navigation fixed-navigation mb20 left-panel-board-teacher">
+    <ul>
+        <li><a href="{{ route_url('Schola::schola-teacher-schedule') }}" class="{% if navActive == 0 %}active{%endif%}"><i class="icon material-icons">{{ lang.date_range }}</i> {{ lang.booking }}</a></li>
+        <li><a href="{{ route_url('Schola::schola-teacher-classroom') }}" class="{% if navActive == 1 %}active{%endif%}"><i class="icon material-icons">{{ lang.group }}</i> {{ lang.classrooms }}</a></li>
+        <li>
+            <a href="{{ route_url('Schola::schola-parents-feedback') }}" class="{% if navActive == 2 %}active{%endif%}"><i class="icon material-icons">{{ lang.comment }}</i> {{ lang.parent_feedback }}</a>
+        </li>
+    </ul>
+</div>

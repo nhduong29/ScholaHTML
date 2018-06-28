@@ -1,0 +1,147 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/layoutDashboard.twig" %}
+
+{% block title %}{{ lang.schedule }}{% endblock %}
+
+{% block head %}
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/student/groupClassHandler.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            groupClassConfirmDialog:            '{{ route_url('Schola::groupClassConfirmDialog') }}',
+            checkGroupClassBookingsBalance:     '{{ route_url('Schola::checkGroupClassBookingsBalance') }}',
+            bookGroupClass:                     '{{ route_url('Schola::bookGroupClass') }}',
+            cancelReservedGroupClass:           '{{ route_url('Schola::cancelReservedGroupClass') }}',
+            cancelGroupClassConfirmDialog:      '{{ route_url('Schola::cancelGroupClassConfirmDialog') }}',
+        };
+        $(document).ready(function(){
+            scheduleView.init(URL);
+            $('#tabGroupClass').scholaTab();
+        });
+    </script>
+  
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/student/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="dashboard-content">
+                    <div>
+                        {% include "@Schola/public/student/leftNavigation.twig" %}
+                    </div>
+                    <div class="clearfix">
+                        <div class="page-title">{{ lang.select_group_class|raw }}</div>
+
+                        <div id="tabGroupClass" class="tabs-panel">
+                            <ul class="tabs-bar two-tab">
+                                <li class="tab active">
+                                    <div class="title">{{ lang.upcoming }}</div>
+                                </li>
+                                <li class="tab">
+                                    <div class="title">{{ lang.reserved }}</div>
+                                </li>
+                            </ul>
+
+                            <div class="tabs-content">
+                                <div data-tab-index="0" class="panel-list mb30 tab-item tab-1">
+                                    <div class="title-list hidden-xs">{{ lang.reserved }}</div>
+                                    {% for class in reservedGroupClasses %}
+                                        <div class="practice-item">
+                                            <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12">
+                                                <div class="title">
+                                                    {%if class.group_id is not null%}
+                                                        {{ class.lession_name }} 
+                                                    {%else%}
+                                                        {{ class.lession_name }} 
+                                                    {%endif%}
+                                                </div>
+                                                {% set realScheduledTime = (class.schedule_real_date != null) ? class.schedule_real_date : class.schedule_date %}
+                                                {% set scheduledTime = realScheduledTime|date_modify('+' ~ timezoneOffset*60 ~ ' minutes') %}
+                                                <div class="time mb5">{{ scheduledTime|date('d/m/y') }} {{ lang.from }} {{ scheduledTime|date('H:i') }} - {{ scheduledTime|date_modify('+' ~ class.schedule_duration ~ ' minutes')|date('H:i') }}</div>
+
+                                                <ul class="label-border">
+
+                                                    <li class="green">
+                                                        {%if class.group_id is not null%}
+                                                        {{ lang.level }} {{class.level}}
+                                                    {%else%}
+                                                        {{ lang.level }} 1
+                                                    {%endif%}
+                                                     </li>
+                                                     <li><span class="label-status label-confirmed-book {%if newbooking == class.schedule_id%} waggle {%endif%}">{{ lang.confirmed }}</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-5 col-md-6 col-sm-5 col-xs-12">
+                                                <div class="mt25">
+                                                    <!-- <a id="btnEnterClass" href="{{ route_url('Schola::classroom') }}?id={{ class.teacher_schedule_id }}"
+                                                       class="btn btn-primary-2 ml50" data-text="{{ lang.enter_class }}">
+                                                        {{ lang.enter_class }}
+                                                    </a> -->
+                                                    <a id="btnEnterClass" href="{{ class.join_url }}"
+                                                       class="btn btn-primary-2 ml50" data-text="{{ lang.enter_class }}">
+                                                        {{ lang.enter_class }}
+                                                    </a>
+                                                    <a href="#" class="btn btn-icon btn-close cancel-reserved-class-btn" title="{{ lang.cancel }}" data-group-class-id="{{ class.group_id }}"><i class="material-icons">highlight_off</i><span class="label-xs">{{ lang.cancel }}</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div data-tab-index="1" class="panel-list tab-item tab-0 mb30 active">
+                                    <div class="title-list hidden-xs">{{ lang.upcoming }}</div>
+                                    {% for class in upcomingGroupClasses %}
+                                        <div class="practice-item">
+                                            <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12">
+                                                {%if class.group_id is not null%}
+                                                    <div class="title">{{ class.lession_name }}</div>
+                                                {%else%}
+                                                    <div class="title">{{ class.lession_name }}</div>
+                                                {%endif%}
+                                                {% set realScheduledTime = (class.schedule_real_date != null) ? class.schedule_real_date : class.schedule_date %}
+                                                {% set scheduledTime = realScheduledTime|date_modify('+' ~ timezoneOffset*60 ~ ' minutes') %}
+                                                <div class="time mb5">{{ scheduledTime|date('d/m/y') }} {{ lang.from }} {{ scheduledTime|date('H:i') }} - {{ scheduledTime|date_modify('+' ~ class.schedule_duration ~ ' minutes')|date('H:i') }}</div>
+                                                <ul class="label-border">
+                                                    {%if class.group_id is not null%}
+                                                        <li class="green">{{ lang.level }} {{class.level}}</li>
+                                                    {%else%}
+                                                        <li class="green">{{ lang.level }} 1</li>
+                                                    {%endif%}
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-5 col-md-6 col-sm-5 col-xs-12">
+                                                <div class="mt25">
+                                                    {% if class.schedule_remaining == 0 %}
+                                                        <span class="btn btn-primary-2 btn-primary-2-xs disable ml50 ml0-xs" disabled="disabled">{{ lang.session_full }}</span>
+                                                    {% else %}
+                                                        <a href="#" class="btn btn-primary-2 btn-border btn-primary-2-xs ml50 ml0-xs reserve-a-seat-btn" data-group-class-id="{{ class.group_id }}">{{ lang.reserve_a_seat }}</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="dot-color">
+                    <div class="dot-1 hidden-xs"></div>
+                    <div class="dot-2 hidden-xs"></div>
+                    <div class="dot-3 hidden-xs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reservedConfirmDialogContaier">
+
+    </div>
+    <div id="cancelConfirmDialogContaier">
+
+    </div>
+{% endblock %}

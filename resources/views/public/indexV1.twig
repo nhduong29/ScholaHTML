@@ -1,0 +1,108 @@
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}Teacher{% endblock %}
+{% block content %}
+    <div class="navigation-transparent">
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <main class="masthead">
+        <video class="video-background" autoplay="" loop="" muted="" poster="{{ Schola.helper('assetUrl', '/public/images/bg-video.jpg') }}">
+            <source src="https://d125fmws0bore1.cloudfront.net/videos/video-bg-nanodegree.mp4"/>
+            <source src="https://d125fmws0bore1.cloudfront.net/videos/video-bg-nanodegree.ogv"/>
+            <source src="https://d125fmws0bore1.cloudfront.net/videos/video-bg-nanodegree.webm"/>
+        </video>
+        <div class="welcome-landing">
+            <div class="wrap">
+                <h1 class="home-title">Welcome to <span>SCHOLA</span></h1>
+                <h2 class="description-1">Become fluent in any language</h2>
+                <h3 class="description-2">Get 1-on-1 online lessons with native language teachers, and connect to people around the world.</h3>
+                <div class="group-btn">
+                    <a href="/become-a-teacher" class="button button--nuka"><span class="fa fa-graduation-cap"></span> BECOME A TEACHER</a>
+                    <button class="button button--nuka"><span class="fa fa-group"></span> JOIN FOR FREE</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="how-it-work">
+        <div class="wrap-width clearfix">
+            <div class="col-sm-4 col-xs-12">
+                <div class="img">
+                    <img src="{{ Schola.helper('assetUrl', '/public/images/hiw2.jpg') }}"/>
+                </div>
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <h3 class="title">The best new way to learn a language.</h3>
+                <p>
+                    Learning with <span class="p-color bold">SCHOLA</span> is fun and addictive. When you learn a language with real people, you will learn more than just a language. You'll be exposed to a different culture, and a new way
+                    of
+                    seeing the world.
+                </p>
+                <a href="#" class="see-it-work"> <span class="fa fa-youtube-play"></span> See how it work?</a>
+            </div>
+        </div>
+    </div>
+    <div class="how-schedule">
+        <div class="content-width">
+            <h2 class="title">How do I schedule a lesson?</h2>
+            <h4 class="sub-title">It's easy to have a lesson with a teacher on Schola!</h4>
+            <div class="clearfix">
+                <div class="col-sm-4 col-xs-12">
+                    <img src="{{ Schola.helper('assetUrl', '/public/images/hp-icon1.png') }}"/>
+                    <div class="title-step"><span>1</span> Choose a teacher</div>
+                    <p class="description-step">
+                        Watch the teacher's video introduction, and read reviews from previous students.
+                    </p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <img src="{{ Schola.helper('assetUrl', '/public/images/hp-icon2.png') }}"/>
+                    <div class="title-step"><span>2</span> Choose a date and time</div>
+                    <p class="description-step">
+                        Choose a time that's convenient for you.
+                    </p>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <img src="{{ Schola.helper('assetUrl', '/public/images/hp-icon3.png') }}"/>
+                    <div class="title-step"><span>3</span> Enjoy your lesson!</div>
+                    <p class="description-step">
+                        Take your lesson on Schola video chat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="teacher-marketplace">
+        <div class="content-width">
+            <h2 class="title">A teacher marketplace</h2>
+            <h4 class="sub-title">We created a place to overcome the limits of traditional language schools.</h4>
+            <div class="clearfix">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="block-content">
+                        <span class="fa fa-group icon"></span>
+                        <div class="title-step"><span>1</span> Personalized</div>
+                        <p class="description-step">
+                            Teachers on <span class="p-color bold">Schola</span> can <strong>customize each class based on your needs and interests</strong>. You are not stuck with a set curriculum -- learn what you want to learn!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="block-content">
+                        <span class="fa fa-dollar icon"></span>
+                        <div class="title-step"><span>2</span> No Tuition</div>
+                        <p class="description-step">
+                            On <span class="p-color bold">Schola</span> you <strong>pay by the lesson</strong>. Don't worry about expensive up-front fees. You can learn at your own pace.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="block-content">
+                        <span class="fa fa fa-clock-o icon"></span>
+                        <div class="title-step"><span>3</span> Flexible</div>
+                        <p class="description-step">
+                            You can <strong>learn anytime, anywhere</strong>. Take lessons from home, before or after you go to work, whenever and wherever it's convenient.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

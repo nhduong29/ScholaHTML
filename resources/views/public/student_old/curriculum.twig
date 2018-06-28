@@ -1,0 +1,129 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.curriculum }}Curriculum{% endblock %}
+{% block head %}
+    <script type="text/javascript">
+        var curriculumView = {
+            init: function () {
+                var base = this;
+                $("#btnPurchase").on('click', function () {
+                    base.purchaseClass();
+                });
+            },
+            purchaseClass: function () {
+                $('#dialogPurchase').modal('show');
+            }
+        };
+        $(document).ready(function () {
+            curriculumView.init();
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="row student-dashboard">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        {% include "@Schola/public/student_old/leftPanel.twig" %}
+                    </div>
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+                        {% if purchase == true and approve %}
+                            <div class="curriculum-board">
+                                {% for unit in listUnit %}
+                                    <div class="unit-item mb20">
+                                        <h3 class="unit-name"><span class="fa fa-tasks"></span>{{ unit.unit_name }}</h3>
+                                        <div class="panel-group" id="unit{{ unit.unit_id }}" role="tablist"
+                                             aria-multiselectable="true">
+                                            {% set count = 0 %}
+                                            {% for lesson in unit.lessons %}
+                                                <div class="panel panel-default" role="tab"
+                                                     id="heading{{ lesson.lession_id }}">
+                                                    <div class="relative">
+                                                        <div class="panel-heading" role="button" data-toggle="collapse"
+                                                             data-parent="#unit{{ unit.unit_id }}"
+                                                             href="#u{{ unit.unit_id }}Lesson{{ lesson.lession_id }}"
+                                                             aria-expanded="{% if count == 0 %}true{% else %}false{% endif %}"
+                                                             aria-controls="u{{ unit.unit_id }}Lesson{{ lesson.lession_id }}">
+                                                            <h4 class="panel-title">
+                                                                {% set count = count + 1 %}
+                                                                <span class="unix-number">{{ count }}</span>{{ lesson.lession_name }}
+                                                            </h4>
+                                                        </div>
+
+                                                        {% if lesson.schedule_id != null %}
+                                                            <a href="{{ route_url('Schola::schola-class-detail') }}?lesson_id={{ lesson.lession_id }}" class="button button--saqui button--inverted button--round-l button--text-thin button--size-s button--border" data-text="{{ lang.class_detail }}">{{ lang.class_detail }}</a>
+                                                        {% else %}
+                                                            <a href="{{ route_url('Schola::schola-student-schedule') }}?lesson_id={{ lesson.lession_id }}" class="button button--saqui button--inverted button--round-l button--text-thin button--size-s" data-text="{{ lang.schedule_now }}">{{ lang.schedule_now }}</a>
+                                                        {% endif %}
+                                                    </div>
+
+
+                                                    <div id="u{{ unit.unit_id }}Lesson{{ lesson.lession_id }}"
+                                                         class="panel-collapse collapse {% if count == 1 %}in{% endif %}"
+                                                         role="tabpanel"
+                                                         aria-labelledby="heading{{ lesson.lession_id }}">
+                                                        <div class="panel-body">
+                                                            {{ lesson.lession_des }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        {% else %}
+
+                            <!-- <div class="no-class-panel">
+                                //<span class="icon fa fa-desktop"></span>
+                                <div class="icon-img not-purchase"></div>
+                                <h3 class="text">
+                                    You no have available class
+                                </h3>
+                                <div class="text-center">
+                                    <div class="form-group custom inline-block">
+                                        <div class="control-item">
+                                            <button type="button" id="btnPurchase"
+                                                    class="button button--saqui button--inverted button--round-l button--text-thin button--size-s"
+                                                    data-text="Purchase now">
+                                                Purchase now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            {#{% include "@Schola/public/student/dialogPurchase.twig" %}#}
+
+                            <div class="no-class-panel">
+                                <div class="icon-img not-purchase"></div>
+                                <h3 class="text">
+                                    {{ lang.you_not_approved }}
+                                </h3>
+                                <div class="text-center">
+                                    <div class="form-group custom inline-block">
+                                        <div class="control-item">
+                                            <button type="button" onclick="Schola.common.toogleTawkChat();"
+                                                    class="button button--saqui button--inverted button--round-l button--text-thin button--size-s"
+                                                    data-text="{{ lang.chat_to_purchase }}">
+                                                {{ lang.chat_to_purchase }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

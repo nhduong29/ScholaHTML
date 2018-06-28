@@ -1,0 +1,379 @@
+{% set lang = Schola.language('home') %}
+
+{% extends "@Schola/public/layout/landingLayout.twig" %}
+
+{% block title %} {{ lang.effective_personalised }} {{ lang.international_english_learning }} {% endblock %}
+{% block head %}
+    <!-- HTTPS required. HTTP will give a 403 forbidden response -->
+    <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/landingPage/landingPage.js' ) }}" type="text/javascript"></script>
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/loginViaAccountKit.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            register: '{{ route_url('Schola::registerTrialClass') }}',
+            registerForm: '{{ route_url('Schola::registerTrialClassForm') }}',
+            loginFb: '{{ route_url('Schola::login-facebook') }}',
+            loginViaAccountKit: '{{ route_url('Schola::loginViaAccountKit') }}',
+            childrenFillInformation: '{{ route_url('Schola::schola-children') }}',
+        };
+        var MESSAGE = {
+            registerTrialSuccess: '{{ lang.register_trial_success }}',
+            registerTrialError: '{{ lang.register_trial_error }}',
+            loginFail: '{{ lang.login_fail_please_try_again }}'
+        };
+        var accountKitInfo = {
+            fbAppId: '{{ fb_app_id }}',
+            accountKitVersion: '{{ account_kit_version }}',
+            accountKitNonceField: '{{ account_kit_nonce_field }}'
+        }
+        $(function() {
+            accountKitLogin.URL = URL;
+            accountKitLogin.accountKitInfo = accountKitInfo;
+            accountKitLogin.messages = MESSAGE;
+            accountKitLogin.init();
+            landingPageView.setUrl(URL);
+            landingPageView.setMessage(MESSAGE);
+            landingPageView.init();
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="navigation-transparent">
+        {% include "@Schola/public/partial/navigationLanding.twig" %}
+    </div>
+    <main class="masthead">
+        <div class="slider-background-3">
+            <div id="slides">
+                <ul class="slides-container">
+                    <li class="overlay">
+                        <img class="img-slide-1 hidden-xs" src="{{ Schola.helper('assetUrl', '/public/images/slider/slide-1-min.jpg') }}" alt="Schola">
+                        <img class="img-slide-1 banner-mobile" src="{{ Schola.helper('assetUrl', '/public/images/slider/slide-1-mobile-min.jpg') }}" alt="Schola">
+                        <div class="slider-description slide-1">
+                            <img class="bubble-bg" src="{{ Schola.helper('assetUrl', '/public/images/slider/bubble-1.png') }}" alt="bubble">
+                            <div class="wrap">
+                                <div class="line-1">{{ lang.effective_personalised }}</div>
+                                <div class="line-2">{{ lang.international_english_learning }}</div>
+                                <div class="line-3">{{ lang.kids_aged_years }}</div>
+                            </div>
+                        </div>
+                        <div class="slider-description-input-phone-2 slide-1 hidden-xs">
+                            <img class="bubble-bg" src="{{ Schola.helper('assetUrl', '/public/images/slider/bubble-2.png') }}" alt="bubble">
+                            <div class="content-form">
+                                <div class="title-1">{{ lang.free_trial }}</div>
+                                <div class="title-2">{{ lang.class_worth }}</div>
+                                <div class="price-group">
+                                    <span class="price">998</span>
+                                    <span class="sup">.000</span>
+                                    <span class="sub">VND</span>
+                                </div>
+                                <div class="input-phone-number">
+                                    <input type="text" name="phoneNumber" placeholder="{{ lang.enter_phone_number }}" >
+                                    <button class="btnGetTrial">{{ lang.get_trial }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="overlay">
+                        <img class="img-slide-2 hidden-xs" src="{{ Schola.helper('assetUrl', '/public/images/slider/slide-2-min.jpg') }}" alt="Surly">
+                        <img class="img-slide-1 banner-mobile" src="{{ Schola.helper('assetUrl', '/public/images/slider/slide-2-mobile-min.jpg') }}" alt="Schola">
+                            <div class="slider-description slide-2">
+                            <img class="bubble-bg" src="{{ Schola.helper('assetUrl', '/public/images/slider/bubble-3.png') }}" alt="bubble">
+                            <div class="wrap">
+                                <div class="line-1">{{ lang.effective_personalised }}</div>
+                                <div class="line-2">{{ lang.international_english_learning }}</div>
+                                <div class="line-3">{{ lang.kids_aged_years }}</div>
+                            </div>
+                        </div>
+                        <div class="slider-description-input-phone-2 slide-1 hidden-xs">
+                            <img class="bubble-bg" src="{{ Schola.helper('assetUrl', '/public/images/slider/bubble-2.png') }}" alt="bubble">
+                            <div class="content-form">
+                                <div class="title-1">{{ lang.free_trial }}</div>
+                                <div class="title-2">{{ lang.class_worth }}</div>
+                                <div class="price-group">
+                                    <span class="price">998</span>
+                                    <span class="sup">.000</span>
+                                    <span class="sub">VND</span>
+                                </div>
+                                <div class="input-phone-number">
+                                    <input type="text" name="phoneNumber" placeholder="{{ lang.enter_phone_number }}" >
+                                    <button class="btnGetTrial">{{ lang.get_trial }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <div class="text-center mt20 hidden visible-xs">
+        <button id="btnLoginFacebookMobile" class="btn btn-default btn-facebook"><span class="fa fa-facebook-f"></span>  {{ lang.login_with_facebook }}</button>
+    </div>
+    {#<div class="text-center mt20 hidden visible-xs">#}
+        {#<button id="btnLoginAccountKitMobile" class="btn btn-default btn-facebook"><span class="fa fa-mobile-phone"></span>  {{ lang.login_via_sms }}</button>#}
+    {#</div>#}
+    <div class="text-center mt20 hidden visible-xs">
+        <a href="{{ route_url('Schola::becomeTeacher') }}" class="btn btn-default btn-link">{{ lang.become_teacher }}</a>
+    </div>
+    <div class="section why-choose-us">
+        <div class="section-max-width">
+            <h2 class="section-title-2"><span class="title">{{ lang.why_you_should_choose_us }}</span></h2>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-1.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.one_hundred_english }}</h3>
+                            <p class="description">
+                                {{ lang.the_english_enviroment }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-2.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.one_hundred_foreign_teacher }}</h3>
+                            <p class="description">
+                                {{ lang.foreign_teacher_carefully }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-3.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.teacher_student }}</h3>
+                            <p class="description">
+                                {{ lang.teacher_student_ensure }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-4.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.flexible }}</h3>
+                            <p class="description">
+                                {{ lang.student_can_attend }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-5.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.international_standard }}</h3>
+                            <p class="description">
+                                {{ lang.immersive_international_syllabus }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/choose-6.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h3 class="title">{{ lang.transparency }}</h3>
+                            <p class="description">
+                                {{ lang.parent_can_monitor }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-default btn-round-index" onclick="Schola.common.toogleTawkChat();">
+                    {{ lang.get_online_consulation }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="section study-program">
+        <div class="section-max-width">
+            <h2 class="section-title-2"><span class="title">{{ lang.study_program }}</span></h2>
+            <h3 class="section-description">{{ lang.english_language_program }}</h3>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-1-min.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">{{ lang.develop_foreign_language }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item second">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-2-min.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">{{ lang.development_of_thinking }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-3-min.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">{{ lang.the_program_is_fun|raw}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt70">
+                <a href="#" class="btn btn-default btn-round-index">{{ lang.detail_study_program }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="section commitment">
+        <div class="cloud-1"></div>
+        <div class="cloud-2"></div>
+        <div class="section-max-width">
+            <h2 class="section-title-2"><span class="title">{{ lang.commitment_from_schola }}</span></h2>
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="commitment-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/commitment-1.png') }}">
+                        </div>
+                        <h4 class="commitment-title">{{ lang.guaranteed_refund }}</h4>
+                        <p class="description">
+                            {{ lang.schola_believes_in_the_quality|raw }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="commitment-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/commitment-2.png') }}">
+                        </div>
+                        <h4 class="commitment-title">{{ lang.teacher_quality }}</h4>
+                        <p class="description">
+                            {{ lang.our_teacher_are_foreign }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section try-course" id="joinTrialCourse">
+        <div class="section-max-width">
+            <h2 class="section-title-2"><span class="title">{{ lang.join_trial_course|raw }}</h2>
+            <h3 class="section-description">{{ lang.leave_your_information|raw }}</h3>
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 pr0-lg pr0-md">
+                    <div class="step-item first">
+                        <div class="step-number">
+                            <span class="border">1</span>
+                        </div>
+                        <div class="description">
+                            {{ lang.register_information }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 plr0-lg plr0-md">
+                    <div class="step-item">
+                        <div class="step-number">
+                            <span class="border">2</span>
+                        </div>
+                        <div class="description">
+                            {{ lang.test_the_level }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 plr0-lg plr0-md">
+                    <div class="step-item">
+                        <div class="step-number">
+                            <span class="border">3</span>
+                        </div>
+                        <div class="description">
+                            {{ lang.schedule_class_your_child }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 pl0-lg pl0-md">
+                    <div class="step-item last">
+                        <div class="step-number">
+                            <span class="border">4</span>
+                        </div>
+                        <div class="description">
+                            {{ lang.get_personlised_evaluation }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix mb80">
+                <form id="formRegister">
+                    <div class="form-get-trial">
+                        <div class="control fullName-control">
+                            <span class="icon fa fa-user"></span>
+                            <input type="text" name="fullName" id="fullName" placeholder="{{ lang.your_name }}" />
+                            <div class="error"></div>
+                        </div>
+                        <div class="control phone-control">
+                            <span class="icon fa fa-phone"></span>
+                            <input type="text" name="phone" id="phone" placeholder="{{ lang.phone_number }}" />
+                            <div class="error"></div>
+                        </div>
+                        <div class="control childInfo-control">
+                            <span class="icon fa fa-info-circle"></span>
+                            <input type="text" name="childInfo" id="childInfo" placeholder="{{ lang.information_your_child }}" />
+                            <div class="error"></div>
+                        </div>
+                        <button type="button" id="btnRegister" class="button button--isi button--text-thick button--text-upper button--size-s">
+                            <i class="icon-spin fa fa-spinner fa-spin"></i> {{ lang.register_for_trial }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="fixedGetTrial" class="get-trial-bar-2">
+        <div class="bar-content clearfix">
+            <div class="title-1">
+                {{ lang.free_trial }} {{ lang.class_worth }} 998.000 VND
+            </div>
+            <div class="input-phone-number">
+                <span class="icon fa fa-mobile-phone"></span>
+                <input type="text" name="phoneNumber" placeholder="{{ lang.enter_phone_number }}" >
+                <button class="btnGetTrial">{{ lang.get_trial }}</button>
+            </div>
+            <a class="get-trial-mobile" href="#joinTrialCourse">{{ lang.get_free_trial_package }}</a>
+        </div>
+    </div>
+    <div id="dialogMsgRegister" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{ lang.message }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden">{{ state | raw}}</div>
+{% endblock %}

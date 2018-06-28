@@ -1,0 +1,339 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.schedule }}{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        var URL = {
+            addFeedback: '{{ route_url('Schola::classDetailAddFeedback') }}',
+			pdfAction: '{{ route_url('Schola:pdf-viewer-action') }}'
+        };
+        var classDetailView = {
+            URL: {
+                addFeedback: '{{ route_url('Schola::classDetailAddFeedback') }}',
+				pdfAction: '{{ route_url('Schola::pdf-viewer-action') }}'
+            },
+            init : function () {
+                var base = this;
+                $('#btnAddFeedback').click(function () {
+                    base.addFeedback();
+                });
+                $('.rating:not(.disable) .fa').click(function () {
+                    var rate = $(this).data('rate');
+                    $(this).parent().removeClass('rating-1')
+                        .removeClass('rating-2')
+                        .removeClass('rating-3')
+                        .removeClass('rating-4')
+                        .removeClass('rating-5')
+                        .addClass('rating-'+rate);
+                    $('#feedbackRate').val(rate);
+                });
+                base.goToHash();
+
+                $('#btnEnterClass').click(function () {
+                    if ($(document).width() < 650) {
+                        $('#dialogMsgDontSupportMobile').modal('show');
+                        return false;
+                    }
+                });
+
+                $('#btnDisableEnterClass').click(function () {
+                    $('#dialogMsgDisableEnterClass').modal('show');
+                    return false;
+                });
+
+                setTimeout(base.appendVideoElement, 2000);
+            },
+            appendVideoElement: function() {
+                var recordedVideoContainer = document.getElementById('recorded-video');
+                var video = document.createElement('video');
+                video.src = "/stream-video/{{ scheduled.schedule_id }}";
+                video.style.width = "100%";
+                video.controls = true;
+
+                if (recordedVideoContainer != null) {
+                    recordedVideoContainer.appendChild(video);
+                }
+            },
+            addFeedback: function () {
+                var base = this;
+                $('.show-error').removeClass('show-error');
+                $.ajax({
+                    type: 'POST',
+                    url: base.URL.addFeedback,
+                    data: {
+                        schedule_id: $('#scheduleId').val(),
+                        feedback_content: $('#feedBackContent').val(),
+                        feedback_rate: parseInt($('#feedbackRate').val()) * 2,
+                    },
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        if (res.status === 'success') {
+                            $('#feedBackContent').hide();
+                            $('#feedBackContentView').text($('#feedBackContent').val());
+                            $('#feedBackContent').remove();
+                            $('.rating .fa').unbind();
+                            $('.rating').addClass('disable');
+                            $('#btnAddFeedback').remove();
+                        }
+
+                        $.each(res.errors, function (index, item) {
+                            $('.' + item.key + '-control .error').text(item.value);
+                            $('.' + item.key + '-control').addClass('show-error');
+                        });
+                    }
+                });
+            },
+            goToHash: function(){
+                var hash = window.location.hash;
+                console.log(hash);
+                if (hash == '#reviewClass') {
+                    var offset = $(hash).offset();
+                    $('html, body').animate({
+                        scrollTop: offset.top + 'px'
+                    }, 600);
+                }
+            },			
+			viewPdf: function(fileId){
+				var base = this;
+				$.ajax({
+					type: 'POST',
+					url: base.URL.pdfAction,
+					data:{fileId: fileId, action: 3},
+					success: function (data) {
+                        $('#pdfViewerPanel').html(data);
+						var windowHeight = $( window ).height();
+						$('.pdfViewerPanel').css('height', windowHeight + 'px');
+						$('#dialogViewPdf').modal('show');
+                    }
+				});
+			}
+        };
+
+        $(document).ready(function () {
+           classDetailView.init();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="row student-dashboard">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        {% set navActive = -1 %}
+                        {% if isTeacher %}
+                            {% include "@Schola/public/teacherDashboard/leftPanel.twig" %}
+                        {% else %}
+                            {% include "@Schola/public/student_old/leftPanel.twig" %}
+                        {% endif %}
+
+                    </div>
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+						<div class="class-detail-board">
+                            <div class="lesson-name">{{ scheduled.lession_name }}</div>
+                            <div class="date-time-content clearfix mb15">
+                                {% if enterClass and ((isDisableEnterBeforeClass == false and isDisableEnterAfterClass == false) or user.isAdmin == true) %}
+                                    <a id="btnEnterClass" href="{{ route_url('Schola::classroom') }}?id={{ scheduled.teacher_schedule_id }}"
+                                       class="button button--saqui button--inverted button--round-l button--text-thin button--size-s pull-right margin-0i" data-text="{{ lang.enter_class }}">
+                                        {{ lang.enter_class }}
+                                    </a>
+                                {% endif %}
+                                {% if enterClass and (isDisableEnterBeforeClass or isDisableEnterAfterClass) and user.isAdmin == false %}
+                                    <button id="btnDisableEnterClass"
+                                       class="button button--saqui button--inverted button--round-l button--text-thin button--size-s pull-right margin-0i" data-text="{{ lang.enter_class }}">
+                                        {{ lang.enter_class }}
+                                    </button>
+                                {% endif %}
+                                <div class="date-time pull-right mr10">
+                                    <span class="time">{{ scheduled.schedule_time }}</span>
+                                    <span class="date">{{ scheduled.schedule_date|date('l') }}, {{ scheduled.schedule_date|date('m/d/Y') }}</span>
+                                </div>
+                            </div>
+                            <div class="lesson-content">
+                                <div class="title"><span class="fa fa-book"></span> {{ lang.learning_objective }}</div>
+                                <div class="clearfix mb15">
+                                    {{scheduled.lession_des | raw}}
+                                </div>
+
+                                <div class="title"><span class="fa fa-book"></span> {{ lang.lesson_learning_material }}</div>
+                                {%if filePre != null%}
+									<div class="material-group">
+										<h4>{{ lang.pre_class }}</h4>
+										<div class="material-detail">
+											{%for item in filePre%}
+												<div><span class="fa fa-file-text"></span> <a href="javascript:classDetailView.viewPdf({{item.file_id}});" target="_blank">{{item.file_realname}}</a></div>
+											{%endfor%}
+										</div>
+									</div>
+								{%endif%}
+								{%if filePost != null%}
+									<div class="material-group">
+										<h4>{{ lang.post_class }}</h4>
+										<div class="material-detail">
+											{%for item in filePost%}
+												<div><span class="fa fa-file-text"></span> <a href="javascript:classDetailView.viewPdf({{item.file_id}});" target="_blank">{{item.file_realname}}</a></div>
+											{%endfor%}
+										</div>
+									</div>
+								{%endif%}
+								{%if fileOther != null%}
+									<div class="material-group">
+										<h4>{{ lang.other }}</h4>
+										<div class="material-detail">
+											{%for item in fileOther%}
+												<div><span class="fa fa-file-text"></span> <a href="javascript:classDetailView.viewPdf({{item.file_id}});" target="_blank">{{item.file_realname}}</a></div>
+											{%endfor%}
+										</div>
+									</div>
+								{%endif%}
+                            </div>
+                            <div id="reviewClass"></div>
+                            {% if studentFeedback is not empty %}
+                                <div class="lesson-content mt15">
+                                    <div class="title"><span class="fa fa-comment"></span> {{ lang.feedback_for_teacher }}</div>
+                                    <strong>{{ studentFeedback.profile_name }}</strong>
+                                    <div class="mt10 mb10">
+                                        {{ studentFeedback.feedback_content }}
+                                    </div>
+
+                                    {% set rate = studentFeedback.feedback_rate/2 %}
+                                    <div class="clearfix">
+                                        <div class="rating rating-{{ rate }} disable inline-block">
+                                            {% if rate < 5 %}
+                                                {% for y in 5..(rate+1) %}
+                                                    <i class="fa fa-star pull-right rate-{{ y }}"></i>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% for i in rate..1 %}
+                                                <i class="fa fa-star pull-right rate-{{ i }}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div><span class="fa fa-calendar"></span> {{ studentFeedback.feedback_date|date("m/d/Y") }}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if teacherFeedback is not empty %}
+                                <div class="lesson-content mt15">
+                                    <div class="title"><span class="fa fa-comment"></span> {{ lang.feedback_for_student }}</div>
+                                    <strong>{{ teacherFeedback.teacher_firstname }}</strong>
+                                    <div class="mt10 mb10">
+                                        {{ teacherFeedback.feedback_content }}
+                                    </div>
+
+                                    {% set rate = teacherFeedback.feedback_rate/2 %}
+                                    <div class="clearfix">
+                                        <div class="rating rating-{{ rate }} disable inline-block">
+                                            {% if rate < 5 %}
+                                                {% for y in 5..(rate+1) %}
+                                                    <i class="fa fa-star pull-right rate-{{ y }}"></i>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% for i in rate..1 %}
+                                                <i class="fa fa-star pull-right rate-{{ i }}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div><span class="fa fa-calendar"></span> {{ teacherFeedback.feedback_date|date("m/d/Y") }}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if (teacherFeedback is empty and isTeacher) or (studentFeedback is empty and isTeacher == false) %}
+                            <div class="lesson-content mt15">
+                                <div class="title"><span class="fa fa-comment"></span> {{ lang.feedback_for }} {% if isTeacher %} {{ lang.student }} {% else %} {{ lang.teacher }} {% endif %}</div>
+                                <div>
+                                    <div class="form-group custom">
+                                        <div class="control-item ">
+                                            <div class="wrapper-control feedback-content-control">
+                                                <div class="control w100i">
+                                                    <div class="pre-wrap" id="feedBackContentView"></div>
+                                                    <textarea class="feedback-content w100i" id="feedBackContent" placeholder="{{ lang.feedback }}"></textarea>
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-item ">
+                                            <div class="wrapper-control feedback-rate-control">
+                                                <div class="control">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star pull-right rate-5" data-rate="5"></i>
+                                                        <i class="fa fa-star pull-right rate-4" data-rate="4"></i>
+                                                        <i class="fa fa-star pull-right rate-3" data-rate="3"></i>
+                                                        <i class="fa fa-star pull-right rate-2" data-rate="2"></i>
+                                                        <i class="fa fa-star pull-right rate-1" data-rate="1"></i>
+                                                    </div>
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input id="scheduleId" type="hidden" value="{{ scheduled.schedule_id }}">
+                                        <input id="feedbackRate" type="hidden" value="">
+                                    </div>
+
+                                    <button id="btnAddFeedback" type="button" class="button button--saqui button--inverted button--round-l button--text-thin button--size-s" data-text="{{ lang.send_feedback }}">
+                                        {{ lang.send_feedback }}
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if ( enterClass and (isTeacher == false) ) %}
+                            <div class="lesson-content mt15">
+                                <div class="title"><span class="fa fa-video-camera"></span> {{ lang.recorded_video }} </div>
+                                <div id="recorded-video">
+                                    
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+	<div id="pdfViewerPanel">
+	</div>
+    <div id="dialogMsgDontSupportMobile" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{ lang.message }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="message">{{ lang.message_dont_support_mobile | raw}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if (isDisableEnterBeforeClass or isDisableEnterAfterClass) and user.isAdmin == false %}
+    <div id="dialogMsgDisableEnterClass" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{ lang.message }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="message">
+                        {% if isDisableEnterBeforeClass %}
+                            {{ lang.enter_class_before_schedule_time }}
+                        {% endif %}
+                        {% if isDisableEnterAfterClass %}
+                            {{ lang.enter_class_after_schedule_time }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

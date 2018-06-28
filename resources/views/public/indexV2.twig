@@ -1,0 +1,317 @@
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}Teacher{% endblock %}
+{% block head %}
+    <script type="text/javascript">
+        $(function() {
+            $('#slides').superslides({
+                hashchange: false,
+                play: 5000
+            });
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="navigation-transparent">
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <main class="masthead">
+        <div class="slider-background">
+            <div id="slides">
+                <ul class="slides-container">
+                    <li class="overlay">
+                        <img src="{{ Schola.helper('assetUrl', '/public/images/children2.jpg') }}" alt="Cinelli">
+                        <div class="slider-description">
+                            <div class="wrap">
+                                <h1 class="home-title">Welcome to <span>SCHOLA</span></h1>
+                                <h2 class="description-1">The most effective International Online English Learning for Kids ages 5-12 years</h2>
+                                <h3 class="description-2">GET FREE TRIAL CLASS WORTH <strong class="p-color">998.000 VND</strong></h3>
+                                <div class="group-btn">
+                                    <a href="/become-a-teacher" class="button button--nuka button--round-l"><span class="fa fa-graduation-cap"></span> BECOME A TEACHER</a>
+                                    <button class="button button--nuka button--round-l"><span class="fa fa-group"></span> GET FREE TRIAL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="overlay">
+                        <img src="{{ Schola.helper('assetUrl', '/public/images/children.jpg') }}" alt="Surly">
+                        <div class="slider-description">
+                            <div class="wrap">
+                                <h1 class="home-title">Welcome to <span>SCHOLA</span></h1>
+                                <h2 class="description-1">Experience the international standard of English at your home, anytime, anywhere.
+                                    Help your child be smart, confident, strong and kind</h2>
+                                <h3 class="description-2">GET FREE TRIAL CLASS WORTH <strong class="p-color">998.000 VND</strong></h3>
+                                <div class="group-btn">
+                                    <a href="#" class="button button--nuka"><span class="fa fa-graduation-cap"></span> GET FREE TRIAL CLASS</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="overlay">
+                        <img src="{{ Schola.helper('assetUrl', '/public/images/children.jpg') }}" alt="Surly">
+                        <div class="slider-description">
+                            <div class="wrap">
+                                <h1 class="home-title small">Flipped Classroom Model</h1>
+                                <h2 class="description-1">The most effective Learning Method for kids - Maximum results!</h2>
+                            </div>
+                            <div class="row class-model">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="img-box">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/hiw.jpg') }}">
+                                    </div>
+                                    <div class="title-model">Pre-classroom learning</div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="img-box">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/5.jpg') }}">
+                                    </div>
+                                    <div class="title-model">100% Personalised Learning</div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="img-box">
+                                        <img src="{{ Schola.helper('assetUrl', '/public/images/4.jpg') }}">
+                                    </div>
+                                    <div class="title-model">Post-Classroom Practice</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <div class="section why-choose-us">
+        <div class="content-width">
+            <h2 class="section-title"><span class="fa fa-question-circle"></span> Why you should choose us?</h2>
+            <div class="clearfix">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-1.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">100% English</h2>
+                            <p class="description">
+                                The English environment is comprehensive, helping children integrate quickly
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-2.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">100% Foreign teachers professional</h2>
+                            <p class="description">
+                                Foreign teachers are carefully selected to ensure their deep knowledge and pedagogical skills.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-3.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">1 Teacher - 1 Children</h2>
+                            <p class="description">
+                                1 teacher - 1 student, ensure the program designed for each baby
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-4.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">Flexible</h2>
+                            <p class="description">
+                                Baby can attend school anytime, anywhere.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-5.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">International Standard</h2>
+                            <p class="description">
+                                The international standards-based assessment program and system helps children get familiar with certification
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="why-choose-us-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/reason-4.png') }}">
+                        </div>
+                        <div class="wrap-description">
+                            <h2 class="title">Transparency</h2>
+                            <p class="description">
+                                Parents can monitor, evaluate and contribute ideas throughout their child's education.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="button button--nuka button--round-l"><span class="fa fa-comments"></span> Get Online Consultation</a>
+            </div>
+        </div>
+    </div>
+    <div class="section study-program">
+        <div class="content-width">
+            <h2 class="section-title"><span class="fa fa-book"></span> STUDY PROGRAM</h2>
+            <h3 class="section-description">English language program for children between 5 and 12 years of age in accordance with standards taught at international schools. Schola not only educates children in English but also adds social and cultural knowledge to the world through English.</h3>
+            <div class="clearfix">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-1.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">Develop foreign language skills</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-2.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">Development of thinking and social knowledge</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="study-program-item">
+                        <div class="img-box">
+                            <img src="{{ Schola.helper('assetUrl', '/public/images/icon/study-3.jpg') }}">
+                        </div>
+                        <div class="caption">
+                            <span class="align">The program is fun, suitable for children</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt20">
+                <a href="#" class="button button--nuka button--round-l"><span class="fa fa-book"></span> Detail study program</a>
+            </div>
+        </div>
+    </div>
+    <div class="section commitment">
+        <div class="cloud-1"></div>
+        <div class="cloud-2"></div>
+        <div class="content-width">
+            <h2 class="section-title"><span class="fa fa-check-circle"></span> Commitment from <strong class="p-color">Schola</strong></h2>
+            <div class="clearfix">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="commitment-item">
+                        <span class="fa fa-dollar icon"></span>
+                        <div class="title-step"><span>1</span> Guaranteed refund!</div>
+                        <p class="description-step">
+                            <span class="p-color bold">Schola</span> believes in the quality of our teaching and service. If for some reason you are not satisfied, we will refund the cost of the unused classes within 30 days of purchase.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="commitment-item">
+                        <span class="fa fa-group icon"></span>
+                        <div class="title-step"><span>2</span> Teacher quality</div>
+                        <p class="description-step">
+                            Our teachers are 100% foreign with high quality teaching ability. The teachers are selected through a rigorous interview process. All teachers are highly qualified and trained over 20 hours with Schola's international curriculum.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section try-course">
+        <div class="content-width">
+            <h2 class="section-title"><span class="fa fa-book"></span> Join the trial course of <strong class="p-color">Schola</strong></h2>
+            <h3 class="section-description">Leave the information for us to invite you to take the trial course of <strong class="p-color">Schola</strong> worth <strong class="p-color">998.000 VND</strong></h3>
+            <div class="clearfix">
+                <div class="col-md-3 col-sm-6 col-xs-12 pr0-lg pr0-md pr0-sm">
+                    <div class="step-item first">
+                        <div class="step-number">
+                            <span class="border">1</span>
+                        </div>
+                        <div class="description">
+                            Register information
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 plr0-lg plr0-md pl0-sm">
+                    <div class="step-item">
+                        <div class="step-number">
+                            <span class="border">2</span>
+                        </div>
+                        <div class="description">
+                            Test the level
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 plr0-lg plr0-md pr0-sm">
+                    <div class="step-item">
+                        <div class="step-number">
+                            <span class="border">3</span>
+                        </div>
+                        <div class="description">
+                            Schedule a 1:1 class for your child, with Foreign teacher
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 pl0-lg pl0-md pl0-sm">
+                    <div class="step-item last">
+                        <div class="step-number">
+                            <span class="border">4</span>
+                        </div>
+                        <div class="description">
+                            Get personlised evaluation and study plan for your child!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="form-get-trial">
+                    <div class="control profile_name-control">
+                        <span class="icon fa fa-user"></span>
+                        <input type="text" name="name" id="name" placeholder="Your name" />
+                        <div class="error"></div>
+                    </div>
+                    <div class="control profile_name-control">
+                        <span class="icon fa fa-phone"></span>
+                        <input type="text" name="phone" id="phone" placeholder="Phone number" />
+                        <div class="error"></div>
+                    </div>
+                    <div class="control profile_name-control">
+                        <span class="icon fa fa-info-circle"></span>
+                        <input type="text" name="infoChild" id="infoChild" placeholder="Information about your child" />
+                        <div class="error"></div>
+                    </div>
+                    <button type="button" id="btn-children" class="button button--isi button--text-thick button--text-upper button--size-s">
+                        <i class="icon-spin fa fa-spinner fa-spin"></i> Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section get-information">
+        <div class="content-width">
+            <h2 class="section-title"><span class="fa fa-info-circle"></span> You want to get more information about <strong class="p-color">Schola</strong></h2>
+            <div class="text-center mt20">
+                <a href="tel:0984449549" class="button button--nuka button--round-l"><span class="fa fa-phone"></span> Please call <strong>0984 449 549</strong></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

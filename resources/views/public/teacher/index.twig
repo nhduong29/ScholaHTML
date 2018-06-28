@@ -1,0 +1,10 @@
+{% set lang = Schola.language('teacher') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.teacher_dashboard }}{% endblock %}
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+{% endblock %}

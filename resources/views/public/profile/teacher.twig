@@ -1,0 +1,151 @@
+{% set lang = Schola.language('userprofile') %}
+
+<form id="frmTeacherProfile">
+	<div class="basic-information-form">
+		<div class="form-group custom">
+			<div class="col-lg-4">
+				<div class="control-item ">
+					<div class="wrapper-control teacher_avatar-control">
+						<div class="upload-avatar gender-{{ teacherModel.teacher_gender }}">
+							<img id="srcAvatar" src="{{teacherModel.teacher_avatar}}" />
+							<div class="change-avatar" onclick="$('#teacherAvatar').click();">
+								<span class="fa fa-camera"></span>
+							</div>							
+						</div>
+						<input
+							style="display: none"
+							onchange="profile.changeAvatar(event);"
+							type="file" 
+							id="teacherAvatar" 
+							name="teacherAvatar" />	
+						<div class="error"></div>						
+					</div>
+					<div class="text-center" style="color: yellow">
+						{%set rate1 = rate%2 %}
+						{%set rate2 = (rate - rate1)/2%}
+						<span class="star">
+							{%if rate2 != 0%}
+								{%for i in 1..rate2%}
+									<span class="fa fa-star"></span>
+								{%endfor%}
+							{%endif%}
+							{%if rate1 == 1%}
+								<span class="fa fa-star-half-o"></span>
+							{%endif%}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8">
+				<div class="control-item ">
+					<label for="teacher-firstname">{{ lang.firstname }}</label>
+					<div class="wrapper-control teacher-firstname-control">
+						<div class="control w100i">
+							<input class="w100i" value="{{ teacherModel.teacher_firstname }}" type="text" name="teacher-firstname" id="teacher-firstname"></input>
+							<span class="error"></span>
+						</div>
+					</div>
+				</div>
+				<div class="control-item ">
+					<label for="teacher-lastname">{{ lang.lastname }}</label>
+					<div class="wrapper-control teacher-lastname-control">
+						<div class="control w100i">
+							<input class="w100i" value="{{ teacherModel.teacher_lastname }}" type="text" name="teacher-lastname" id="teacher-lastname"></input>
+							<div class="error"></div>
+						</div>
+					</div>
+				</div>
+				<div class="control-item ">
+					<label for="teacher-gender">{{ lang.gender }}</label>
+					<div class="wrapper-control teacher-gender-control">
+						<div class="control w100i">
+							<select class="w100i" id="teacher-gender" name="teacher-gender">
+								<option {{ teacherModel.teacher_gender == 0 ? 'selected' : '' }} value="0">{{ lang.female }}</option>
+								<option {{ teacherModel.teacher_gender == 1 ? 'selected' : '' }} value="1">{{ lang.male }}</option>
+							</select>
+							<span class="error"></span>
+						</div>
+					</div>
+				</div>
+				<div class="control-item">
+					<label for="teacher-phone">{{ lang.phone }}</label>
+					<div class="wrapper-control teacher-phone-control">
+						<div class="control w100i">
+							<input class="w100i" value="{{ teacherModel.teacher_phone }}" type="text" name="teacher-phone" id="teacher-phone"/>
+							<span class="error"></span>
+						</div>
+					</div>
+				</div>
+				<div class="control-item">
+					<label for="teacher-email">{{ lang.email }}</label>
+					<div class="wrapper-control teacher-email-control">
+						<div class="control w100i">
+							<input class="w100i" value="{{ teacherModel.teacher_email }}" type="text" name="teacher-email" id="teacher-email"/>
+							<span class="error"></span>
+						</div>
+					</div>
+				</div>
+				<div class="control-item">
+					<label for="timezone_id">{{ lang.timezone }}</label>
+					<div class="wrapper-control timezone_id-control">
+						<div class="control">
+							<select data-timezone="{{teacherModel.timezone_id}}" class="select-single" id="timezone_id" name="timezone_id">
+								{%for timezone in listTimezones%}
+									<option {{teacherModel.timezone_id == timezone.timezone_id ? 'selected':''}} data-gmt-offset="{{timezone.gmt_offset}}" value="{{timezone.timezone_id}}" label="{{timezone.timezone_name}}">
+										{{timezone.timezone_name}}
+									</option>
+								{%endfor%}
+							</select>
+							<span class="error"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="control-item">
+					<label for="teacher-video-url">{{ lang.video_introduction }}</label>							
+					<div class="wrapper-control teacher-video-url-control">
+						<div class="control w100i">
+							<input 
+								value="{{ teacherModel.teacher_video_url }}" 
+								class="w100i" 
+								type="text" 
+								name="teacher-video-url" 
+								id="teacher-video-url">
+							</input>
+							<div class="error"></div>
+						</div>
+					</div>
+				</div>
+				<div class="control-item ">
+					<label for="teacher_description">
+						{{ lang.about_me }}												
+					</label>
+					<div class="wrapper-control teacher-description-control">
+						<div class="control w100i">
+							<textarea
+								rows="5"
+								id="teacher-description" 
+								class="w100i"
+								name="teacher-description">{{teacherModel.teacher_description}}</textarea>
+							<div class="error"></div>
+						</div>
+					</div>
+				</div>
+				<div id="listExp">
+					{%include '@Schola/public/profile/listExperiences.twig'%}
+				</div>
+				<div id="listEdu">
+					{%include '@Schola/public/profile/listEducation.twig'%}
+				</div>
+			</div>			
+		</div>
+		<div class="text-center">
+			<button id="btnUpdateProfile" class="button button--saqui button--round-l button--text-thick button--size-s button--grey ml0" type="button" data-text="{{ lang.update }}">
+				<span class="icon fa fa-save"></span> {{ lang.update }}
+			</button>
+		</div>
+	</div>	
+</form>
+<div id="wrapDialogEducation"></div>
+<div id="wrapDialogExperience"></div>

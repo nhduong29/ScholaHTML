@@ -1,0 +1,96 @@
+.btn {
+  &.btn-primary-2 {
+    border: 1px solid transparent;
+    @include transition(all, 0.3s, ease);
+    padding: 9px 25px;
+    color: #fff;
+    background: $primary_color_2;
+    border-radius: 10px;
+    font-weight: 500;
+    min-width: 214px;
+    @media (max-width: 991px) {
+      min-width: 140px;
+    }
+    &:hover {
+      background: $primary_btn_hover_color;
+    }
+    &:active {
+      box-shadow: none;
+      background: $primary_color_2;
+    }
+    &.btn-border {
+      background: #fff;
+      border-color: $primary_color_2;
+      color: $primary_color_2;
+      &:hover {
+        background: $primary_btn_hover_color;
+        color: #fff;
+      }
+    }
+    @include width-x-small {
+      &.btn-primary-2-xs {
+        background: $primary_color_2;
+        border: 1px solid transparent;
+        color: #fff;
+        &:hover {
+          background: $primary_btn_hover_color;
+        }
+      }
+      &.btn-green-xs {
+        background: $color_green;
+        border: 1px solid transparent;
+        color: #fff;
+        &:hover {
+          background: $btn_green_hover_color;
+        }
+      }
+    }
+    &.disabled, &[disabled] {
+      background: #E0E0E0;
+      color: #BDBDBD;
+      cursor: not-allowed;
+    }
+    &.btn-no-bg {
+      background: transparent;
+      color: #828282;
+      &:hover {
+        background: $primary_btn_hover_color;
+        color: #fff;
+      }
+    }
+  }
+  &.btn-icon {
+    background: none;
+    font-size: 21px;
+    padding: 7px 10px;
+    color: #171717;
+    line-height: 0;
+    &:active {
+      box-shadow: none;
+      background: transparent;
+    }
+    &.btn-close {
+      color: #EB5757;
+    }
+    .label-xs {
+      display: none;
+      @include width-x-small {
+        font-size: 14px;
+        color: #828282;
+        padding-left: 3px;
+        line-height: 24px;
+        float: right;
+        display: inline;
+      }
+    }
+
+  }
+}
+
+.choice-week {
+  a.disabled {
+    cursor: default;
+    pointer-events: none;
+    color: #dddddd;
+  }
+}

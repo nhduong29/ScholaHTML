@@ -1,0 +1,59 @@
+{% set lang = Schola.language('user') %}
+
+{% extends "@Schola/public/layout/master.single.twig" %}
+
+{% block title %}{{ lang.login }}{% endblock %}
+{% block head %}
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/login.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            login: '{{ route_url('Schola::login-user') }}',
+            loginFb: '{{ route_url('Schola::login-facebook') }}',
+            teacherDashboard: '{{ route_url('Schola::schola-teacher-dashboard') }}',
+            thankYou: '{{ route_url('Schola::schola-thank-you') }}',
+            studentDashboard: '{{ route_url('Schola::schola-teacher-dashboard') }}',
+            childrenInformation: '{{ route_url('Schola::schola-children') }}',
+        };
+        $(function () {
+            loginView.init(URL);
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="login-page">
+        <div class="overlay">
+            <div class="login-form align-middle">
+                <div class="logo">
+                    <a href="{{ route_url('Schola::home') }}"><img src="{{ Schola.helper('assetUrl', '/public/images/schola.png') }}"/></a>
+                </div>
+                <button id="loginFacebook" class="button button--isi button--text-thick button--text-upper button--size-s facebook" data-text="Login with facebook">
+                    <span> <i class="fa fa-facebook-square"></i> {{ lang.login_with_facebook }}</span>
+                </button>
+                <p class="hr">Or</p>
+                <form id="frmLogin" action="{{ route_url('Schola::login-user') }}" method="post">
+                    <div class="control">
+                        <span class="icon fa fa-envelope"></span>
+                        <input type="text" placeholder="{{ lang.username_or_email }}" id="username" name="username"/>
+                    </div>
+                    <div class="control">
+                        <span class="icon fa fa-lock"></span>
+                        <input type="password" placeholder="{{ lang.password }}" id="password" name="password"/>
+                    </div>
+                    <button type="button" id="btn-login" class="button button--isi button--text-thick button--text-upper button--size-s">
+                        <i class="icon-spin fa fa-spinner fa-spin"></i> {{ lang.login }}
+                    </button>
+                    <div class="text-center mt20">
+                        <a href="{{ route_url('Schola::forgotPassword') }}" class="link">{{ lang.forgot_your_password }}</a>
+                    </div>
+                    <p class="hr">Or</p>
+                    <div class="text-center">
+                        <a href="{{ route_url('Schola::signup') ~ '?' ~ urlTeacher }}" class="link">{{ lang.create_account }}</a>
+                    </div>
+                </form>
+                <div class="error-login user-error">
+                    <div class="error"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

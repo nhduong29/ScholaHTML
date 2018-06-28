@@ -1,0 +1,133 @@
+{% set user = Schola.user() %}
+{% set lang = Schola.language('user') %}
+{% set langProfile = Schola.language('userprofile') %}
+{% set timezones = Schola.timezones %}
+{% set locale = Schola.locale%}
+
+<div class="clearfix">
+    {% set classNoSubNav = '' %}
+    {% if user.islogin %}
+        {% set classNoSubNav = 'no-sub-nav' %}
+    {% endif %}
+    <nav class="navbar navbar-default navbar-custom bg-white {{ classNoSubNav }}">
+        <div>
+            <a class="navbar-brand" href="{{ route_url('Schola::studentDashboard') }}">
+                <div class="logo">
+                    <img class="logo-white" src="{{ Schola.helper('assetUrl', '/public/images/schola2.png') }}" height="62px"/>
+                    <img class="logo-original" src="{{ Schola.helper('assetUrl', '/public/images/schola.png') }}" height="62px"/>
+                </div>
+            </a>
+
+            {% if user.islogin %}
+                <div class="wrap-login-info">
+                    <div class="login-info">
+                        <div class="avatar">
+                            <a href="{{ route_url('Schola::studentDashboard') }}" style="margin-right: 15px;">
+                                <span class="username">
+                                   HOME
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    {%if user.finish%}
+                    <div class="login-info help-menu">
+                        <div class="avatar dropdown-toggle dropdown-help dropdown-custom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="username help-lable" style="display: inline-block;">
+                               {{lang.help}}
+                            </span>
+                            <span class="arrow fa fa-caret-down help-arrow" style="display: inline-block;"></span>
+                        </div>
+                        <ul class="dropdown-menu dropdown-help-menu">
+                           <li><a href="https://zoom.us/test" target="_blank">Test Class</a></li>
+                           <li><a href="{{ route_url('Schola::onlineEnvironmentTesting') }}" target="_blank">{{ lang.online_environment_testing }}</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown-timezone">
+                        <input type="hidden" id="tmpTimezoneUrl" value="{{ route_url('Schola::schola-timezone') }}"/>
+                        <input type="hidden" value="{{user.currentTimeWithSecond}}" id="hiddenClockAndLock"/>
+                        <span id="detectTimezoneMessage" class="hidden">{{langProfile.time_zone_detect_inform|raw}}</span>
+                        <script>
+                            basicClock.init();
+                        </script>
+                        <div class="dropdown dropdown-custom" id="selectTimezone">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="dropdown-label" id="clockAndLock">{{ user.currentTime }}</span>
+                            </button>
+                        </div>
+                        <div class="dropdown-content">
+                            <select id="selectTimezones">
+                                {%for item in timezones.timezones%}
+                                    <option data-timezone-id="{{item.timezone_id}}" {{ item.timezone_id == user.timezoneId ? 'selected' : '' }} value="{{item.timezone_id}}">{{item.timezone_display_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    {%endif%}
+                    <div class="lang-choose">
+                        <div class="dropdown dropdown-custom dropdown-change-lang lang-{{locale.locale}}" id="changeLang">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="dropdown-label">vi</span>
+                                <span class="arrow fa fa-caret-down"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/lang/vi"> <span class="icon-vi"></span> Tiếng Việt</a></li>
+                                <li><a href="/lang/en"><span class="icon-en"></span>English</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="login-info">
+                        <div class="avatar dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="avatar-img">
+                                <img src="{{ user.avatar }}" alt="">
+                            </div>
+                            <span class="username">
+                                {%if user.firstname != ''%}
+                                    {{user.firstname}}
+                                {%else%}
+                                    {{ user.username }}
+                                {%endif%}
+                            </span>
+                            <span class="arrow fa fa-caret-down"></span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            {%if user.finish%}
+                                <li><a href="/profile">{{ lang.profile }}</a></li>
+                            {%endif%}
+                            {%if 'administrator' in user.role%}
+                                <li><a href="/admin">{{ lang.admin_dashboard }}</a></li>
+                            {%endif%}
+                            {%if user.finish%}
+                                <li role="separator" class="divider"></li>
+                            {%endif%}
+                            <li><a href="{{ route_url('Schola::logout') }}"> <span class="fa fa-sign-out"></span> {{ lang.logout }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <div class="wrap-login-info">
+                    <div class="login-info">
+                        <div class="avatar">
+                            <a href="{{ route_url('Schola::home') }}">
+                            <span class="username">
+                                   HOME
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="login-info help-menu">
+                        <div class="avatar dropdown-toggle dropdown-help dropdown-custom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="username help-lable" style="display: inline-block;">
+                               {{lang.help}}
+                            </span>
+                            <span class="arrow fa fa-caret-down help-arrow" style="display: inline-block;"></span>
+                        </div>
+                        <ul class="dropdown-menu dropdown-help-menu">
+                            <li><a href="https://zoom.us/test" target="_blank">Test Class</a></li>
+                            <li><a href="{{ route_url('Schola::onlineEnvironmentTesting') }}" target="_blank">{{ lang.online_environment_testing }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+</div>

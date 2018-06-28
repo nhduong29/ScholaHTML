@@ -1,0 +1,65 @@
+<form id="frmTrialPopup" method="post">
+<div id="refferaltrialBookingDialog" class="modal fade custom-dialog no-header refferaltrialBookingDialog" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span class="icon material-icons">close</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center color-blue"><h3 class="modal-title"  style=""><span>{{ lang.welcome_dialog }}</span>&nbsp;<span style="color: #F2994A;">Schola!</span></h3></div>
+                    <div class="text-center video-div" >
+                        <iframe width="100%" height="100%" 
+                                            src="https://www.youtube.com/embed/wmqUDGkeui4">
+                        </iframe>
+                    
+                    </div>
+                     <div class="text-center color-blue">
+                         <h4 class="modal-congrats"><span>{{ lang.enter_referral_code }}</span></h4>
+                    </div>
+                    
+                        <div class="form-group">
+                            <div class="col-md-12 dont-trial-text">
+                                <div class="col-md-6 col-xs-6 referral_input_div">
+                                    <input class="form-control referral_input" id="Referral Code" name="referral_code" placeholder="Referral Code">
+                                    
+                                </div>
+                                <div class="col-md-6 col-xs-6 referral_btn_add">
+                                   <button id="btnReferralAddBtn" type="button" class="button button--saqui button--inverted button--round-l button--text-thin button--size-s btnReferralAddBtn" data-text="{{ lang.code_add }}">
+                                        {{ lang.code_add }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center error-message">
+                               
+                            </div>
+                           
+                        </div>
+                       
+                       
+                               
+                           
+                      
+
+
+                    <div class="text-center color-blue">
+                        <div class="wrapper-control free-trial-msg">
+                        <h4 class="modal-title"><span>{{ lang.dont_have_code }}</span>&nbsp;<span><a style="color: #F2994A;">{{lang.contactus}}</a></span></h4>
+                        </div>
+                    </div>
+                    <div class="text-center color-blue">
+                        <div class="wrapper-control free-trial-msg">
+                            <div class="popuplogo">
+                               <a href="https://www.facebook.com/messages/t/scholakids"><img class="logo-original messanger" src="{{ Schola.helper('assetUrl', '/public/images/messanger.png') }}" height="50px" width="50px"/>
+                                    </a>
+                                <a href="https://www.facebook.com/scholakids/" target="_blank"><img class="logo-original facebook" src="{{ Schola.helper('assetUrl', '/public/images/facebook.png') }}" height="50px" width="50px"/>
+                                    </a>
+                                    <!-- <a><img style="margin-right: 0;" class="logo-original calling" src="{{ Schola.helper('assetUrl', '/public/images/calling.png') }}" height="50px" width="50px" />+65 82985791
+                                    </a> -->
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

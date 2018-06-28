@@ -1,0 +1,116 @@
+{% set lang = Schola.language('student') %}
+
+{% extends "@Schola/public/layout/layoutDashboard.twig" %}
+
+{% block title %}{{ lang.schedule }}{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        var lessonStatusView = {
+        URL: {
+            updateLessonStatus: '',
+        },
+        init: function (url) {
+            var base = this;
+            base.URL = url;
+            $('#prac_level_filter').change(function () {
+                base.practiceFilter();
+            });
+            $('#prac_unit_filter').change(function () {
+                base.practiceFilter();
+            });
+        },
+        updateLessonStatus: function (id) {
+            var base = this;
+            
+            
+            $.ajax({
+                type: 'POST',
+                url: base.URL.updateLessonStatus,
+                data: {'id': id},
+                success: function (data) {
+                    var res = JSON.parse(data);
+
+                    if (res.status === 'success') {
+                        
+                        location.reload();
+                    }
+                } 
+            });
+        },
+        practiceFilter: function () {
+            var level_id = $('#prac_level_filter').val();
+            var unit_id = $('#prac_unit_filter').val();
+            var base = this;
+            $.ajax({
+                type: 'POST',
+                url: base.URL.practiceFilter,
+                data: {
+                        'level_id': level_id,
+                        'unit_id': unit_id
+                       },
+                success: function (data) {
+                    $('#lessonList').html(data);
+                }
+            });
+        },
+    };
+    var URL = {
+        updateLessonStatus: '{{ route_url('Schola::lessionUpdate') }}',
+        practiceFilter: '{{ route_url('Schola::practiceFilter') }}'
+    };
+    $(document).ready(function () {
+        lessonStatusView.init(URL);
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/student/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="dashboard-content">
+                    <div>
+                        {% include "@Schola/public/student/leftNavigation.twig" %}
+                    </div>
+                       
+                 
+                    <div class="clearfix">
+                        <div class="page-title">Choose your class <span class="color-orange">type</span></div>
+                        <div class="panel-list">
+                            <div class="title-list">Practice and Review List</div>
+                            <select class="custom-select classes-filter-select filter-icon" id="prac_level_filter">
+                                {% for level in studentLevels %}
+                                    {% set selected = '' %}
+                                    {% if studentProfileLevel ==  level %}
+                                       {% set selected = 'selected' %}
+                                    {% endif %}
+                                    <option value="{{ level }}" {{ selected }}>Level {{ level }}</option>
+                                {% endfor %}
+
+                            </select>
+                            <select class="custom-select classes-filter-select filter-icon" id="prac_unit_filter" style="">
+                                <option selected="" value="">Choose Unit</option>
+                                {% for unit in studentUnits %}
+                                    <option value="{{ unit }}">Unit {{ unit }}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="lessonList" style="margin-top: 15px;">
+                                {% include "@Schola/public/student/lessonList.twig" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dot-color">
+                    <div class="dot-1 hidden-xs"></div>
+                    <div class="dot-2 hidden-xs"></div>
+                    <div class="dot-3 hidden-xs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

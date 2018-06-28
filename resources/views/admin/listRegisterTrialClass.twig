@@ -1,0 +1,50 @@
+<table class="wp-list-table widefat fixed striped posts">
+    <thead>
+    <tr>
+        <th scope="col" class="manage-column column-primary">Phone number</th>
+        <th scope="col" class="manage-column">Full name</th>
+        <th scope="col" class="manage-column">Child information</th>
+        <th scope="col" class="manage-column">Status</th>
+        <th scope="col" class="manage-column">Action</th>
+    </tr>
+    </thead>
+    <tbody id="the-list">
+    {% for item in listPhoneNumber %}
+        <tr class="reg-{{ item.reg_id }}">
+            <td>
+                <strong>{{ item.reg_phone }}</strong>
+            </td>
+            <td>{{ item.reg_fullname }}</td>
+            <td>{{ item.reg_info }}</td>
+            <td class="status">
+                {% if item.reg_status == 0 %}
+                    <span class="label label-success">New</span>
+                {% elseif item.reg_status == 1 %}
+                    <span class="label label-success">Called success</span>
+                {% elseif item.reg_status == 2 %}
+                    <span class="label label-danger">Called fail</span>
+                {% endif %}
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Action
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="action" data-id="{{ item.reg_id }}" data-status="1" href="javascript:void(0);">Called success</a></li>
+                        <li><a class="action" data-id="{{ item.reg_id }}" data-status="2" href="javascript:void(0);">Called fail</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th scope="col" class="manage-column column-primary">Phone number</th>
+        <th scope="col" class="manage-column">Full name</th>
+        <th scope="col" class="manage-column">Child information</th>
+        <th scope="col" class="manage-column">Status</th>
+        <th scope="col" class="manage-column">Action</th>
+    </tr>
+    </tfoot>
+</table>

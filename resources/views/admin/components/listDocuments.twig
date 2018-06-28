@@ -1,0 +1,51 @@
+{% set lang = Schola.language('file') %}
+{%for item in historys%}
+	{%if item.name != ''%}
+		<span>
+            <a href="javascript:fileManager.browseFolder('{{item.path}}')">{{item.name}} <span>&gt;&gt;</span></a>
+        </span>
+	{%endif%}
+{%endfor%}
+{%if message != ''%}
+    <div style="font-size: 15px;
+                background-color: #fbeeed;
+                border-color: #f7d8dd;
+                color: #d9534f;
+                padding: 5px;
+                margin-bottom: 20px;
+                border: 1px solid transparent;
+                border-radius: 4px;">
+        {{message}}
+    </div>
+{%endif%}
+<table class="table">
+    <tr>
+        <th>{{ lang.name }}</th>
+        <th style="width:15%">{{ lang.update_date }}</th>
+        <th style="width:15%">{{ lang.size }}</th>
+        <th style="width:15%">Del</th>
+    </tr>
+    {%for item in listFile%}
+        <tr>
+            <td>
+                {%if item.dir == 'true'%}
+                    <a href="javascript:fileManager.browseFolder('{{item.filePath}}')"><i class="fa fa-folder-open-o"></i> {{item.fileName}}</a>
+                {%else%}
+                    <a href='{{basePath ~ item.filePath}}' target='_blank'>{{item.fileName}}</a>
+                {%endif%}
+            </td>
+            <td>{{item.createdDate}}</td>
+            <td>{%if item.dir == 'false' %}{{(item.fileSize/(1024*1024))|number_format(2, '.', ',')}} MB{%endif%}</td>
+            <td>
+                {%if item.undel != '1'%}
+                    <input
+                        type="button"
+                        class="btn btnDeleteFileOrFolder"
+                        data-path="{{item.filePath}}"
+                        value="X">
+                    </input>
+                {%endif%}
+            </td>
+        </tr>
+    {%endfor%}
+</table>

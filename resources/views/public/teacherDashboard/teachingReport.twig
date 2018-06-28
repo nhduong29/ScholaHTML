@@ -1,0 +1,122 @@
+{% set lang = Schola.language('teacher') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}{{ lang.teacher_report }}{% endblock %}
+{% block head %}
+	<script src="{{ Schola.helper( 'assetUrl' , '/public/js/teacher/teachingReport.js' ) }}" type="text/javascript"></script>
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/plugins/star-rating/jquery.star.rating.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+            reportAction:       '{{ route_url('Schola::schola-teacher-classroom-action') }}',
+            classtimeAction:    '{{ route_url('Schola::schola-teacher-classroom-timeupdate') }}',
+            classtimeZoomAction:    '{{ route_url('Schola::schola-teacher-classroom-timeupdate-with-zoom') }}',
+            rateClassByTeacher: '{{ route_url('Schola::schola-teacher-classroom-review') }}'
+        };
+        var manageData = {
+            timezoneOffset:     '{{ timezoneOffset }}'
+        };
+        $(document).ready(function(){
+           report.init(URL, manageData);
+            $.fn.dataTable.moment( 'DD-MM-YYYY HH:mm:ss' );
+
+            $('.classes-data-table[data-empty-flag="false"]').each(function () {
+                $(this).DataTable({
+                    "lengthMenu": [[ 10, 20, 50, 100, 500 , -1], [10, 20, 50, 100, 500, "All"] ],
+                    "language": {
+                        "search": "Search",
+                        "paginate": {
+                            "next":       "Next",
+                            "previous":   "Prev"
+                        }
+                    },
+                    "bLengthChange": false,
+                    "ordering": true,
+                    "order": [],
+                    columnDefs: [{
+                        orderable: false,
+                        targets: "no-sort"
+                    }]
+                });
+            });
+        });
+    </script>
+{%endblock%}
+{% block content %}
+<div>
+	{% include "@Schola/public/partial/navigation.twig" %}
+</div>
+<div class="container-fluid">
+    <div class="content-width">
+        <div class="panel-content">
+            <div class="row teacher-dashboard">
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    {% set navActive = 1 %}
+                    {% include "@Schola/public/teacherDashboard/leftPanel.twig" %}
+                </div>
+                <div class="col-sm-9 col-xs-12">
+                    <div class="choice-week">
+                        <ul class="pagination margin-0">
+                            <li><a href="#" id="preMonth"><span class="fa fa-chevron-left"></span> {{ lang.previous_month }}</a></li>
+                            <li><a href="#" id="thisMonth"><span class="fa fa-calendar-check-o"></span> {{ lang.current_month }}</a></li>
+                            <li><a href="#" id="nextMonth">{{ lang.next_month }} <span class="fa fa-chevron-right"></span> </a></li>
+                        </ul>
+                    </div>
+                    <div id="pnlReportData">
+                        {# build tables for previous months #}
+                        {% for index, classData in classesData.previous|reverse %}
+                            {% set tableData = {
+                                'classes'           : classData.classes,
+                                'month'             : classData.month,
+                                'year'              : classData.year,
+                                'monthName'         : classData.monthName,
+                                'timezoneOffset'    : timezoneOffset,
+                                'id'                : index - classesData.previous|length
+                            } %}
+                            {%include '@Schola/public/teacherDashboard/teachingReportData.twig' with tableData %}
+                        {% endfor %}
+
+                        {# build tables for current month #}
+                        {% set tableData = {
+                            'classes'           : classesData.current.classes,
+                            'month'             : classesData.current.month,
+                            'year'              : classesData.current.year,
+                            'monthName'         : classesData.current.monthName,
+                            'timezoneOffset'    : timezoneOffset,
+                            'id'                : 0
+                        } %}
+                        {%include '@Schola/public/teacherDashboard/teachingReportData.twig' with tableData %}
+
+                        {# build tables for next months #}
+                        {% for index, classData in classesData.next %}
+                            {% set tableData = {
+                                'classes'           : classData.classes,
+                                'month'             : classData.month,
+                                'year'              : classData.year,
+                                'monthName'         : classData.monthName,
+                                'timezoneOffset'    : timezoneOffset,
+                                'id'                : index + 1
+                            } %}
+                            {%include '@Schola/public/teacherDashboard/teachingReportData.twig' with tableData %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialogMsgDontSupportMobile" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ lang.message }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="message">{{ lang.message_dont_support_mobile | raw}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

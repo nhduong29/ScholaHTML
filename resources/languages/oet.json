@@ -1,0 +1,20 @@
+{
+	"online_environment_testing" : "Online Environment Testing",
+	"system": "SYSTEM",
+	"operation_system": "Operation system",
+	"browser": "Browser",
+	"network": "NETWORK",
+	"download_speed": "Download speed",
+	"upload_speed": "Upload speed",
+	"connection_time": "Connection time",
+	"devices": "DEVICES",
+	"camera": "Camera",
+	"check_camera_question": "Can you see video from your camera?",
+	"microphone": "Microphone",
+	"check_microphone_question": "Speak through your microphone and can you see any changes?",
+	"device_is_available": "Available",
+	"device_is_unavailable": "Unavailable",
+	"check": "Check",
+	"yes": "Yes",
+	"no": "No"
+}

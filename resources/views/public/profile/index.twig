@@ -1,0 +1,33 @@
+{% extends "@Schola/public/layout/master.twig" %}
+
+{% block title %}Student Dashboard{% endblock %}
+{% block head %}
+   <script src="{{ Schola.helper( 'assetUrl' , '/public/js/profile/profile.js' ) }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var URL = {
+			action:'{{route_url('Schola::profile-action')}}',
+			fileUploadService: '{{route_url('Schola::services-file-upload')}}'
+        };		
+        $(document).ready(function(){
+           profile.init(URL);
+
+        });
+    </script>
+    
+{% endblock %}
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                {%if isTeacher == true%}
+					{%include '@Schola/public/profile/teacher.twig'%}
+				{%else%}
+					{%include '@Schola/public/profile/student.twig'%}
+				{%endif%}
+            </div>
+        </div>
+    </div>
+{% endblock %}

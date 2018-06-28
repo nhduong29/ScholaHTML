@@ -1,0 +1,50 @@
+/*--V1--*/
+.welcome-landing {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  text-align: center;
+  color: #fff;
+  line-height: 1.5;
+
+  .wrap {
+    max-width: 600px;
+    display: inline-block;
+  }
+
+  .home-title {
+    font-size: 56px;
+    font-weight: bold;
+    text-shadow: 0 3px 10px #000;
+    margin: 0 0 15px;
+    line-height: 1.2;
+
+    span {
+      color: $primary_color;
+      font-family: $font_title;
+    }
+    @include width-x-small {
+      font-size: 38px;
+      padding: 0 5px;
+    }
+  }
+
+  .description-1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.62);
+    margin: 0 0 15px;
+    line-height: 1.5;
+    padding: 0 5px;
+  }
+
+  .description-2 {
+    line-height: 1.5;
+    font-weight: 300;
+    margin: 0 0 15px;
+    font-size: 20px;
+    padding: 0 5px;
+  }
+}

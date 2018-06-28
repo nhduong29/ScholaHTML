@@ -1,0 +1,248 @@
+.login-page, .signup-page, .forgot-password-page {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: url("../images/bg-login.jpg") no-repeat center top;
+  background-size: cover;
+  min-height: 550px;
+  color: #fff;
+
+  .overlay {
+    height: 100%;
+    background: rgba(40, 53, 62, 0.8);
+  }
+}
+
+.login-form, .signup-form, .forgot-password-form {
+  width: 350px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 25px 25px;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  height: 520px;
+
+  &.align-middle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .logo {
+    margin-bottom: 25px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      display: block;
+      -webkit-filter: drop-shadow(0px 1px 1px #222);
+      filter: drop-shadow(0px 1px 1px #222);
+    }
+  }
+
+  .control {
+    position: relative;
+    margin-bottom: 20px;
+
+    input[type=password],
+    input[type=text],
+    input[type=email],
+    select {
+      width: 100%;
+      height: 46px;
+      padding: 0 10px 0 45px;
+      border-radius: 3px;
+      border: 3px solid #e2e2e2;
+      color: $second_color;
+      font-weight: 400;
+    }
+    select {
+      padding-left: 40px;
+    }
+
+    .error {
+      position: absolute;
+      font-size: 12px;
+      top: -25px;
+      right: 0;
+      color: #fff;
+      background: #ff5825;
+      padding: 0 6px;
+      border-radius: 2px;
+      opacity: 0;
+      z-index: -1;
+      @include transition(all, 0.2s, ease);
+    }
+
+    &.show-error, .show-error {
+      input, select {
+        border-color: #ff5825;
+      }
+      .error {
+        opacity: 1;
+        top: -15px;
+        z-index: 9;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      color: #b1b1b1;
+      font-size: 25px;
+      left: 12px;
+      top: 50%;
+      margin-top: -12px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+    }
+  }
+
+  .button {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    max-width: initial;
+    padding: 12px 5px;
+    border-radius: 3px;
+    height: 46px;
+
+    &.facebook {
+      background: #4267b2;
+
+      &:before {
+        background: #183c88;
+      }
+    }
+
+    .transparent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      background: transparent;
+      border: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .icon-spin {
+      display: none;
+    }
+    &:disabled {
+      .icon-spin {
+        display: inherit;
+      }
+    }
+  }
+
+  .hr {
+    font-size: 13px;
+    margin-bottom: 5px;
+    opacity: 0.4;
+    padding: 10px 40px;
+    overflow: hidden;
+    text-align: center;
+
+    &:after,
+    &:before {
+      background-color: #ddd;
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: relative;
+      vertical-align: middle;
+      width: 50%;
+    }
+
+    &:before {
+      right: 0.5em;
+      margin-left: -50%;
+    }
+
+    &:after {
+      left: 0.5em;
+      margin-right: -50%;
+    }
+  }
+
+  .link {
+    color: #f68720;
+    text-decoration: none;
+  }
+  .error-login {
+    font-weight: 300;
+    font-size: 16px;
+    background: #e60000;
+    border-radius: 0;
+    padding: 15px 10px;
+    position: absolute;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    @include transition(all, 0.3s, ease);
+  }
+  .error-login.show-error {
+    bottom: 0;
+  }
+}
+
+.signup-form {
+  height: 525px;
+}
+
+.forgot-password-form {
+  height: 300px;
+}
+
+.alert-success {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  .alert {
+    position: absolute;
+    height: 175px;
+    width: 420px;
+    max-width: 100%;
+    background: #fff;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    border-radius: 3px;
+    &.reset-success {
+      height: 110px;
+    }
+    .alert-content {
+      position: relative;
+      .icon {
+        position: absolute;
+        font-size: 48px;
+        left: 0;
+        top: -14px;
+        color: #64b02c;
+      }
+      .title {
+        margin: 5px 0 15px 0;
+        font-weight: bold;
+        padding-left: 50px;
+      }
+      .message {
+        color: $second_color;
+      }
+    }
+
+  }
+}

@@ -1,0 +1,19 @@
+.masthead {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+
+  .video-background {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
+}

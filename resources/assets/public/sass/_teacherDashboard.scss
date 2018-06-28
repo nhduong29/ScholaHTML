@@ -1,0 +1,103 @@
+@charset "UTF-8";
+.teacher-dashboard {
+  .feedback-board {
+    .average-point {
+      font-weight: bold;
+      display: inline-block;
+      padding: 5px 50px 5px 20px;
+      background: #dcdcdc;
+      border-radius: 31px;
+      position: relative;
+      margin: 20px 0;
+      .point {
+        display: inline-block;
+        position: absolute;
+        background: #ffffff;
+        height: 50px;
+        width: 50px;
+        line-height: 46px;
+        text-align: center;
+        border-radius: 50%;
+        top: -18px;
+        right: -8px;
+        border: 3px solid #dcdcdc;
+        color: $primary_color;
+      }
+      .star {
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        color: #ffc237;
+      }
+    }
+    .comments {
+      .filter-comment {
+        padding: 5px;
+        background: #dcdcdc;
+        margin-bottom: 15px;
+        border-top: 3px solid $primary_color;
+      }
+      .comment {
+        position: relative;
+        padding: 10px 10px 10px 85px;
+        min-height: 70px;
+        margin-bottom: 15px;
+        background: #f7f7f7;
+        .avatar {
+          position: absolute;
+          left: 10px;
+          top: 10px;
+          img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+        .star {
+          color: #ffc237;
+          margin-right: 10px;
+          font-size: 20px;
+        }
+        .user-name {
+          font-weight: bold;
+          color: #337ab7;
+          text-decoration: none;
+          &:hover {
+            color: #23527c;
+          }
+        }
+        .class-time, .unit-info {
+          color: #9a9a9a;
+          display: block;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+.teacher-profile-dialog {
+  .upload-avatar {
+    width: 115px;
+    height: 115px;
+  }
+  .rating {
+    color: #ffc237;
+    font-size: 24px;
+  }
+  .speciality {
+    .label {
+      float: left;
+      margin: 0 4px 4px 0;
+      padding: 5px;
+    }
+  }
+  .wrapper-control {
+    overflow: auto;
+  }
+  .table-work-experiences {
+    min-width: 570px;
+  }
+  .table-education {
+    min-width: 570px;
+  }
+}

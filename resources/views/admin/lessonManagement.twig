@@ -1,0 +1,403 @@
+<script>
+    var $ = jQuery.noConflict();
+    var lessonManagementView = {
+        URL: {
+            updateLessonManage: '',
+            edit: '',
+            deleteLessonManage: '',
+            uploadDocuments: ''
+        },
+        init: function (url) {
+            var base = this;
+            base.URL = url;
+        },
+        updateLessonManage: function () {
+            var arrayFile = $('.fileDocuments');
+            if(arrayFile.size() !== 0 ){
+                var size = arrayFile.size();
+                for(var i = 0; i < size; i++){
+                    var obj = $(arrayFile[i]);
+                    if($(obj) !== null){
+                        if($(obj).data('type') === 1){
+                            $('#preClassFile').val($('#preClassFile').val()+','+$(obj).data('file-id'));
+                        }else if($(obj).data('type') === 2){
+                            $('#postClassFile').val($('#postClassFile').val()+','+$(obj).data('file-id'));
+                        }else{
+                            $('#otherClassFile').val($('#otherClassFile').val()+','+$(obj).data('file-id'));
+                        }
+                    }
+                }
+            }
+            var base = this;
+            $('.text-danger').text('');
+            $.ajax({
+                type: 'POST',
+                url: base.URL.updateLessonManage,
+                data: $('#frmLessonManagement').serializeArray(),
+                success: function (data) {
+                    var res = JSON.parse(data);
+                    if (res.status === 'success') {
+                        console.log("here1");
+                        if ($('#lesson_id').val() === '0') {
+                            location.reload();
+                        } else {
+                            var tr = $('.lession-' + res.data.lesson_id);
+                            $(tr).find('.lesson_unit')[0].innerHTML = res.data.lesson_unit;
+                            $(tr).find('.lesson_level')[0].innerHTML = res.data.lesson_level;
+                            $(tr).find('.lesson_lesson')[0].innerHTML = res.data.lesson_lesson;
+                            $(tr).find('.lesson_title')[0].innerHTML = res.data.lesson_title;
+                            $(tr).find('.lesson_description')[0].innerHTML = res.data.lesson_description;
+                            $(tr).find('.lesson_remark')[0].innerHTML = res.data.lesson_remark;
+                            $('#dialogLesson').modal('hide');
+                        }
+                    } else {
+                        $.each(res.errors, function (index, item) {
+                            $('.' + item.key + '-control .text-danger').text(item.value);
+                        });
+                    }
+                }
+            });
+        },
+        editLessonManage: function (id) {
+            if (id === 0) {
+                $('#lesson_id').val('0');
+                $('#lesson_unit').val('1');
+                $('#lesson_level').val('0');
+                $('#lesson_lesson').val('1');
+                $('#lesson_title').val('');
+                $('#lesson_description').val('');
+                //$('#lesson_file').val('');
+                $('#lesson_remark').val('');
+                $('#lesson_additional_url').val('');
+                $('#lesson_remark').val('');
+
+                $('#unit').prop('selectedIndex', 0);
+                $('.text-danger').text('');
+                $('#dialogLesson').modal('show');
+            } else {
+                var base = this;
+                 $('#lesson_unit').val('');
+                $('#lesson_level').val('');
+                $('#lesson_lesson').val('');
+                $('#lesson_title').val('');
+                $('#lesson_description').val('');
+                $('#lesson_additional_url').val('');
+                $('#lesson_remark').val('');
+                
+
+                $.ajax({
+                    type: 'POST',
+                    url: base.URL.editLessonManage,
+                    data: {'id': id},
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        var html1 = base.generateFile(1,res.lesson_file, res.url_path);
+                        $('#listFiles').html(html1);
+                        $('#lesson_id').val(res.lesson_id);
+                        $('#lesson_unit').val(res.lesson_unit);
+                        $('#lesson_level').val(res.lesson_level);
+                        $('#lesson_lesson').val(res.lesson_lesson);
+                        $('#lesson_title').val(res.lesson_title);
+                        $('#lesson_description').val(res.lesson_description);
+                        $('#lesson_additional_url').val(res.lesson_additional_url);
+                        $('#lesson_remark').val(res.lesson_remark);
+                        $('#lesson_review_url').val(res.lesson_review_url);
+                        $('#unit').val(res.unit_id);
+                        $('.text-danger').text('');
+                        $('#dialogLesson').modal('show');
+                    }
+                });
+            }
+        },
+        deleteLessonManage: function (id) {
+            if (confirm('Are you sure delete?')) {
+                var base = this;
+                $.ajax({
+                    type: 'POST',
+                    url: base.URL.deleteLessonManage,
+                    data: {'id': id},
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        if (res.status === 'success') {
+                            $('.lession-' + id).remove();
+                        } else {
+                            alert('The record is being used. Could not delete');
+                        }
+                    }
+                });
+            }
+        },
+        generateFile: function(type, list,url_path){
+            var html = "";
+            if(list.length !== 0 ){
+                var len = list.length;              
+                for(var i = 0; i< len; i++){
+                    var label = '';
+                    switch(type){
+                        case 1:
+                            label = 'label-primary';
+                            break;
+                        case 2:
+                            label = 'label-success';
+                            break;
+                        case 3:
+                            label = 'label-info';
+                            break;
+                        default :
+                            break;
+                    }
+                    html = html + "<span style='display:inline-block;background-color: #337ab7;' class='file_item_"+list[i].file_id+" label "
+                            + label +" fileDocuments' data-type='"+type
+                            + "' data-new='false' data-file-id='"+list[i].file_id 
+                            +"'><a style='color:black' href='"+url_path+list[i].file_path+"'>"
+                            + list[i].file_realname+"</a><a href=\"javascript:lessonManagementView.deleteFile('file_item_" + list[i].file_id + "')\" class='label label-default'>X</a></span>";
+                    //$('#lesson_file').val(res[i].id);
+                }
+            }
+            return html;
+        },
+        deleteFile: function(target){
+            $("." + target).remove();
+        }
+        ,
+        uploadEvent: function (evt){
+            var files = evt.target.files;
+            if(files.length !== 0 && window.FormData !== undefined){
+                var data = new FormData();
+                var fileType = $('#materialType').val();
+                data.append('filesize',files.length);
+                data.append('filetype',fileType);
+                data.append('action',1);
+                for(var i = 0; i < files.length; i++){
+                    data.append('document'+i,files[i]);
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: this.URL.uploadDocuments,
+                    data: data,
+                    contentType: false,
+                    processData: false,   
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        if(res.length !== 0 ){
+                            var len = res.length;
+                            var html = "";
+                            for(var i = 0; i< len; i++){
+                                var label = '';
+                                switch(res[i].type){
+                                    case 1:
+                                        label = 'label-primary';
+                                        break;
+                                    case 2:
+                                        label = 'label-success';
+                                        break;
+                                    case 3:
+                                        label = 'label-info';
+                                        break;
+                                    default :
+                                        break;
+                                }
+                                html = html + 
+                                        "<span style='display:inline-block;background-color: #337ab7;' class='file_item_"+res[i].id+" label " +
+                                        label +
+                                        " fileDocuments' data-type='" + 
+                                        res[i].type+"' data-new='true' data-file-id='"+res[i].id +
+                                        "'><a style='color:black' href='"+res[i].path +
+                                        "'>"+res[i].realname+"</a><a href=\"javascript:lessonManagementView.deleteFile('file_item_" + res[i].id + "')\" class='label label-default'>X</a></span>";
+                                        $('#lesson_file').val(res[i].id);
+                                
+                            }
+                            $('#listFiles').html($('#listFiles').html()+html);
+                        }
+                    }
+                });
+            }
+        }
+    };
+    var URL = {
+        updateLessonManage: '{{ route_url('Schola::schola-admin-lesson-management-update') }}',
+        editLessonManage: '{{ route_url('Schola::schola-admin-lesson-management-edit') }}',
+        deleteLessonManage: '{{ route_url('Schola::schola-admin-lesson-management-delete') }}',
+        //uploadDocuments: '{{route_url('Schola::schola-admin-lesson-management-file-upload')}}'
+            uploadDocuments: '{{route_url('Schola::services-file-upload')}}'
+    };
+    $(document).ready(function () {
+        lessonManagementView.init(URL);
+    });
+</script>
+<div class="wrap">
+    <button onclick="lessonManagementView.editLessonManage(0)" type="button" class="btn btn-default">Add new</button>
+    <form id="unitLession">
+        <table class="wp-list-table widefat fixed striped posts">
+            <thead>
+            <tr>
+                <th scope="col" class="manage-column">Title</th>
+                <th width="5%" scope="col" class="manage-column">Level</th>
+                <th width="5%" scope="col" class="manage-column">Unit</th>
+                <th width="5%" scope="col" class="manage-column">Lesson</th>
+                <th scope="col" class="manage-column">Description</th>
+                <th scope="col" class="manage-column">Homework Url</th>
+                <th scope="col" class="manage-column">Remarks</th>
+            </tr>
+            </thead>
+            <tbody id="the-list">
+            {% for lession in listLession %}
+                <tr class="lession-{{ lession.lesson_id }}">
+                    <td>
+                        <strong><a class="row-title lesson_title" href="#"
+                                   onclick="lessonManagementView.editLessonManage({{ lession.lesson_id }})">{{ lession.lesson_title }}</a></strong>
+                        <div class="row-actions">
+                        <span class="edit">
+                            <a href="#" onclick="lessonManagementView.editLessonManage({{ lession.lesson_id }})">Edit</a> |
+                        </span>
+                            <span class="trash">
+                            <a href="#" onclick="lessonManagementView.deleteLessonManage({{ lession.lesson_id }})">Trash</a>
+                        </span>
+                        </div>
+                    </td>
+
+                    <td><span class="lesson_level">{{ lession.lesson_level }}</span></td>
+                    <td><span class="lesson_unit">{{ lession.lesson_unit }}</span></td>
+                    <td><span class="lesson_lesson">{{ lession.lesson_lesson }}</span></td>
+                    <td><span class="lesson_description">{{ lession.lesson_description }}</span></td>
+                    <td><span class="lesson_review_url">{{ lession.lesson_review_url }}</span></td>
+                    <td><span class="lesson_remark">{{ lession.lesson_remark }}</span></td>
+                    
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th scope="col" class="manage-column">Title</th>
+                <th scope="col" class="manage-column">Level</th>
+                <th scope="col" class="manage-column">Unit</th>
+                <th scope="col" class="manage-column">Lesson</th>
+                <th scope="col" class="manage-column">Description</th>
+                <th scope="col" class="manage-column">Homework Url</th>
+                <th scope="col" class="manage-column">Remarks</th>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div id="ajax-response"></div>
+    <br class="clear">
+</div>
+<div id="dialogLesson" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Lesson Management</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmLessonManagement" class="form-horizontal">
+                    <div class="form-group">
+                        <input type="hidden" value="{{ lesson.lesson_id }}" name="lesson_id" id="lesson_id">
+                        <label for="description" class="col-sm-2 control-label">Level</label>
+                        <div class="col-sm-10">
+                            <select id="lesson_level" name="lesson_level" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">Unit</label>
+                        <div class="col-sm-10">
+                            <select id="lesson_unit" name="lesson_unit" class="form-control">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="form-group lesson_lesson-control">
+                        <label for="description" class="col-sm-2  control-label">Lesson</label>
+                        <div class="col-sm-10">
+                            <select id="lesson_lesson" name="lesson_lesson" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                             <div class="text-danger"></div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group lesson_title-control">
+                        <label for="lesson_title" class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="lesson_title" name="lesson_title" placeholder="Title">
+                            <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group lesson_description-control">
+                        <label for="description" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="lesson_description" name="lesson_description"
+                                      placeholder="Description" rows="3"></textarea>
+                        <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group lesson_review_url-control">
+                        <label for="lesson_review_url" class="col-sm-2 control-label">Homework Url</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="lesson_review_url" name="lesson_review_url" placeholder="Review Url">
+                            <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="materialType" class="col-sm-2 control-label">Document</label>
+                        <div class="col-sm-10">
+                            <input type="button" value="Select file" class="btn btn-default" onclick="$($('#tmpUploadFile')[0]).click()"/>
+                        </div>
+                    </div>
+                    <div id="listFiles" class="form-group">
+                    </div>
+                    <div class="form-group lesson_additional_url-control">
+                        <label for="lesson_review_url" class="col-sm-2 control-label">Additional Url</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="lesson_additional_url" name="lesson_additional_url" placeholder="Additional Url">
+                            <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group lesson_remark-control">
+                        <label for="lesson_review_url" class="col-sm-2 control-label">Remarks</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="lesson_remark" name="lesson_remark" placeholder="Remarks">
+                            <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">                        
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="hidden" id="lesson_file" name="lesson_file" />
+                            <input name="document" onchange="lessonManagementView.uploadEvent(event);" id="tmpUploadFile" type="file" multiple style="display: none">
+                        </div>
+                    </div>      
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-primary"
+                                    onclick="lessonManagementView.updateLessonManage({{ lession.lesson_id }})">Update
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

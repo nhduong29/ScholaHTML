@@ -1,0 +1,45 @@
+{% set lang = Schola.language('student') %}
+
+<div id="reservedConfirmDialog" class="modal fade custom-dialog no-header" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span class="icon material-icons">close</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center color-blue">{{ lang.class_timing }}</div>
+                <div class="text-center color-orange bold font-size-18 mt20">
+                    {% set realScheduledTime = (class.schedule_real_date != null) ? class.schedule_real_date : class.schedule_date %}
+                    {% set scheduledTime = realScheduledTime|date_modify('+' ~ timezoneOffset*60 ~ ' minutes') %}
+                    {{ scheduledTime|date('H:i') }} - {{ scheduledTime|date_modify('+' ~ class.schedule_duration ~ ' minutes')|date('H:i') }}
+                </div>
+                <div class="text-center color-blue bold font-size-18">{{ class.schedule_real_date|date('D - d/m/Y') }}</div>
+                <div class="text-center color-blue mt20">{{ lang.class_topic }}</div>
+                <div class="text-center color-orange bold font-size-18 mt20">
+                    {%if class.group_id not in null%}
+                        {{ class.lession_name }}
+                    {%else%}
+                        {{ class.lession_name }}
+                    {%endif%}
+
+            </div>
+                <div class="text-center color-blue bold mt20">{{ lang.booking_balance }} : <span class="color-orange font-size-18">{{ bookingsBalance }}</span></div>
+            </div>
+            <div class="remainingClassMessage"
+                 style="background-color: #fbeeed;
+						border-color: #f7d8dd;
+						color: #d9534f;
+						padding: 15px;
+						margin-bottom: 20px;
+						border: 1px solid transparent;
+						border-radius: 4px; display:none">
+                <i class="fa fa-meh-o"></i>
+                {{lang.dont_have_more_remaining_class}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary-2 btn-no-bg" data-dismiss="modal">{{ lang.cancel }}</button>
+                <button id="confirm-reserve-a-seat-btn" type="button" class="btn btn-primary-2">{{ lang.confirm|upper }}</button>
+            </div>
+        </div>
+    </div>
+</div>

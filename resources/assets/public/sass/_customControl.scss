@@ -1,0 +1,133 @@
+.dropdown-custom {
+  .dropdown-toggle {
+    padding: 9px 15px;
+    min-width: 180px;
+    background: #f5f5f5;
+    &:focus, &:hover {
+      border-color: #b1b1b1;
+    }
+    @include width-x-small {
+      min-width: 120px;
+    }
+  }
+  .dropdown-menu {
+    width: 180px;
+    border-radius: 0;
+    border: 0;
+    margin: 15px 0 0 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    &:before {
+      @include triangle-corner(transparent transparent #ccc transparent, 14px 12px);
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      margin-left: -14px;
+    }
+    &:after {
+      @include triangle-corner(transparent transparent #fff transparent, 14px 12px);
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      margin-left: -14px;
+    }
+    > li > a {
+      padding: 8px 20px;
+      font-size: 16px;
+    }
+  }
+}
+
+.btn {
+  padding: 9px 15px;
+  background-image: none;
+  box-shadow: none;
+  text-shadow: none;
+  &.btn-yellow {
+    background: #FFD659;
+    text-shadow: none;
+    border-color: #FFD659;
+    width: 350px;
+    max-width: 100%;
+  }
+  &.btn-facebook {
+    background: #4267b2;
+    color: #fff;
+    border-color: #4267b2;
+    position: relative;
+    @include transition(all, 0.2s, ease);
+    &:hover {
+      background: #183c88;
+      border-color: #183c88;
+    }
+    &:active, &:focus {
+      background: #4267b2;
+      color: #fff;
+      border-color: #4267b2;
+    }
+  }
+  &.btn-facebook-mobile {
+    position: absolute;
+    right: 60px;
+    top: 9px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+    display: inline-block;
+    font-size: 20px;
+    background: #4267b2;
+    color: #fff;
+    border-color: #4267b2;
+    @include transition(all, 0.2s, ease);
+    &:hover {
+      background: #183c88;
+      border-color: #183c88;
+    }
+    &:active, &:focus {
+      background: #4267b2;
+      color: #fff;
+      border-color: #4267b2;
+    }
+  }
+  &.btn-white {
+    border-color: #fff;
+    @include transition(all, 0.2s, ease);
+    &:hover {
+      background: $primary_color;
+      border-color: #fff;
+      color: #fff;
+    }
+    &:active, &:focus {
+      background: #fff;
+      border-color: #fff;
+      color: $second_color;
+    }
+  }
+  &.btn-link {
+    border-color: transparent;
+    text-decoration: none;
+    @include transition(all, 0.2s, ease);
+    color: $second_color;
+    &.color-white {
+      color: #fff;
+    }
+    &:hover, &:active, &:focus {
+      border-color: transparent;
+      background: transparent;
+      color: $second_color;
+      box-shadow: none;
+    }
+  }
+  &.btn-round-index {
+    font-family: $font_dumpling;
+    padding: 5px 15px;
+    font-size: 24px;
+    border-radius: 30px;
+    background: #969696;
+    color: #fff;
+    letter-spacing: 1px;
+    outline: none;
+  }
+}

@@ -1,0 +1,8 @@
+{% set lang = Schola.language('student') %}
+
+<div class="left-navigation fixed-navigation mb20">
+    <ul>
+        <li><a href="{{ route_url('Schola::homeDashboard') }}" class="{% if navActive == 0 %}active{%endif%}"><i class="icon material-icons">home</i> HOME</a></li>
+        <li><a href="javascript:void(0)" class="{% if navActive == 1 %}active{%endif%}"><i class="icon material-icons">reply</i> GO BACK</a></li>
+    </ul>
+</div>

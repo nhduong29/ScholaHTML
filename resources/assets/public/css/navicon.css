@@ -1,0 +1,155 @@
+@charset "UTF-8";
+.navicon-button {
+  display: inline-block;
+  position: relative;
+  padding: 20px 15px;
+  transition: 0.25s;
+  cursor: pointer;
+  user-select: none;
+  float: right;
+}
+.navicon-button .navicon:before, .navicon-button .navicon:after {
+  transition: 0.25s;
+}
+.navicon-button:hover {
+  transition: 0.4s;
+  opacity: 1;
+}
+.navicon-button:hover .navicon:before, .navicon-button:hover .navicon:after {
+  transition: 0.25s;
+}
+.navicon-button:hover .navicon:before {
+  top: 9px;
+}
+.navicon-button:hover .navicon:after {
+  top: -9px;
+}
+
+.navicon {
+  position: relative;
+  width: 28px;
+  height: 4px;
+  background: #171717;
+  transition: 0.4s;
+  border-radius: 6px;
+}
+.navicon:before, .navicon:after {
+  display: block;
+  content: "";
+  height: 4px;
+  width: 28px;
+  background: #171717;
+  position: absolute;
+  transition: 0.4s 0.25s;
+  border-radius: 1rem;
+}
+.navicon:before {
+  top: 7px;
+}
+.navicon:after {
+  top: -7px;
+}
+
+.navicon-button.open:not(.steps) .navicon:before,
+.navicon-button.open:not(.steps) .navicon:after {
+  top: 0 !important;
+}
+
+.navicon-button.open .navicon:before,
+.navicon-button.open .navicon:after {
+  transition: 0.4s;
+}
+
+/* Minus */
+.navicon-button.open {
+  transform: scale(0.85);
+}
+
+/* Arrows */
+.open.larr .navicon:before, 
+.open.larr .navicon:after,
+.open.rarr .navicon:before,
+.open.rarr .navicon:after,
+.open.uarr .navicon:before,
+.open.uarr .navicon:after {
+  width: 1.5rem;
+}
+.open.larr .navicon:before,
+.open.rarr .navicon:before,
+.open.uarr .navicon:before {
+  transform: rotate(35deg);
+  transform-origin: left top;
+}
+.open.larr .navicon:after,
+.open.rarr .navicon:after,
+.open.uarr .navicon:after {
+  transform: rotate(-35deg);
+  transform-origin: left bottom;
+}
+
+.open.uarr {
+  transform: scale(0.75) rotate(90deg);
+}
+
+/* Arrows */
+.open.rarr .navicon:before {
+  transform: translate3d(1em, 0, 0) rotate(-35deg);
+  transform-origin: right top;
+}
+.open.rarr .navicon:after {
+  transform: translate3d(1em, 0, 0) rotate(35deg);
+  transform-origin: right bottom;
+}
+
+/* × and + */
+.open.plus .navicon,
+.open.x .navicon {
+  background: transparent;
+}
+.open.plus .navicon:before,
+.open.x .navicon:before {
+  transform: rotate(-45deg);
+}
+.open.plus .navicon:after,
+.open.x .navicon:after {
+  transform: rotate(45deg);
+}
+
+.open.plus {
+  transform: scale(0.75) rotate(45deg);
+}
+
+
+
+.show-nav .navicon-button:not(.steps) .navicon:before,
+.show-nav .navicon-button:not(.steps) .navicon:after {
+  top: 0 !important;
+}
+
+.navicon-button.open .navicon:before,
+.navicon-button.open .navicon:after {
+  transition: 0.4s;
+}
+.show-nav .navicon-button{
+  transform: scale(0.85);
+}
+.show-nav .rarr .navicon:before,
+.show-nav .rarr .navicon:after{
+  width: 1.5rem;
+}
+.show-nav .rarr .navicon:before{
+  transform: rotate(35deg);
+  transform-origin: left top;
+}
+.show-nav .rarr .navicon:after{
+  transform: rotate(-35deg);
+  transform-origin: left bottom;
+}
+.show-nav .rarr .navicon:before {
+  transform: translate3d(1em, 0, 0) rotate(-35deg);
+  transform-origin: right top;
+}
+.show-nav .rarr .navicon:after {
+  transform: translate3d(1em, 0, 0) rotate(35deg);
+  transform-origin: right bottom;
+}

@@ -1,0 +1,50 @@
+{% set lang = Schola.language('file') %}
+{%for item in historys%}
+	{%if item.name != ''%}
+		<a href="javascript:whiteBoard.browseFolder('{{item.path}}')">{{item.name}}</a> <i class="fa fa-angle-double-right"></i>
+	{%endif%}
+{%endfor%}
+{%set listSize = (listFile|length)%}
+{%if listSize > 0%}
+<table class="table">
+	<tr>
+		<th>{{ lang.name }}</th>
+		<th class="w18">{{ lang.update_date }}</th>
+		<th class="w18">{{ lang.size }}</th>
+		<th class="w10"></th>
+	</tr>
+	{%for item in listFile%}
+		<tr>
+			<td>
+				{%if item.dir == 'true'%}
+					<a href="javascript:whiteBoard.browseFolder('{{item.filePath}}')"><i class="fa fa-folder-open-o"></i> {{item.fileName}}</a>
+				{%else%}
+					{%if item.ext == 'pdf'%}
+						<i class="fa fa-file-pdf-o "></i> {{item.fileName}}
+					{%else%}
+						<i class="fa fa-file-o "></i> {{item.fileName}}
+					{%endif%}
+				{%endif%}
+			</td>
+			<td>{{item.createdDate}}</td>
+			<td>{%if item.dir == 'false' %}{{(item.fileSize/(1024*1024))|number_format(2, '.', ',')}} MB{%endif%}</td>
+			<td>
+				{%if item.ext == 'pdf'%}
+					<button 
+						data-lock="false"
+						onclick="whiteBoard.openPdfFromDialog(this);"
+						data-file-id="{{item.fileId}}" 
+						data-file-path="{{item.fileUrl}}" 
+						title="{{ lang.open_document }}" 
+						class="fa fa-folder-open btnOpenFile btn btn-info">
+					</button>
+				{%endif%}
+			</td>
+		</tr>
+	{%endfor%}
+</table>
+{%else%}
+	<div class="text-center">
+		{{ lang.nothing_here }}
+	</div>
+{%endif%}

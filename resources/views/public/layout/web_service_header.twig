@@ -1,0 +1,50 @@
+<div class="header ctm-header mpt-home">
+    <div class="wrapper">
+        <div class="header-navbar set-middle">
+            <div class="header-logo"  onclick="location.href='{{ route_url('Schola::home') }}';">
+                <a href="{{ route_url('Schola::home') }}">
+                    <img src="{{ Schola.helper('assetUrl', '/public/images/landing-page/footer-logo.png') }}" alt="" data-rjs="2">
+                </a>
+            </div>
+            <div class="all-new">
+                <div class="mpt-right-blog">
+                    <div class="custom-menubar">
+                        <a href="{{ route_url( 'Schola::blog' ) }}" class="header-teachers-link set-link-color">{{ lang.blogs }}</a>
+                        <a href="{{ route_url( 'Schola::contact_us' ) }}" class="header-teachers-link set-link-color">{{ lang.contact_us }}</a>
+                        <a href="{{ route_url('Schola::becomeTeacher') }}" class="header-teachers-link set-link-color">{{ lang.teachers }}</a>
+                    </div>
+                    <div class="header-languages set-link-color">
+                        {% if locale.locale == "en" %}
+                        <span class="language-active"><span class="language-active-icon icon-en"></span> English</span>
+                        {% elseif locale.locale == "vi" %}
+                        <span class="language-active"><span class="language-active-icon icon-vi"></span> Tiếng Việt</span>
+                        {% endif %}
+                        <ul>
+                            <li>
+                                <a href="/lang/en">
+                                    <span class="language-active-icon icon-en"></span>English</a>
+                                </li>
+                                <li>
+                                    <a href="/lang/vi">
+                                        <span class="language-active-icon icon-vi"></span>Tiếng Việt</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="#" class="header-login-btn toggle-login-btn header-login-sms" data-pop="1">{{ lang.login }}</a>
+                            <span class="hamburger"></span>
+                            <ul class="mobile-menu">
+                                <li>
+                                    <a href="{{ route_url( 'Schola::blog' ) }}">{{ lang.blogs }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route_url( 'Schola::contact_us' ) }}">{{ lang.contact_us }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route_url('Schola::becomeTeacher') }}">{{ lang.teachers }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       

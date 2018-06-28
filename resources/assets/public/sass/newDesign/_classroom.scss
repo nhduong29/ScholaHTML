@@ -1,0 +1,590 @@
+.panel-classroom {
+  width: 100%;
+  min-height: 580px;
+  position: relative;
+  padding-top: 54px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  @media (min-width: 650px) and (max-width: 768px) {
+    min-height: 960px;
+  }
+  .header {
+    position: absolute;
+    height: 54px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    .content-header {
+      position: relative;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 0 15px;
+      &:before, &:after {
+        content: "";
+        display: table;
+        width: 100%;
+      }
+      .logo {
+        float: left;
+        padding-top: 2px;
+        img {
+          height: 50px;
+        }
+      }
+      .lesson-name {
+        float: left;
+        font-size: 14px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        max-width: 400px;
+        margin-left: 15px;
+        color: $primary_color_2;
+        @media (min-width: 650px) and (max-width: 768px) {
+          max-width: 260px;
+        }
+      }
+      .btn-action {
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        border-radius: 50%;
+        line-height: 40px;
+        text-align: center;
+        font-size: 26px;
+        top: 50%;
+        margin-top: -20px;
+        position: absolute;
+        cursor: pointer;
+        &.btn-finish {
+          color: #00a705;
+          right: 10px;
+        }
+        &.btn-refresh {
+          color: #00a705;
+          right: 60px;
+        }
+        &:hover {
+          color: $primary_color;
+        }
+      }
+
+      .btn-refresh {
+        color: #fff;
+        padding: 19px 15px;
+        display: inline-block;
+      }
+      .group-btn {
+        padding: 7px;
+      }
+    }
+  }
+  #viewerContainer {
+    top: 0;
+  }
+
+  .content-classroom {
+    width: 1014px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+    .panel-whiteboard {
+      width: 750px;
+      float: left;
+    }
+    .panel-video {
+      width: 235px;
+      float: right;
+      .wrap-video {
+        .video-item {
+          height: 206px;
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          overflow: hidden;
+          position: relative;
+          video {
+            width: 100%;
+            background: #111;
+            height: 100%;
+          }
+          &.video-teacher {
+
+          }
+          &.video-student {
+            margin-top: 10px;
+          }
+          .name {
+            position: absolute;
+            color: #fff;
+            z-index: 9;
+            padding: 5px;
+            top: -32px;
+            left: 0;
+            @include transition(all, 0.5s, ease);
+          }
+          .control-video {
+            position: absolute;
+            right: 0;
+            bottom: -34px;
+            z-index: 999;
+            @include transition(all, 0.5s, ease);
+            .control-item {
+              float: left;
+              cursor: pointer;
+              i {
+                width: 36px;
+                height: 34px;
+                background: #1f1f1f;
+                color: #f68720;
+                line-height: 34px;
+                text-align: center;
+                display: block;
+                &:hover {
+                  background: #333;
+                }
+              }
+              .off {
+                display: none;
+                color: #f00;
+              }
+              .on {
+
+              }
+              &.enable {
+                .off {
+                  display: none;
+                }
+                .on {
+                  display: block;
+                }
+              }
+              &.disable {
+                .off {
+                  display: block;
+                }
+                .on {
+                  display: none;
+                }
+              }
+            }
+          }
+          &:hover {
+            .name {
+              top: 0;
+            }
+            .control-video {
+              bottom: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .panel-video-student {
+      width: 100%;
+      height: 142px;
+      margin-top: 8px;
+      clear: both;
+      text-align: center;
+      .video-item, .OT_root.OT_subscriber {
+        display: inline-block;
+        height: 100%;
+        padding-right: 5px;
+        width: 20%;
+        margin-left: -5px;
+        &:first-child {
+          margin: 0;
+        }
+        &:last-child {
+          padding-right: 0;
+        }
+        .video-content {
+          background: #fff;
+          height: 100%;
+        }
+      }
+      .OT_root.OT_subscriber {
+        margin: 0 5px 0 0;
+        padding: 0;
+        height: 100% !important;
+        &:first-child {
+          margin-right: 5px;
+        }
+        &:last-child {
+          margin: 0;
+        }
+      }
+    }
+
+    &.student-view {
+      .panel-video-student {
+        width: 750px;
+        .video-item {
+          width: 25%;
+        }
+        .OT_root.OT_subscriber {
+          width: calc(25% - 5px) !important;
+        }
+      }
+    }
+    &.teacher-view {
+      .panel-video-student {
+        .video-item {
+          width: 20%;
+          &.video-student {
+            display: none;
+          }
+        }
+        .OT_root.OT_subscriber {
+          width: calc(20% - 5px) !important;
+        }
+      }
+      &.one-student {
+        .panel-video-student {
+          position: absolute;
+          width: 235px;
+          height: 206px;
+          right: 10px;
+          top: 218px;
+          .video-item, .OT_root.OT_subscriber {
+            width: 100% !important;
+            &.video-student {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .panel-whiteboard {
+        width: 730px;
+        float: none;
+        margin: 200px auto 0;
+      }
+
+      .panel-video {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        .wrap-video {
+          text-align: center;
+          .video-item {
+            width: 250px;
+            height: 190px;
+            margin: 0;
+            display: inline-block;
+            &.video-teacher, &.video-student {
+              margin: 0;
+            }
+          }
+        }
+      }
+      &.student-view {
+        .panel-video-student {
+          width: 730px;
+          margin: 8px auto;
+        }
+      }
+      &.teacher-view {
+        .panel-whiteboard {
+          margin: 360px auto 0;
+        }
+        .panel-video-student {
+          position: absolute;
+          top: 210px;
+          width: 730px;
+          left: 50%;
+          margin-left: -365px;
+
+        }
+        .panel-video {
+          .wrap-video {
+            .video-item {
+              &.video-student {
+                display: none;
+              }
+            }
+          }
+        }
+        &.one-student {
+          .panel-whiteboard {
+            margin: 200px auto 0;
+          }
+          .panel-video {
+            .wrap-video {
+              .video-item {
+                &.video-student {
+                  display: inline-block;
+                }
+              }
+            }
+          }
+          .panel-video-student {
+            top: 10px;
+            left: 50%;
+            right: unset;
+            padding: 0;
+            margin: 0 0 0 5px;
+            width: 250px;
+            height: 190px;
+            .video-item, .OT_root.OT_subscriber {
+              width: 100% !important;
+              &.video-student {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    @media (min-width: 700px) and (max-width: 767px) {
+      .panel-whiteboard {
+        width: 680px;
+        float: none;
+        margin: 200px auto 0;
+      }
+
+      .panel-video {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        .wrap-video {
+          text-align: center;
+          .video-item {
+            width: 250px;
+            height: 190px;
+            margin: 0;
+            display: inline-block;
+            &.video-teacher, &.video-student {
+              margin: 0;
+            }
+          }
+        }
+      }
+      &.student-view {
+        .panel-video-student {
+          width: 680px;
+          margin: 8px auto;
+        }
+      }
+      &.teacher-view {
+        .panel-whiteboard {
+          margin: 360px auto 0;
+        }
+        .panel-video-student {
+          position: absolute;
+          top: 210px;
+          width: 680px;
+          left: 50%;
+          margin-left: -340px;
+        }
+        .panel-video {
+          .wrap-video {
+            .video-item {
+              &.video-student {
+                display: none;
+              }
+            }
+          }
+        }
+        &.one-student {
+          .panel-whiteboard {
+            margin: 200px auto 0;
+          }
+          .panel-video {
+            .wrap-video {
+              .video-item {
+                &.video-student {
+                  display: inline-block;
+                }
+              }
+            }
+          }
+          .panel-video-student {
+            top: 10px;
+            left: 50%;
+            right: unset;
+            padding: 0;
+            margin: 0 0 0 5px;
+            width: 250px;
+            height: 190px;
+            .video-item, .OT_root.OT_subscriber {
+              width: 100% !important;
+              &.video-student {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    .OT_name.OT_edge-bar-item {
+      text-align: left;
+    }
+  }
+}
+/* Content iframe white board */
+.wrap-whiteboard {
+  #viewerContainer {
+    top: 0;
+    background: #fff;
+  }
+  .whiteboard-content-2 {
+    background: #fff;
+    .pdfViewer .page {
+      /*width: 700px;
+      height: 906px;*/
+      width: 100%;
+      height: auto;
+      border-image: none;
+      border: none;
+    }
+    .wrap-control {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      z-index: 999;
+      opacity: 0.5;
+      .control {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        line-height: 30px;
+        background: #4242426b;
+        border-radius: 3px;
+        cursor: pointer;
+        @include transition(all, 0.2s, ease);
+        &:hover {
+          background: #f68720;
+        }
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .page-info {
+      position: absolute;
+      bottom: 5px;
+      right: 15px;
+      z-index: 999;
+      background: #424242ed;
+      border-radius: 3px;
+      padding: 0 9px;
+      color: #fff;
+      font-size: 12px;
+      opacity: 0.5;
+      @include transition(all, 0.2s, ease);
+      &:hover {
+        opacity: 1;
+      }
+    }
+    ot-whiteboard {
+      overflow: hidden;
+      .panel-tool {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        .open-tool {
+          text-align: center;
+          padding: 6px;
+          font-size: 18px;
+          background: #ccc;
+          border-radius: 5px 0 0 5px;
+          width: 24px;
+        }
+        div.OT_panel {
+          background-color: #ffb570;
+          position: absolute;
+          top: 0;
+          right: -50px;
+          @include transition(all, 0.2s, ease);
+          input {
+            cursor: pointer;
+          }
+          input.OT_undo, input.OT_redo, input.OT_clear {
+            &:hover {
+              background: #4c4c4c;
+            }
+          }
+          .OT_button {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: #fff;
+            border-radius: 50%;
+            margin-top: 3px;
+            font-size: 20px;
+            cursor: pointer;
+            @include transition(all, 0.4s, ease);
+            &:hover {
+              background: $primary_color;
+            }
+            &.OT_selected {
+              background: $primary_color;
+            }
+          }
+        }
+        &:hover {
+          .open-tool {
+            visibility: hidden;
+          }
+          div.OT_panel {
+            right: 0;
+            box-shadow: 0 0 8px #000000cf;
+          }
+        }
+      }
+    }
+
+    canvas {
+      cursor: url("../images/pen-icon.png") 3 30, auto;
+      &.eraser_selected {
+        cursor: url("../images/eraser-icon.png") 3 30, auto;
+      }
+    }
+  }
+}
+
+.mobile-message {
+  display: none;
+  @media (max-width: 699px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: 9999;
+    text-align: center;
+    display: block;
+    .icon-sad {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      background: url("../images/sad.png") no-repeat center center;
+      background-size: cover;
+    }
+    .content {
+      position: absolute;
+      display: block;
+      padding: 15px;
+      top: 30%;
+    }
+  }
+}
+
+@media (max-width: 699px) {
+  .classroom-content {
+    display: none;
+  }
+}
+

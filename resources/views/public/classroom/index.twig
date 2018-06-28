@@ -1,0 +1,341 @@
+{% set lang = Schola.language('classroom') %}
+
+<!DOCTYPE html>
+<html ng-app="demo" dir='ltr' mozdisallowselectionprint moznomarginboxes>
+<head>
+    <title>{{ lang.classroom }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="google" content="notranslate"/>
+
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/plugins/whiteboard/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="https://static.opentok.com/v2.12/js/opentok.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap.min.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap-theme.min.css' ) }}" media="screen"/>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/js/bootstrap.min.js' ) }}"></script>
+
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/font-awesome/css/font-awesome.css' ) }}" media="screen"/>
+
+    <!-- MATERIAL ICONS -->
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/material-icons/material-icons.css' ) }}" media="screen"/>
+
+    <!-- QTIP2 -->
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/qtip2/jquery.qtip.min.css' ) }}" media="screen"/>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/qtip2/jquery.qtip.min.js' ) }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/animate.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/navicon.css' ) }}" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/opensans.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/robotocondensed.css' ) }}" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/buttons.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/css/awesome-bootstrap-checkbox.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/sass/style.css' ) }}" media="screen"/>
+
+    <!-- Emoji -->
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/emoji-picker-1.1.5/lib/css/emoji.css' ) }}" media="screen"/>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/emoji-picker-1.1.5/lib/js/config.js' ) }}"></script>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/emoji-picker-1.1.5/lib/js/util.js' ) }}"></script>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/emoji-picker-1.1.5/lib/js/jquery.emojiarea.js' ) }}"></script>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/emoji-picker-1.1.5/lib/js/emoji-picker.js' ) }}"></script>
+</head>
+<style>
+    button.OT_edge-bar-item {
+        display: none !important;
+    }
+</style>
+<script>
+    var videoCall = {
+        URL: {
+            urlAddFeedback: '{{ route_url('Schola::classDetailAddFeedback') }}',
+            urlStop: '{{ route_url("Schola::classroom-archive-stop") ~ "?id=" ~ scheduleId }}',
+        },
+        global: {
+            apiKey: '{{ apiKey }}',
+            sessionId : '{{ sessionId }}',
+            token: '{{ token }}',
+            session: null,
+            publisher: null,
+            subscribe: null,
+            isTeacher: {{ isTeacher }},
+            publisherName: '{{ name }}',
+            whoIsPublisher: '{{ isTeacher }}' == 'true' ? 'teacher' : 'student',
+            numberOfSubscriber: 0
+        },
+        config: {
+            isPublishAudio: true,
+            isPublishVideo: true,
+            subscribeAudioVolume: 100,
+
+        },
+        init: function () {
+            var base = this;
+            $('#btnFinish').on('click', function () {
+                base.stop();
+            });
+            $('#btnReload').on('click', function () {
+                base.refresh();
+            });
+            base.initializeSession();
+            base.resizePanelWhiteBoardAndVideo();
+            $( window ).resize(function() {
+                base.resizePanelWhiteBoardAndVideo();
+            });
+            $('.rating:not(.disable) .fa').click(function () {
+                var rate = $(this).data('rate');
+                $(this).parent().removeClass('rating-1')
+                    .removeClass('rating-2')
+                    .removeClass('rating-3')
+                    .removeClass('rating-4')
+                    .removeClass('rating-5')
+                    .addClass('rating-'+rate);
+                $('#feedbackRate').val(rate);
+            });
+            $('#btnEndSession').on('click', function () {
+                base.endClassSession();
+            });
+        },
+        endClassSession: function () {
+            var base = this;
+            $.ajax({
+                type: 'POST',
+                url: base.URL.urlStop,
+                //data: {'archiveId': archiveID},
+                success: function (value) {
+
+                    var res = JSON.parse(value);
+                   if (res.isTeacher) {
+                        window.location.href = '{{ route_url('Schola::schola-teacher-dashboard') }}';
+                    } else {
+                        window.location.href = '{{ route_url('Schola::studentLearningProgress') }}';
+                    }
+                }
+            });
+        },
+        initializeSession: function () {
+            var base = this;
+            base.global.session = OT.initSession(base.global.apiKey, base.global.sessionId);
+            base.onSessionDisconnect();
+            base.addSubscriber();
+            base.addPublisher();
+        },
+        addSubscriber: function () {
+            var base = this;
+            base.global.session.on('streamCreated', function (event) {
+                base.global.numberOfSubscriber += 1;
+                base.updateViewBaseOnNumberOfSubscriber();
+                console.log(event);
+                console.log('numberOfSubscriber: ' + base.global.numberOfSubscriber);
+                var data = event.stream.connection.data;
+                if(data == 'isTeacher') { // If subscriber is a teacher
+                    base.global.subscribe = base.global.session.subscribe(event.stream, 'publisher-teacher', {
+                        insertMode: 'append',
+                        width: '100%',
+                        height: '100%'
+                    });
+                } else {
+                    base.global.subscribe = base.global.session.subscribe(event.stream, 'panelVideo2', {
+                        insertMode: 'append'
+                    });
+                }
+                base.global.subscribe.on('disconnected destroyed', function(event) {
+                    base.global.numberOfSubscriber -= 1;
+                    base.updateViewBaseOnNumberOfSubscriber();
+                });
+            });
+        },
+        addPublisher: function () {
+            var base = this;
+            base.global.publisher = OT.initPublisher('publisher-' + base.global.whoIsPublisher, {
+                name: base.global.publisherName,
+                style: {buttonDisplayMode : 'on'},
+                insertMode: 'append',
+                width: '100%',
+                height: '100%',
+            });
+
+            base.global.session.connect(base.global.token, function (error) {
+                if (error) {
+                    console.log('Connect to session:', error.name, error.message);
+                } else {
+                    base.global.session.publish(base.global.publisher);
+                }
+            });
+            base.addEventListenerForControlVideoCall();
+        },
+        updateViewBaseOnNumberOfSubscriber: function () {
+            var base = this;
+            if (base.global.isTeacher && base.global.numberOfSubscriber == 1) {
+                $('#contentClassroom').addClass('one-student');
+            } else {
+                $('#contentClassroom').removeClass('one-student');
+            }
+        },
+        onSessionDisconnect: function () {
+            var base = this;
+            base.global.session.on('sessionDisconnected', function (event) {
+                console.log('You were disconnected from the session.', event.reason);
+            });
+        },
+        addEventListenerForControlVideoCall: function () {
+            var base = this;
+            $('.video').on('click', function () {
+                base.toggleVideo();
+            });
+            $('.mic').on('click', function () {
+                base.toggleMic();
+            });
+            $('.sound').on('click', function () {
+                base.toggleAudio();
+            });
+        },
+        toggleVideo: function() {
+            var base = this;
+            if(base.global.publisher) {
+                base.config.isPublishVideo = !base.config.isPublishVideo;
+                base.global.publisher.publishVideo(base.config.isPublishVideo);
+                if (base.config.isPublishVideo) {
+                    $('.video').removeClass('disable');
+                } else {
+                    $('.video').addClass('disable');
+                }
+            }
+        },
+        toggleAudio: function() {
+            var base = this;
+            if(base.global.subscribe) {
+                base.config.subscribeAudioVolume = base.config.subscribeAudioVolume === 100 ? 0 : 100;
+                base.global.subscribe.setAudioVolume(base.config.subscribeAudioVolume);
+                if (base.config.subscribeAudioVolume === 100) {
+                    $('.sound').removeClass('disable');
+                } else {
+                    $('.sound').addClass('disable');
+                }
+            }
+        },
+        toggleMic: function() {
+            var base = this;
+            if(base.global.publisher) {
+                base.config.isPublishAudio = !base.config.isPublishAudio;
+                base.global.publisher.publishAudio(base.config.isPublishAudio);
+                if (base.config.isPublishAudio) {
+                    $('.mic').removeClass('disable');
+                } else {
+                    $('.mic').addClass('disable');
+                }
+            }
+        },
+        resizePanelWhiteBoardAndVideo: function (){
+            var width = $('#whiteboardContent').width();
+            var height = width / 1.773364485981308;
+            $('#whiteboardContent').height(height);
+        },
+        refresh: function () {
+            location.reload();
+        }
+    };
+    $(function () {
+        var width = $(document).width();
+        if (width > 699) {
+            videoCall.init();
+        }
+    });
+</script>
+
+<div id="spinner" class="spinner show-on-top">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<body ng-controller="DemoCtrl" tabindex="1" class="loadingInProgress new-design classroom">
+    <div class="panel-classroom">
+        <div class="header">
+            <div class="content-header">
+                <div class="logo">
+                    <img src="{{ Schola.helper( 'assetUrl' , '/public/images/schola.png' ) }}">
+                </div>
+                <div class="group-btn pull-right">
+                    <a id="btnReload" href="#" title="{{ lang.reload_classroom }}" class="btn btn-primary-2 btn-border">{{ lang.reload_classroom }}</a>
+                    <!-- <a href="{{ route_url('Schola::home') }}" title="{{ lang.finish_class }}" class="btn btn-primary-2">{{ lang.finish_class }}</a> -->
+                    <a href="javascript:" title="{{ lang.finish_class }}" class="btn btn-primary-2" id="btnEndSession" >{{ lang.finish_class }}</a>
+                </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="contentClassroom" class="content-classroom {% if isTeacher == 'true' %} teacher-view {% else %} student-view {% endif %}">
+            <div class="clearfix">
+                <div class="panel-whiteboard">
+                    <div id="whiteboardContent" class="whiteboard-content">
+                        <iframe src="/services/pdf-viewer?id={{ scheduleId }}" width="100%" height="100%" style="border: 0;"></iframe>
+                    </div>
+                </div>
+                <div id="panelVideo" class="panel-video">
+                    <div class="wrap-video">
+                        <div class="video-item video-teacher">
+                            {% if isTeacher == 'true' %}
+                                <div class="control-video clearfix">
+                                    <div class="control-item video">
+                                        <i class="material-icons on">videocam</i>
+                                        <i class="material-icons off">videocam_off</i>
+                                    </div>
+                                    <div class="control-item sound">
+                                        <i class="material-icons on">volume_up</i>
+                                        <i class="material-icons off">volume_off</i>
+                                    </div>
+                                    <div class="control-item mic">
+                                        <i class="material-icons on">mic</i>
+                                        <i class="material-icons off">mic_off</i>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div id="publisher-teacher" style="height: 100%;"></div>
+                        </div>
+                        <div class="video-item video-student">
+                            {% if isTeacher == 'false' %}
+                                <div class="control-video clearfix">
+                                    <div class="control-item video">
+                                        <i class="material-icons on">videocam</i>
+                                        <i class="material-icons off">videocam_off</i>
+                                    </div>
+                                    <div class="control-item sound">
+                                        <i class="material-icons on">volume_up</i>
+                                        <i class="material-icons off">volume_off</i>
+                                    </div>
+                                    <div class="control-item mic">
+                                        <i class="material-icons on">mic</i>
+                                        <i class="material-icons off">mic_off</i>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div id="publisher-student" style="height: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="panelVideo2" class="panel-video-student clearfix">
+                {#<div class="video-item">
+                    <div class="video-content" id="subscriber-1">
+                    </div>
+                </div>#}
+            </div>
+        </div>
+    </div>
+    <div class="mobile-message">
+        <div class="content">
+            {{ lang.message_dont_support_mobile | raw}}
+            <div>
+                <a href="javascript:history.go(-1);" class="button button--saqui button--inverted button--round-l button--text-thin button--size-s" data-text="{{ lang.go_back }}">
+                    <i class="fa fa-arrow-left"></i> {{ lang.go_back }}
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

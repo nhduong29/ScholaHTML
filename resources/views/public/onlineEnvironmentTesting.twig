@@ -1,0 +1,324 @@
+{% set lang = Schola.language('oet') %}
+{% set osHelpLink = "https://google.com./os" %}
+{% set browserHelpLink = "https://google.com/browser" %}
+{% set downloadSpeedHelpLink = "https://google.com/downloadspeed" %}
+{% set uploadSpeedHelpLink = "https://google.com/upadloadspeed" %}
+{% set connectionTimeHelpLink = "https://google.com/connectiontime" %}
+{% set cameraHelpLink = "https://google.com/camera" %}
+{% set microphoneHelpLink = "https://google.com/micro" %}
+
+{% extends "@Schola/public/layout/layoutDashboard.twig" %}
+{% block title %} {{ lang.online_environment_testing }} {% endblock %}
+
+{% block head %}
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/microphoneTest/wavesurfer.min.js' ) }}"></script>
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/microphoneTest/wavesurfer.microphone.min.js' ) }}"></script>
+
+    <script type="text/javascript">
+        var downloadCheck;
+        var downloadCheckResult;
+        var uploadCheck;
+        var uploadCheckResult;
+        var pingCheck;
+        var pingCheckResult;
+        var cameraCheck;
+        var cameraCheckButton;
+        var cameraConfirmation;
+        var cameraCheckResult;
+        var microCheck;
+        var microCheckButton;
+        var microConfirmation;
+        var microCheckResult;
+
+        var cameraStream;
+
+        var downloadSpeedHelpLink = '{{ downloadSpeedHelpLink }}';
+        var uploadSpeedHelpLink = '{{ uploadSpeedHelpLink }}';
+        var connectionTimeHelpLink = '{{ connectionTimeHelpLink }}';
+        var cameraHelpLink = '{{ cameraHelpLink }}';
+        var microphoneHelpLink = '{{ microphoneHelpLink }}';
+
+        var okCheck = '<i class="fa fa-check" style="color: #00E676"></i>';
+        var nokCheck = '<i class="fa fa-times" style="color: #d0021b"></i> <a href="{link}"><i class="fa fa-info" aria-hidden="true" style="color: #00b9eb; margin-left: 8px;"></i></a>';
+
+        var microphone;
+
+        $(function () {
+            downloadCheck = $('#download');
+            downloadCheckResult = $('#download-check-result');
+            uploadCheck = $('#upload');
+            uploadCheckResult = $('#upload-check-result');
+            pingCheck = $('#ping');
+            pingCheckResult = $("#ping-check-result");
+            cameraCheck = $('#camera');
+            cameraCheckButton = $("#camera-check-button");
+            cameraConfirmation = $("#camera .confirmation");
+            cameraCheckResult = $("#camera-check-result");
+            microCheck = $('#micro');
+            microCheckButton = $("#micro-check-button");
+            microConfirmation = $("#micro .confirmation");
+            microCheckResult = $("#micro-check-result");
+
+            microphone = Object.create(WaveSurfer.Microphone);
+
+            oetProcessor.init();
+        });
+
+        var oetProcessor = {
+            init: function () {
+                this.initView();
+                this.initEvent();
+                this.initMicrophoneCheck();
+
+                setTimeout(this.checkNetwork, 3000);
+            },
+            initView: function () {
+                cameraConfirmation.hide();
+                microConfirmation.hide();
+            },
+            initEvent: function () {
+
+            },
+            initMicrophoneCheck: function() {
+                var wavesurfer = WaveSurfer.create({ container: '#waveform', waveColor: 'violet' });
+                window.wavesurfer = wavesurfer;
+                microphone.init({
+                    wavesurfer: wavesurfer
+                });
+
+                microphone.on('deviceReady', function(stream) {
+                    window.tempStream = stream;
+                });
+                microphone.on('deviceError', function(code) {
+                    console.log('Device error: ' + code);
+                    this.errorInMicrophoneCheck();
+                });
+            },
+            checkNetwork: function () {
+                var base = this;
+                var w = new Worker("{{ Schola.helper( 'assetUrl' , '/public/js/speedTest/speedtestWorker.js' ) }}"); // create new worker
+                setInterval(function () {
+                    w.postMessage('status')
+                }, 1000);
+                w.onmessage = function (event) { // when status is received, split the string and put the values in the appropriate fields
+                    var data = event.data.split(';') // string format: status;download;upload;ping (speeds are in mbit/s) (status: 0=not started, 1=downloading, 2=uploading, 3=ping, 4=done, 5=aborted)
+                    downloadCheck.html(data[1] + ' Mbit/s');
+                    uploadCheck.html(data[2] + ' Mbit/s');
+                    pingCheck.html(data[3] + ' ms');
+
+                    if (data[0] == 4 || data[0] == 5) {
+                        base.finishCheckNetwordResult(data);
+                    }
+                }
+                {#var params = {#}
+                {#'url_dl' : '{{ route_url('Schola::downloadTesting') }}',#}
+                {#'url_ul' : '{{ route_url('Schola::uploadTesting') }}',#}
+                {#};#}
+                {#w.postMessage('start ' + JSON.stringify(params));#}
+                w.postMessage('start');
+            },
+            finishCheckNetwordResult: function (data) {
+                var downloadSpeed = data[1];
+                var uploadSpeed = data[2];
+                var connectionTime = data[3];
+
+                if (downloadSpeed >= 1.5) {
+                    downloadCheckResult.html(okCheck);
+                } else {
+                    downloadCheckResult.html(this.buildNokHtmlContent(downloadSpeedHelpLink));
+                }
+
+                if (uploadSpeed >= 1.5) {
+                    uploadCheckResult.html(okCheck);
+                } else {
+                    uploadCheckResult.html(this.buildNokHtmlContent(uploadSpeedHelpLink));
+                }
+
+                if (connectionTime <= 1000) {
+                    pingCheckResult.html(okCheck);
+                } else {
+                    pingCheckResult.html(this.buildNokHtmlContent(connectionTimeHelpLink));
+                }
+            },
+            checkCamera: function () {
+                var video = document.createElement('video');
+                video.width = 200;
+                video.autoplay = true;
+                video.controls = false;
+                video.id = "camera-video";
+                video.style = "display: block; margin: 5px auto; border: 1px solid #000; padding: 2px;";
+
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {
+                        cameraStream = stream;
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    });
+                }
+
+                $(cameraCheck).prepend(video);
+                $(cameraCheckButton).remove();
+                $(cameraConfirmation).show();
+            },
+            confirmCameraCheck: function (result) {
+                if (cameraStream != null) {
+                    cameraStream.getTracks().forEach(function (track) {
+                        track.stop();
+                    });
+                }
+
+                if (result == true) {
+                    cameraCheck.html("{{ lang.device_is_available }}");
+                    cameraCheckResult.html(okCheck);
+                } else {
+                    cameraCheck.html("{{ lang.device_is_unavailable }}");
+                    cameraCheckResult.html(this.buildNokHtmlContent(cameraHelpLink));
+                }
+            },
+            checkMicrophone: function() {
+                microConfirmation.show();
+                microCheckButton.hide();
+            },
+            confirmMicrophoneCheck: function (result) {
+                microphone.stopDevice();
+                if (result == true) {
+                    microCheck.html("{{ lang.device_is_available }}");
+                    microCheckResult.html(okCheck);
+                } else {
+                    this.errorInMicrophoneCheck();
+                }
+            },
+            errorInMicrophoneCheck: function() {
+                microCheck.html("{{ lang.device_is_unavailable }}");
+                microCheckResult.html(this.buildNokHtmlContent(microphoneHelpLink));
+            },
+            buildNokHtmlContent: function(link) {
+                var nokContentTemplate = '<i class="fa fa-times" style="color: #d0021b"></i> <a href="{link}"><i class="fa fa-info" aria-hidden="true" style="color: #00b9eb; margin-left: 8px;"></i></a>';
+                return nokContentTemplate.replace('{link}', link);
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/student/navigation.twig" %}
+    </div>
+    <div class="container-fluid">
+        <div class="content-width">
+            <div class="panel-content">
+                <div class="row student-dashboard">
+                    <div>
+                        <div class="left-navigation fixed-navigation mb20">
+                            <ul>
+                                <li><a href="{{ route_url('Schola::home') }}" ><i class="icon material-icons">home</i> HOME</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <table class="table">
+                            <caption>{{ lang.system }}</caption>
+                            <colgroup>
+                                <col span="1" style="width: 40%;">
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 10%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>{{ lang.operation_system }}</td>
+                                    <td style="font-weight: bold">{{ osName }}</td>
+                                    <td>
+                                        {% if isCompatibleOs %}
+                                            <i class="fa fa-check" style="color: #00E676"></i>
+                                        {% else %}
+                                            <i class="fa fa-times" style="color: #d0021b"> <a href="{{ osHelpLink }}"><i class="fa fa-info" aria-hidden="true" style="color: #00b9eb; margin-left: 8px;"></i></a> </i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ lang.browser }}</td>
+                                    <td style="font-weight: bold">{{ browserName }}</td>
+                                    <td>
+                                        {% if isCompatibleBrowser %}
+                                            <i class="fa fa-check" style="color: #00E676"></i>
+                                        {% else %}
+                                            <i class="fa fa-times" style="color: #d0021b"> <a href="{{ browserHelpLink }}"><i class="fa fa-info" aria-hidden="true" style="color: #00b9eb; margin-left: 8px;"></i></a></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <caption>{{ lang.network }}</caption>
+                            <colgroup>
+                                <col span="1" style="width: 40%;">
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 10%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>{{ lang.download_speed }}</td>
+                                    <td id="download" style="font-weight: bold"></td>
+                                    <td id="download-check-result"></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ lang.upload_speed }}</td>
+                                    <td id="upload" style="font-weight: bold"></td>
+                                    <td id="upload-check-result"></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ lang.connection_time }}</td>
+                                    <td id="ping" style="font-weight: bold"></td>
+                                    <td id="ping-check-result"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <caption>{{ lang.devices }}</caption>
+                            <colgroup>
+                                <col span="1" style="width: 40%;">
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 10%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>{{ lang.camera }}</td>
+                                    <td id="camera" style="font-weight: bold">
+                                        <button id="camera-check-button" class="btn btn-primary btn-sm" onclick="oetProcessor.checkCamera()">{{ lang.check }}</button>
+                                        <div class="confirmation">
+                                            <p style="text-align: center">{{ lang.check_camera_question }}</p>
+                                            <p style="text-align: center">
+                                                <button class="btn btn-success btn-sm" onclick="oetProcessor.confirmCameraCheck(true)">{{ lang.yes }}</button>
+                                                <button class="btn btn-danger btn-sm" onclick="oetProcessor.confirmCameraCheck(false)">{{ lang.no }}</button>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td id="camera-check-result">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ lang.microphone }}</td>
+                                    <td id="micro" style="font-weight: bold">
+                                        <button id="micro-check-button" class="btn btn-primary btn-sm" onclick="microphone.start();oetProcessor.checkMicrophone()">{{ lang.check }}</button>
+                                        <div class="confirmation">
+                                            <div id="waveform"></div>
+                                            <p style="text-align: center">{{ lang.check_microphone_question }}</p>
+                                            <p style="text-align: center">
+                                                <button class="btn btn-success btn-sm" onclick="oetProcessor.confirmMicrophoneCheck(true)">{{ lang.yes }}</button>
+                                                <button class="btn btn-danger btn-sm" onclick="oetProcessor.confirmMicrophoneCheck(false)">{{ lang.no }}</button>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td id="micro-check-result">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

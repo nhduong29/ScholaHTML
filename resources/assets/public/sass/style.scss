@@ -1,0 +1,576 @@
+@charset "UTF-8";
+$font_content: 'Open Sans', 'Roboto Condensed', arial, sans-serif;
+$font_title: 'Roboto Condensed', 'Open Sans', arial, sans-serif;
+
+$font_avo: 'Avo','Open Sans', 'Roboto Condensed', arial, sans-serif;
+$font_dumpling: 'Dumpling','Open Sans', 'Roboto Condensed', arial, sans-serif;
+$font_roboto: 'Roboto','Roboto Condensed','Open Sans', arial, sans-serif;
+$font_montserrat: 'Montserrat','Open Sans','Roboto Condensed', arial, sans-serif;
+
+$primary_color: #f68720;
+$second_color: #171717;
+$color_nav: #fff;
+$color_nav_hover: #880000;
+$border_color_menu: #f68720;
+
+$grey_0: #f0f0f0;
+$grey_1: #dcdcdc;
+$grey_3: #c7c7c7;
+$gray_4: #eee;
+
+$white_0: #ffffff;
+$white_1: #f5f5f5;
+
+@import "mixin";
+@import "global";
+@import "reset";
+@import "spinner";
+
+body {
+  font-family: $font_content;
+  font-size: 16px;
+  background: #fff;
+  color: $second_color;
+  margin: 0;
+}
+
+.container-fluid {
+  font-family: $font_content;
+  font-size: 14px;
+}
+
+.content-width {
+  max-width: 1366px;
+  margin: 0 auto;
+  &.row {
+    @include width-x-small {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+  }
+}
+
+@import "navigation";
+.button.btn-white {
+  color: #fff;
+  border-color: #fff;
+}
+
+@import "welcomeLanding";
+
+@import "videoIndex";
+
+@import "howItWork";
+@import "howToSchedule";
+@import "teacherMarketplace";
+@import "slider";
+@import "sectionLandingPage";
+
+@import "teacherLanding";
+
+@import "login";
+
+@import "footer";
+
+@import "studentDashboard";
+@import "teacherDashboard";
+@import "leftPanelBoard";
+@import "scheduleGrid";
+@import "qtip";
+
+@import "classroom";
+@import "customControl";
+@import "thankPage";
+@import "fillChilrenInformation";
+@import "fixedGetTrialBar";
+
+@import "formControl";
+@import "classaccess";
+
+.button.button--sacnite.button-round {
+  margin: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding-top: 3px;
+  &:before {
+    box-shadow: inset 0 0 0 35px $primary_color;
+  }
+  &:hover {
+    color: $primary_color;
+    &:before {
+      box-shadow: inset 0 0 0 2px $primary_color;
+    }
+  }
+}
+
+.basic-information-bg {
+  height: 70vh;
+  position: relative;
+  overflow: hidden;
+  background: url("../images/bg-landing-fill-data.jpg") no-repeat center center;
+  background-size: cover;
+
+  .overlay {
+    height: 100%;
+    background: rgba(40, 53, 62, 0.5);
+  }
+
+  .welcome-landing {
+    top: 40%;
+  }
+}
+
+.step-loader {
+  background: #ccc;
+
+  .loader {
+    background: $primary_color;
+    height: 10px;
+  }
+  &.step-1 {
+    .loader {
+      width: 33.3333%;
+    }
+  }
+  &.step-2 {
+    .loader {
+      width: 66.6667%;
+    }
+  }
+  &.step-3 {
+    .loader {
+      width: 100%;
+    }
+  }
+}
+
+.panel-content {
+  background: #fff;
+  padding: 30px 15px;
+  position: relative;
+  @include width-x-small {
+    padding: 30px 0;
+  }
+
+  &.-mt120 {
+    margin-top: -120px;
+    @include width-x-small {
+      margin-top: 0px;
+    }
+  }
+
+  .step-loader {
+    position: absolute;
+    top: 0;
+    width: 700px;
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    .current-step {
+      position: absolute;
+      top: -25px;
+      color: $primary_color;
+    }
+  }
+
+  .title-large {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    span {
+      color: $primary_color;
+    }
+  }
+}
+
+.basic-information-form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.modal-dialog {
+  .modal-content {
+    border-radius: 0px;
+    border: 0px;
+
+    .modal-header {
+      border-top: 5px solid #f68720;
+      padding: 10px 15px;
+      .close {
+        margin-top: 2px;
+      }
+    }
+    .modal-title {
+      font-weight: bold;
+    }
+    .modal-footer {
+      padding: 0px;
+    }
+  }
+}
+
+.upload-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff url("../images/avatar-blank.png") no-repeat;
+  background-size: contain;
+  position: relative;
+  &.gender-0 {
+    background: #fff url("../images/avatar-female.png") no-repeat;
+    background-size: contain;
+  }
+  @include width-x-small {
+    width: 90px;
+    height: 90px;
+  }
+  img {
+    width: 100%;
+  }
+  .change-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #33333370;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    @include transition(all, 0.3s, ease);
+    @include transform(scale(0.0));
+    .fa {
+      color: #fff;
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      font-size: 50px;
+      line-height: 50px;
+      text-align: center;
+      left: 50%;
+      margin-left: -25px;
+      top: 50%;
+      margin-top: -25px;
+      text-shadow: 0 0 10px #000;
+      @include width-x-small {
+        font-size: 30px;
+      }
+    }
+  }
+  &:hover {
+    .change-avatar {
+      @include transform(scale(1));
+    }
+  }
+}
+
+.dialogReffralCode .modal-dialog .modal-content .modal-header{
+	text-align: center;
+	color: #263c8f!important;
+}
+.dialogReffralCode .modal-header{
+	border-bottom: 1px solid transparent;
+}
+.dialogReffralCode .video-display{
+}
+
+.dialogReffralCode .free-trial-msg{
+	text-align: center!important;
+	padding: 5px;
+}
+.dialogReffralCode .modal-body{
+	height: auto;
+	color: #f68720!important;
+}
+.dialogReffralCode .modal-footer{
+	border-top: 1px solid transparent!important;
+}
+.dialogReffralCode .btnBookTrialClass{
+	border-radius: 10px!important;
+	font-weight: bold;
+}
+.referral_input{
+	width: 80%!important;
+	float: right;
+}
+.referral_input_div{
+	padding-top: 9px!important;
+}
+.btnReferralAdd{
+	padding: 9px 28px!important;
+	font-weight: bold;
+	border-radius: 10px!important;
+}
+.dialogDoNotReffralCode .form-group.custom .control-item{
+	margin-bottom: 0px!important;
+}
+.dialogDoNotReffralCode .donottrialcode{
+	margin-top: 5px!important;
+}
+.popuplogo a img{
+	margin-right: 25px;  
+}
+
+.trialBookingDialog .modal-title,.refferaltrialBookingDialog .modal-title{
+    margin-bottom: 25px;
+    margin-top: -24px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 18px;
+    text-align: center;
+}
+    .trialBookingDialog .video-div{
+    height: 202px;
+    width: 387px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+.trialBookingDialog .modal-dialog{
+    top: calc(50% - 450px/2 - 35px);
+ }
+ .trialBookingDialog .book-btn {
+    width: 213.18px!important;
+    height: 41px!important;
+    left: 405px!important;
+    top: 486px!important;
+    margin: 0 auto!important;
+}
+.trialBookingDialog .modal-congrats{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 16px;
+    text-align: center;
+    color: #263C8F;
+    margin-bottom: 12px;
+}
+.trialBookingDialog .bookingTrialClass{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+.refferaltrialBookingDialog .modal-congrats{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 16px;
+    text-align: center;
+    color: #263C8F;
+    margin-bottom: 12px!important;
+}
+.refferaltrialBookingDialog .referral_input{
+    width: 185px!important;
+    height: 38px;
+    left: 342px;
+    top: 472px;
+
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 14px;
+}
+.refferaltrialBookingDialog .btnReferralAddBtn{
+    width: 119.56px!important;
+    height: 38px!important;
+
+    top: calc(50% - 38px/2 + 107px);
+    border-radius: 10px;
+    background: #F2994A;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 16px;
+    text-align: center;
+    color:#FFFFFF;
+
+
+}
+.refferaltrialBookingDialog .referral_btn_add{
+    padding-right: 0px!important; 
+    padding-left: 0px!important; 
+}
+.refferaltrialBookingDialog .referral_input_div{
+  padding-right: 0px; 
+
+}
+.refferaltrialBookingDialog .modal-content{
+    height:538px!important;
+}
+
+.refferaltrialBookingDialog .popuplogo .messanger{
+    height: 30px!important;
+    width: 30px!important;
+}
+.refferaltrialBookingDialog .popuplogo .facebook{
+    height: 30px!important;
+    width: 30px!important;
+}
+.refferaltrialBookingDialog .popuplogo .calling{
+    height: 25px!important;
+    width: 25px!important;
+}
+.refferaltrialBookingDialog .modal-dialog{
+   top: calc(50% - 590px/2 - 5.5px);
+}
+.refferaltrialBookingDialog .video-div{
+    height: 202px;
+    width: 387px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+.refferaltrialBookingDialog .dont-trial-text{
+    margin-bottom: 20px;margin-top: 8px;
+}
+@media (max-width: 450px) {
+   .refferaltrialBookingDialog .video-div{
+    height: 200px;
+    width: 269px;
+    margin: 0 auto;
+}
+.trialBookingDialog .video-div{
+    height: 200px;
+    width: 269px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+.refferaltrialBookingDialog .referral_btn_add button{
+    min-width: 100px!important;
+}
+.refferaltrialBookingDialog .referral_input{
+    width: 135px!important;
+}
+.refferaltrialBookingDialog .modal-title,.refferaltrialBookingDialog .modal-title{
+    font-size: 15px;
+}
+.refferaltrialBookingDialog .dont-trial-text{
+    margin-bottom: 20px;margin-top: 8px;
+}
+.refferaltrialBookingDialog .referral_btn_add{
+    margin-bottom: 15px;
+}
+.refferaltrialBookingDialog .modal-congrats{
+    margin-top: 25px;
+}
+}
+
+.refferaltrialBookingDialog .error-message{
+    display: none;
+    padding: 2px 12px;
+    border-radius: 15px;
+    right: 0;
+    top: -23px;
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+}
+.dashboard_upcoming_class{
+        max-width: 560px;
+        margin: 0 auto;
+    }
+  .btnAccessEnterClass {
+      border: 1px solid #F2994A;
+      -moz-transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      padding: 9px 25px;
+      color: #F2994A;
+      border-radius: 10px;
+      font-weight: 500;
+      width: 160px;
+  }
+  .btnAccessEnterClass:hover {
+      border: 1px solid transparent;
+      color: #fff;
+      background: #F2994A;
+  }
+  .access_class_upcoming .time{
+      color:#263C8F;
+  }
+
+@media (max-width: 768px) {
+      .access_class_upcoming .title {
+        font-size:14px;
+  }
+}
+@media (max-width: 500px) {
+  .btnAccessEnterClass {
+      width: 150px;
+  }
+}
+@media (max-width: 320px) {
+  .btnAccessEnterClass {
+      width: 120px;
+  }
+}
+
+.label-confirmed-book{
+    margin-left: -20px!important;
+}
+.waggle {
+    animation: waggle 1s 3s forwards ease-out;
+}
+@keyframes waggle {
+    0% {
+    transform: none;
+    }
+    50% {
+    transform: rotateZ(-20deg) scale(1.2);
+    }
+    60% {
+    transform: rotateZ(25deg) scale(1.2);
+    } 
+    67.5% {
+    transform: rotateZ(-15deg) scale(1.2);
+    }
+    75% {
+    transform: rotateZ(15deg) scale(1.2);
+    }
+    82.5% {
+    transform: rotateZ(-12deg) scale(1.2);
+    }
+    85% {
+    transform: rotateZ(0) scale(1.2);
+    }
+    100% {
+    transform: rotateZ(0) scale(1);
+    }
+}
+
+.native-confirmed-book{
+   margin-left: -22px!important;
+}
+.dot-color{
+  display:none!important;  
+}
+
+/* CSS FEATURE */
+@import "other/teacher/step2";
+@import "other/teacher/step3";
+
+/* LIVE CHAT */
+.ztb-customchatbox-logo {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+@import "newDesign/style";

@@ -1,0 +1,160 @@
+{% set lang = Schola.language('teacher') %}
+
+{% extends "@Schola/public/layout/master.twig" %}
+{% block title %}{{ lang.step_three }}{% endblock %}
+{% block head %}
+    <script type="text/javascript">
+		var URL = {
+            stepTwo: '{{ route_url('Schola::teacherBasicInfoStep2') }}',
+			stepThree: '{{ route_url('Schola::teacherBasicInfoStep3') }}',
+			thanksPage: '{{ route_url('Schola::schola-thank-you')}}'
+        };
+		
+		function backToStepTwo(){
+			window.location.href = URL.stepTwo;
+		}
+
+        $(document).ready(function () {
+            $("#nextStep").click(function (e) {
+                e.preventDefault();
+				$('.show-error').removeClass('show-error');
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route_url('Schola::teacherBasicInfoStep3Update') }}',
+                    data: $("#frmStepThree").serializeArray(),
+                    success: function (value) {
+                        var res = JSON.parse(value);
+						$("div .error").html("");
+                        if (res.status === 'success') {
+							window.location.href = URL.thanksPage;
+                        } else {
+							var len = res.errors.length;
+							for( var i = 0; i < len; i++){
+								$('.' + res.errors[i].key + '-control .error').html(res.errors[i].value);
+								$('.' + res.errors[i].key + '-control').addClass('show-error');
+							}
+                        }
+                    }
+                });
+            });
+        });
+		
+		function changeUpload(e){
+			var files = e.target.files;
+			if(files.length !== 0){
+				var cImg = $("#srcAvatar").attr("src");
+				$("#srcAvatar").attr("src","{{ Schola.helper('assetUrl', '/public/images/imageLoading.gif') }}");
+				if (files.length > 0) {
+					if (window.FormData !== undefined) {
+						var data = new FormData();
+						for (var i = 0; i < files.length; i++) {
+							data.append("teacherAvatar", files[i]);
+						}
+						$.ajax({
+							type: "POST",
+							url: "{{route_url('Schola::schola-step-three-upload-avatar')}}",
+							data: data,
+							contentType: false,
+							processData: false,                        
+							success: function (result) {
+								var objJson = JSON.parse(result);
+								if(objJson.vaild){
+									cImg = objJson.objFile.file_path;
+									$("#srcAvatar").attr("src",cImg);
+									$(".teacher_avatar-control .error").html("");									
+								}else{
+									$("#srcAvatar").attr("src",cImg);
+									$(".teacher_avatar-control .error").html("{{ lang.select_image }}Selected image is not invalid");
+									$(".teacher_avatar-control").addClass("show-error");
+								}
+							}
+						});                    
+					}
+				}	
+			}			
+		}
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% include "@Schola/public/partial/navigation.twig" %}
+    </div>
+	<div class="container-fluid">
+		<div class="content-width">
+			<div class="panel-content mt70">
+				<div class="step-loader step-4 clearfix">
+					<div class="current-step">Step 3 of 3</div>
+					<div class="loader"></div>
+				</div>
+				<div class="basic-information-form">
+					<form id="frmStepThree" action="{{ route_url('Schola::teacherBasicInfoStep3Update') }}" method="post">
+						 <div class="form-group custom">
+							 <div class="control-item ">
+								 <label for="teacher-avatar">{{ lang.profile_picture }}</label>
+								 <div class="wrapper-control teacher_avatar-control">
+									 <div class="upload-avatar gender-{{ teacher.teacher_gender }}">
+										<img id="srcAvatar" src="{{teacher.teacher_avatar}}" />
+										<div class="change-avatar" onclick="$('#teacherAvatar').click();">
+											<span class="fa fa-camera"></span>
+										</div>
+									 </div>
+									 <input  style="display: none"
+										onchange="changeUpload(event);" type="file" id="teacherAvatar" name="teacherAvatar" />
+									 <div class="error"></div>
+								 </div>
+								 <a class="link-change-picture" href="javascript:void(0);" onclick="$('#teacherAvatar').click();">Change Picture</a>
+							</div>
+							<div class="control-item ">
+								<label for="teacher_description">
+									{{ lang.write_an_introduction }}
+								</label>
+								<div class="mb10 color-grey-3 size-14">
+                                    <div>{{ lang.describe }}:</div>
+                                    <p>{{ lang.describe_your_background }}</p>
+								</div>
+								<div class="wrapper-control teacher_description-control">
+									<div class="control w100i">
+										<textarea
+											rows="5"
+											id="teacher_description"
+											class="w100i"
+											name="teacher_description">{{teacher.teacher_description}}</textarea>
+										<div class="error"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="control-item">
+								<label for="teacher_video_url">{{ lang.video_introduction }}</label>
+								<div class="mb10 color-grey-3 size-14">
+									{{ lang.tell_the_student }}
+								</div>
+								<div class="wrapper-control teacher_video_url-control">
+									<div class="control w100i">
+										<input
+											value="{{ teacher.teacher_video_url }}"
+											class="w100i"
+											type="text"
+											name="teacher_video_url"
+											id="teacher_video_url">
+										</input>
+										<div class="error"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mb40">
+							<button id="backStep" class="button button--saqui button--round-l button--text-thick button--size-s button--grey ml0" type="button" data-text="{{ lang.back }}" onclick="backToStepTwo();">
+								<span class="icon fa fa-arrow-left"></span> {{ lang.back }}
+							</button>
+							<button id="nextStep" class="button button--saqui button--inverted button--round-l button--text-thick button--size-s ml5" type="button" data-text="{{ lang.next }}">
+								<span class="icon fa fa-arrow-right"></span> {{ lang.next }}
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

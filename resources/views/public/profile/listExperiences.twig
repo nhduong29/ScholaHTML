@@ -1,0 +1,41 @@
+{% set lang = Schola.language('userprofile') %}
+
+<div class="control-item">
+	<label for="teacher-firstname">{{ lang.your_experience }}</label>
+	<div class="control">
+		<button id="btnShowDialogAddExperience" class="button button--sacnite button-round"
+				type="button">
+			<i class="button__icon fa fa-plus"></i><span>{{ lang.add }}</span>
+		</button>
+	</div>
+	<div class="clearfix mt20">
+		<table id="tableExperience" class="table">
+			<thead>
+			<tr>
+				<th class="w40">{{ lang.title }}</th>
+				<th class="w10">{{ lang.from }}</th>
+				<th class="w10">{{ lang.to }}</th>
+				<th class="w20">{{ lang.location }}</th>
+				<th class="w15">{{ lang.description }}</th>
+				<th class="w15"></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for item in listExp %}
+				<tr id="experienceRow{{ item.experience_id }}"
+					data-experience-id="{{ item.experience_id }}">
+					<td class="experience-title">{{ item.experience_title }}</td>
+					<td class="experience-from">{{ item.experience_from|date("m/d/Y") }}</td>
+					<td class="experience-to">{{ item.experience_to|date("m/d/Y") }}</td>
+					<td class="experience-location">{{ item.experience_location }}</td>
+					<td class="experience-description">{{ item.experience_description }}</td>
+					<td>
+						<span data-exp-id="{{ item.experience_id }}" class="editExperience fa fa-edit"></span>
+						<span data-exp-id="{{ item.experience_id }}" class="deleteExperience fa fa-trash"></span>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

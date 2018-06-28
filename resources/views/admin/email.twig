@@ -1,0 +1,133 @@
+<link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/admin/css/email-template.css' ) }}" media="screen"/>
+<script>
+    var $ = jQuery.noConflict();
+    var emailView = {
+        URL: {
+            updateEmail: ''
+        },
+        init: function (url) {
+            var base = this;
+            base.URL = url;
+            $('#btn-update-email').on('click', function () {
+                base.updateEmail();
+            });
+
+            $('#notification-type-selection').on('change', function () {
+                var notificationType = this.value;
+                window.location = window.location.href + "&type=" + notificationType;
+            })
+        },
+        updateEmail: function () {
+            var base = this;
+            var emailTemplates = {};
+
+            var firstTemplateType = $('#first-template input[name="email-type"]').val();
+            var firstTemplate = $('#first-template').serializeArray();
+            emailTemplates[firstTemplateType] = firstTemplate;
+
+            var secondTemplate = $('#second-template').serializeArray();
+            if (secondTemplate.length > 0) {
+                var secondTemplateType = $('#second-template input[name="email-type"]').val();
+                emailTemplates[secondTemplateType] = secondTemplate;
+            }
+
+            console.log(emailTemplates);
+            $.ajax({
+                type: 'POST',
+                url: base.URL.updateEmail,
+                data: {
+                    'emailTemplates': emailTemplates
+                },
+                success: function () {
+                    alert('Update Successful');
+                }
+            });
+        }
+    };
+    var URL = {
+        updateEmail: '{{ route_url('Schola::schola-admin-email-update') }}'
+    };
+    $(document).ready(function () {
+        emailView.init(URL);
+    });
+</script>
+<div class="wrap">
+        <div class="schola-admin-container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <select id="notification-type-selection" class="form-control form-control-lg">
+                        <option disabled value selected> -- Select an template -- </option>
+                        {% for key,type in notificationTypes %}
+                            {% if key == currentNotificationType.type %}
+                                <option selected value="{{ key }}">{{ type.name }}</option>
+                            {% else %}
+                                <option value="{{ key }}">{{ type.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% if currentNotificationType is null %}
+
+            {% else %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>
+                        Key: {teacher_name} {teacher_first_name} {teacher_last_name} {parent_name} {parent_first_name} {parent_last_name} {child_name} {class_url} {lesson_name} {lesson_day} {lesson_time} {teacher_email} {teacher_login_method} {parent_email} {parent_login_method}
+                    </p>
+                </div>
+            </div>
+            <div class="row email-template-panel-wrapper">
+                <div class="email-template-panel col-md-12">
+                    <form id="frmEmail">
+                        <div class="email-template-name">{{ currentNotificationType.name }}</div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <fieldset id="first-template">
+                                    <legend>Parent/Student</legend>
+                                    <label for="first-email-title">Title</label>
+                                    <input type="text" class="form-control" placeholder="Title" id="first-email-title" name="email-title" value="{{ firstTemplate.email_title }}" />
+                                    <label for="first-email-template">Email template</label>
+                                    <textarea type="email" class="form-control" id="first-email-template" name="email-template" placeholder="Content" rows="10">{{ firstTemplate.email_template }}</textarea>
+                                    <label><input type="checkbox" id="first-enable-email-sending" name="enable-email-sending" {{ firstTemplate.email_status == 1 ? "checked" : "" }} /> Send mail</label>
+                                    <br>
+                                    <label for="first-short-message-template">Short message template</label>
+                                    <textarea type="email" class="form-control" id="first-short-message-template" name="short-message-template" placeholder="Content" rows="8">{{ firstTemplate.short_message_template }}</textarea>
+                                    <label><input type="checkbox" id="first-enable-short-message-sending" name="enable-short-message-sending" {{ firstTemplate.short_message_status == 1 ? "checked" : "" }} /> Send short message</label>
+                                    <input type="hidden" name="email-type" value="{{ firstTemplate.email_type }}">
+                                </fieldset>
+                            </div>
+
+                            {% if secondTemplate is not null %}
+                            <div class="form-group col-md-6">
+                                <fieldset id="second-template">
+                                    <legend>Teacher</legend>
+                                    <label for="second-email-title">Title</label>
+                                    <input type="text" class="form-control" placeholder="Title" id="second-email-title" name="email-title" value="{{ secondTemplate.email_title }}" />
+                                    <label for="second-email-template">Email template</label>
+                                    <textarea type="email" class="form-control" id="second-email-template" name="email-template" placeholder="Content" rows="10">{{ secondTemplate.email_template }}</textarea>
+                                    <label><input type="checkbox" id="second-enable-email-sending" name="enable-email-sending" {{ secondTemplate.email_status == 1 ? "checked" : "" }} /> Send mail</label>
+                                    <br>
+                                    <label for="second-short-message-template">Short message template</label>
+                                    <textarea type="email" class="form-control" id="second-short-message-template" name="short-message-template" placeholder="Content" rows="8">{{ secondTemplate.short_message_template }}</textarea>
+                                    <label><input type="checkbox" id="second-enable-short-message-sending" name="enable-short-message-sending" {{ secondTemplate.short_message_status == 1 ? "checked" : "" }} /> Send short message</label>
+                                    <input type="hidden" name="email-type" value="{{ secondTemplate.email_type }}">
+                                </fieldset>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-primary" id="btn-update-email">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    <div id="ajax-response"></div>
+    <br class="clear">
+</div>

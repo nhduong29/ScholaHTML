@@ -1,0 +1,240 @@
+<link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/datetimepicker/jquery.datetimepicker.min.css' ) }}" media="screen"/>
+<script>
+    var $ = jQuery.noConflict();
+    var bookedClasses = {
+        URL: {
+            groupClassAction: '',
+            dateTimePickerPath: ''
+        },
+        init: function (url) {
+            var base = this;
+            base.URL = url;
+            $.getScript(base.URL.dateTimePickerPath);            
+            $('#pnlListStudent').on('click','.editStatus', function(){
+                base.edit(this);
+            });
+            $('#pnlListStudent').on('click','.saveStatus', function(){
+                base.save(this);
+            });
+        },
+        filter: function(target){
+
+            keyword = $('#searchStudentKeyword').val();
+            status = $('#filterByStatus').val();
+            date = $('#searchBySchdeuleDate').val();
+            keyword = keyword.trim();
+            var base = this;
+            $.ajax({
+                type:'POST',
+                url:base.URL.bookedClassAction,
+                data:{keyword:keyword,status:status,date:date, action:1},
+                success: function(data){
+                    $('#pnlListStudent').html(data);
+                }
+            });
+        },
+        searchByDate: function(date){
+            
+            date = $(date).val();
+            var base = this;
+            $.ajax({
+                type:'POST',
+                url:base.URL.bookedClassAction,
+                data:{date:date, action:2},
+                success: function(data){
+                    $('#pnlListStudent').html(data);
+                }
+            });
+        },
+        edit: function(target){
+
+            var schedule_id = $(target).data('profile-id');
+            this.load(schedule_id);
+        },
+        save: function(target){
+            var base = this;
+            var schedule_id = $(target).data('profile-id');
+            var schedule_status = $('#scheduleStatus' + schedule_id).val();
+            $.ajax({
+                type:"POST",
+                url: base.URL.bookedClassAction,
+                data:{action:4, schedule_id:schedule_id, schedule_status:schedule_status},
+                async: false,
+                success: function(data){
+                    $('#scheduleStatus' + schedule_id).val(schedule_status);
+                    $('.toogle-edit-' + schedule_id).toggle();
+                    window.location.reload();
+                }
+            });
+        },
+        load: function(schedule_id){
+            var re = false;
+            var base = this;
+            $.ajax({
+                type:"POST",
+                url: base.URL.bookedClassAction,
+                data:{action:3, schedule_id:schedule_id},
+                async: false,
+                success: function(data){
+                    var json    = JSON.parse(data);
+                    var schedule_status   = json.schedule_status;       
+                    $('#scheduleStatus' + schedule_id).val(schedule_status);
+                    $('.toogle-edit-' + schedule_id).toggle();
+                    re = true;
+                }
+            });
+            return re;
+        }
+    };
+    var URL = {
+        bookedClassAction: '{{ route_url('Schola::booked-classes-action') }}',
+        dateTimePickerPath : '{{ Schola.helper( 'assetUrl' , '/public/plugins/datetimepicker/jquery.datetimepicker.full.min.js' ) }}'
+    };
+    
+
+    $(document).ready(function () {
+        $('#searchBySchdeuleDate').click(function(){
+                $('#searchBySchdeuleDate').datetimepicker({
+                            format:'Y-m-d',
+                            timepicker:false
+                });
+            });
+        bookedClasses.init(URL);
+    });
+</script>
+<div id="pnlListStudent">
+<div class="row">
+    <div class="col-lg-2" style="padding-bottom:5px;padding-top:5px">
+        <input class="form-control" id="searchStudentKeyword" name="searchStudentKeyword" placeholder="Search by Teacher, Student">
+    </div>
+
+    <div class="col-lg-2" style="padding-bottom:5px;padding-top:5px">
+        <select id="filterByStatus" name="Status">
+        <option value="">--Select Status--</option>
+        <option value="0">BOOKED</option>
+        <option value="1">STUDENT CANCEL</option>
+        <option value="2">TEACHER CANCEL</option>
+        <option value="3">FINISH THIS CLASS</option>
+        <option value="4">FINISH STUDENT NOT SHOW</option>
+        <option value="5">FINISH TEACHER NOT SHOW</option>
+        <option value="5">FINISH TEACHER CLASS</option>
+        
+    </select>
+    </div>
+    <div class="col-lg-2" style="padding-bottom:5px">
+        <input class="form-control" onkeypress="return false;" id="searchBySchdeuleDate" name="searchStudentKeyword" placeholder="Select Schedule date" readonly="readonly">
+    </div>
+
+    <div class="col-lg-1">
+        <input
+            id="searchStudentBtn"
+            class="btn btn-primary toogle-edit-{{student.profile_id}}" 
+            type='button' 
+            value="Search"
+            onclick="bookedClasses.filter(this)">
+        </input>
+    </div>
+    
+    
+    <!-- <select id="filterByTeacher" style="float:right" onchange="bookedClasses.filter(this);">
+        <option value="">--Select Teacher--</option>
+        {%for teacher in TeacherList%}
+            <option value="{{teacher.teacher_id}}">{{teacher.teacher_firstname ~ ' ' ~ teacher.teacher_lastname}}</option>
+        {%endfor%}
+    </select>
+    <select id="filterByStudent" style="float:right" onchange="bookedClasses.filterStudent(this);">
+        <option value="">--Select Student--</option>
+        {%for student in StudentList%}
+            <option value="{{student.student_id}}">{{student.profile_name}}</option>
+        {%endfor%}
+    </select> -->
+    
+</div>
+ 
+    <table class="wp-list-table widefat fixed striped posts">
+    <thead>
+        <tr>
+            <th scope="col" class="manage-column column-primary">Parent name</th>
+            <th scope="col" class="manage-column">Student</th>
+            <th scope="col" class="manage-column">Teacher</th>
+            <th scope="col" class="manage-column" width="25%">Status</th>
+            <th scope="col" class="manage-column">Class Type</th>
+            <th width="25%" scope="col" class="manage-column">Class Time</th>
+            <th scope="col" class="manage-column">Url</th>
+            <th scope="col" class="manage-column">Action</th>
+
+        </tr>
+    </thead>
+    <tbody id="the-list">
+        {%for class in ListBookedClass%}
+            <tr>
+                <td>{{class.parent_name}}</td>
+                <td>{{class.profile_name}}</td>
+                <td>{{class.teacher_firstname}}</td>
+                <td>
+                    {% if class.schedule_status == "0" %}
+                        SCHEDULED
+                    {%elseif class.schedule_status == "1"%}
+                        STUDENT CANCEL
+                    {%elseif class.schedule_status == "2"%}
+                        TEACHER_CANCEL
+                    {%elseif class.schedule_status == "3"%}
+                        FINISH CLASS
+                    {%elseif class.schedule_status == "4"%}
+                        FINISH STUDENT NOT SHOW
+                    {%elseif class.schedule_status == "5"%}
+                        FINISH TEACHER NOT SHOW
+                    {%elseif class.schedule_status == "6"%}
+                        FINISH TEACHER CLASS
+                    {%endif%}
+
+                <br>
+                    <span class="toogle-edit-{{class.schedule_id}}">{{class.schedlue_status}}</span>
+                    <select id="scheduleStatus{{class.schedule_id}}" style="display:none" class="toogle-edit-{{class.schedule_id}}">
+                        <option value="0" {{class.schedule_status == 0 ?'selected':''}}>SCHEDULED</option>
+                        <option value="1" {{class.schedule_status == 1 ?'selected':''}}> STUDENT CANCEL</option>
+                        <option value="2" {{class.schedule_status == 2 ?'selected':''}}>TEACHER_CANCEL</option>
+                        <option value="3" {{class.schedule_status == 3 ?'selected':''}}>FINISH CLASS</option>
+                        <option value="4" {{class.schedule_status == 4 ?'selected':''}}>FINISH STUDENT NOT SHOW</option>
+                        <option value="5" {{class.schedule_status == 5 ?'selected':''}}> FINISH TEACHER NOT SHOW</option>
+                        <option value="6" {{class.schedule_status == 6 ?'selected':''}}>FINISH TEACHER CLASS</option>
+                    </select>
+                </td>
+                <td>
+                    {% if class.class_type == "0" %}
+                        1:1
+                    {%else%}
+                        GROUP
+                    {%endif%}
+                </td>
+
+                    {% set realScheduledTime = class.schedule_date %}
+
+                    <td> <span class="starting">Student - </span>
+                    {{ realScheduledTime|date('d/m/y') }} {{ realScheduledTime|date('H:i') }} ({{class.student_timezone}})
+                
+                    {% set realScheduledTimeTeacher = class.schedule_real_date %}
+                    {% set scheduledTimeTeacher = realScheduledTimeTeacher|date_modify('+' ~ class.teacherTimezoneOffset*60 ~ ' minutes') %}<br/>
+                    <span class="starting">Teacher - </span>
+                    {{ scheduledTimeTeacher|date('d/m/y') }} {{ scheduledTimeTeacher|date('H:i') }} ({{class.teacher_timezone}})
+                    </td>
+                    <td><a href="{{class.join_url}}"> Classroom</a></td>
+                    <td>
+                    <input data-profile-id="{{class.schedule_id}}" 
+                        class="editStatus btn btn-primary toogle-edit-{{class.schedule_id}}" 
+                        type='button' 
+                        value="Edit">
+                    </input>
+                    <input data-profile-id="{{class.schedule_id}}" 
+                        style="display:none" 
+                        class="saveStatus btn btn-primary toogle-edit-{{class.schedule_id}}" 
+                        type='button' 
+                        value="Save">
+                    </input>
+                </td>
+                    
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
+ </div>

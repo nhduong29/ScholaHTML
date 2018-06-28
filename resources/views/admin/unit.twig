@@ -1,0 +1,169 @@
+<script>
+    var $ = jQuery.noConflict();
+    var unitView = {
+        URL: {
+            updateUnit: '',
+            edit: '',
+            deleteUnit: ''
+        },
+        init: function (url) {
+            var base = this;
+            base.URL = url;
+        },
+        updateUnit: function () {
+            var base = this;
+            $('.text-danger').text('');
+            $.ajax({
+                type: 'POST',
+                url: base.URL.updateUnit,
+                data: $('#frmUnit').serializeArray(),
+                success: function (data) {
+                    var res = JSON.parse(data);
+                    if (res.status === 'success') {
+                        if($('#unit_id').val() === '0') {
+                            location.reload();
+                        } else {
+                            var tr = $('.unit-' + res.data.unit_id);
+                            $(tr).find('.unit_name')[0].innerHTML = res.data.unit_name;
+                            $(tr).find('.unit_des')[0].innerHTML = res.data.unit_des;
+                            $('#dialogUnit').modal('hide');
+                        }
+                    } else {
+                        $.each(res.errors, function (index, item) {
+                            $('.' + item.key + '-control .text-danger').text(item.value);
+                        });
+                    }
+                }
+            });
+        },
+        editUnit: function (id) {
+            if (id === 0) {
+                $('#unit_id').val('0');
+                $('#unit_name').val('');
+                $('#unit_des').val('');
+                $('.text-danger').text('');
+                $('#dialogUnit').modal('show');
+            } else {
+                var base = this;
+                $('#unit_name').val('');
+                $('#unit_des').val('');
+                $.ajax({
+                    type: 'POST',
+                    url: base.URL.editUnit,
+                    data: {'id': id},
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        $('#unit_id').val(res.unit_id);
+                        $('#unit_name').val(res.unit_name);
+                        $('#unit_des').val(res.unit_des);
+                        $('.text-danger').text('');
+                        $('#dialogUnit').modal('show');
+                    }
+                });
+            }
+        },
+        deleteUnit: function (id) {
+            if (confirm('Are you sure delete?')) {
+                var base = this;
+                $.ajax({
+                    type: 'POST',
+                    url: base.URL.deleteUnit,
+                    data: {'id': id},
+                    success: function (data) {
+                        var res = JSON.parse(data);
+                        if (res.status === 'success') {
+                            $('.unit-' + id).remove();
+                        } else {
+                            alert('The record is being used. Could not delete');
+                        }
+                    }
+                });
+            }
+        }
+    };
+    var URL = {
+        updateUnit: '{{ route_url('Schola::schola-admin-unit-update') }}',
+        editUnit: '{{ route_url('Schola::schola-admin-unit-edit') }}',
+        deleteUnit: '{{ route_url('Schola::schola-admin-unit-delete') }}'
+    };
+    $(document).ready(function () {
+        unitView.init(URL);
+    });
+</script>
+<div class="wrap">
+    <button onclick="unitView.editUnit(0)" type="button" class="btn btn-default">Add new</button>
+    <form id="posts-filter">
+        <table class="wp-list-table widefat fixed striped posts">
+            <thead>
+            <tr>
+                <th scope="col" class="manage-column column-primary">Name</th>
+                <th scope="col" class="manage-column">Description</th>
+            </tr>
+            </thead>
+            <tbody id="the-list">
+            {% for unit in listUnit %}
+                <tr class="unit-{{ unit.unit_id }}">
+                    <td>
+                        <strong><a class="row-title unit_name" href="#"
+                                   onclick="unitView.editUnit({{ unit.unit_id }})">{{ unit.unit_name }}</a></strong>
+                        <div class="row-actions">
+                        <span class="edit">
+                            <a href="#" onclick="unitView.editUnit({{ unit.unit_id }})">Edit</a> |
+                        </span>
+                            <span class="trash">
+                            <a href="#" onclick="unitView.deleteUnit({{ unit.unit_id }})">Trash</a>
+                        </span>
+                        </div>
+                    </td>
+                    <td><span class="unit_des">{{ unit.unit_des }}</span></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th scope="col" class="manage-column column-primary">Name</th>
+                <th scope="col" class="manage-column">Description</th>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div id="ajax-response"></div>
+    <br class="clear">
+</div>
+<div id="dialogUnit" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Unit</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmUnit" class="form-horizontal">
+                    <div class="form-group unit_name-control">
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" value="{{ unit.unit_id }}" name="unit_id" id="unit_id">
+                            <input class="form-control" id="unit_name" name="unit_name" placeholder="Name">
+                            <div class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="unit_des" name="unit_des"
+                                      placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-primary"
+                                    onclick="unitView.updateUnit({{ unit.unit_id }})">Update
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

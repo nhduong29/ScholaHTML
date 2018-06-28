@@ -1,0 +1,168 @@
+{% set lang = Schola.language('home') %}
+{% set locale = Schola.locale %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lang.effective_personalised }} {{ lang.international_english_learning }}</title>
+
+
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="/wp-content/plugins/schola/resources/assets/public/images/favicon.png">
+
+    <meta name="description" content="{{ lang.home_description }}">
+    <meta property="og:title" content="American International School At Home" />
+    <meta property="og:description" content="Ages 5-12 years experience American syllabus, activities, and English speaking confidence with trained and qualified teachers! Learn & have fun!">
+    <meta property="og:image" content="https://schola.tv/wp-content/plugins/schola/resources/assets/public/images/landing-page/laptop.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ host }}" />
+    <meta property="fb:app_id" content="234311713641907" />
+    <!-- BOOTSTRAP -->
+    <script src="{{ Schola.helper( 'assetUrl' , '/public/js/jquery.min.js' ) }}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap.min.css' ) }}" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/css/bootstrap-theme.min.css' ) }}" media="screen"/>
+    <script type="text/javascript" src="{{ Schola.helper( 'assetUrl' , '/public/plugins/bootstrap-3.3.7/js/bootstrap.min.js' ) }}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ Schola.helper('assetUrl', '/public/css/landing-page.css?v=1') }}">
+
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="http://example.com/favicon.png"/>
+
+    <style type="text/css">
+
+    .our_office_container i.fa.fa-home, .our_office_container i.fa.fa-phone{
+        margin-right: 10px;
+        font-size: 20px;
+    }
+    .conact-1 h3{
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #263c8f;
+    }
+    .conact-1 p, .conact-2 p, .conact-2 h3{
+        color: #263c8f;
+    }
+    .our_office_title{
+        color: #263c8f;
+        font-size: 30px;
+        font-weight: 700;
+        text-align: center;
+        margin: 50px 0;
+    }
+    .ctm-header .header-navbar{
+        padding: 15px 0;
+    }
+    .conact-1{
+        padding: 1px 0 25px 15px;
+        background: #f6fafd;
+        border-left: 5px solid #263c8f;
+        color: #fff;
+        margin: 80px 0px;
+    }
+    .conact-2{
+        padding: 1px 0 25px 15px;
+        background: #f6fafd;
+        border-right: 5px solid #263c8f;
+        color: #fff;
+        margin: 80px 0px;
+    }
+    .conact-2 h3, .conact-1 h3{
+        padding: 0px
+    }
+    /*.footer {
+         position: fixed;
+         left: 0;
+         bottom: 0;
+         width: 100%;
+         color: white;
+         text-align: center;
+    }*/
+ .vietnam-map{
+    text-align: center;
+}
+.singapore-map{
+   text-align: right;
+}
+.singapore-map,.vietnam-map{
+    height: 0;
+    width: 100%;
+    padding-bottom: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.singapore-map iframe,.vietnam-map iframe{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+@media(max-width: 768px){
+    /*.footer{
+        position: unset;
+    }*/
+}
+</style>
+</head>
+<body class="contact_us_page">
+    {% include "@Schola/public/layout/web_service_header.twig" %}
+
+    <div class="container">
+        <div class="row">
+            <div class="our_office_container">
+                <h2 class="our_office_title">{{ lang.contact_us_heading }}</h2>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="singapore-map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7964392435665!2d103.78457331475397!3d1.296792599054174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1a4fd6a29643%3A0x1cbb8a56dd8c9ccf!2s71+Ayer+Rajah+Crescent%2C+Singapore+139951!5e0!3m2!1sen!2sin!4v1528802948689" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="conact-1">
+                            <!-- <i class="fa fa-angle-double-left" style="font-size:24px"></i> -->
+                            <h3>Singapore</h3>
+                            <p><i class="fa fa-home" ></i>#05-20 , 71 Ayer Rajah Cresent, Singapore 139951</p>
+                            <p><i class="fa fa-phone" ></i> +65 82985791</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                  <div class="col-md-6">
+                    <div class="conact-2">
+                        <h3>Vietnam</h3>
+                        <p><i class="fa fa-home" ></i>108/69C Trần Quang Diệu, Quận 3, TP. HCM</p>
+                        <p><i class="fa fa-phone" ></i> +84 28 7109 9790</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="vietnam-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2652906902335!2d106.67799731477156!3d10.790981992311647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528d4c59b7b73%3A0xa183f4539c1384cc!2zMTA4LzY5QyBUcuG6p24gUXVhbmcgRGnhu4d1LCBwaMaw4budbmcgMTQsIFF14bqtbiAzLCBI4buTIENow60gTWluaCwgVmlldG5hbQ!5e0!3m2!1sen!2sin!4v1528545031007" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "@Schola/public/layout/web_service_footer.twig" %}
+</body>
+</html>

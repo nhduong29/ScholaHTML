@@ -1,0 +1,26 @@
+{% set lang = Schola.language('userprofile') %}
+
+<form id="frmStudentProfile">
+	<div class="basic-information-form">
+		<div class="form-group custom">
+			<div>
+				<ul class="nav nav-tabs">
+					<li class="{%if tab == 1%}active{%endif%}"><a href="profile?tab=1">{{ lang.user_profile }}</a></li>
+					<li class="{%if tab == 2%}active{%endif%}"><a href="profile?tab=2">{{ lang.children_profile }}</a></li>
+				</ul>
+			</div>
+			<div class="mt20">
+                {%if tab == 1%}
+                    {%include '@Schola/public/profile/parent.twig'%}
+                {%else%}
+                    {%include '@Schola/public/profile/child.twig'%}
+                {%endif%}
+			</div>
+			<div class="text-center">
+				<button id="btnUpdateStudentProfile" class="button button--saqui button--round-l button--text-thick button--size-s button--grey ml0" type="button" data-text="{{ lang.update }}">
+					<span class="icon fa fa-save"></span> {{ lang.update }}
+				</button>
+			</div>
+		</div>		
+	</div>	
+</form>

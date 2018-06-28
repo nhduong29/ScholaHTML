@@ -1,0 +1,56 @@
+{% set lang = Schola.language('file') %}
+
+{%set listSize = (listFile|length)%}
+{%if listSize > 0%}
+{%if error == 'true'%}
+	<div class="alert alert-warning">
+		Cannot upload this file
+	</div>
+{%endif%}
+<table class="table">
+	<tr>
+		<th>{{ lang.name }}</th>
+		<th class="w18">{{ lang.update_date }}</th>
+		<th class="w18">{{ lang.size }}</th>
+		<th class="w10"></th>
+		<th class="w10"></th>
+	</tr>
+	{%for item in listFile%}
+		<tr>
+			<td>
+				{%if item.file_type == 'pdf'%}
+						<i class="fa fa-file-pdf-o "></i> {{item.file_realname}}
+				{%else%}
+					<i class="fa fa-file-o "></i> {{item.file_realname}}
+				{%endif%}				
+			</td>
+			<td>{{item.file_upload_date|date('d/m/Y')}}</td>
+			<td>{{(item.file_size/(1024*1024))|number_format(2, '.', ',')}} MB</td>
+			<td>
+				{%if item.file_type == 'pdf'%}
+					<button 
+						data-lock="false"
+						onclick="whiteBoard.openPdfFromDialog(this);"
+						data-file-id="{{item.file_id}}" 
+						data-file-path="{{basePath ~ item.file_path}}" 
+						title="{{ lang.open_document }}" 
+						class="fa fa-folder-open btnOpenFile btn btn-info">
+					</button>
+				{%endif%}
+			</td>
+			<td>
+				<button 
+					onclick="whiteBoard.deleteDocument(this);"
+					data-file-id="{{item.file_id}}" 
+					title="{{ lang.delete_document }}" 
+					class="fa fa-trash btn btnDeleteFile btn-info">
+				</button>
+			</td>
+		</tr>
+	{%endfor%}
+</table>
+{%else%}
+	<div class="text-center">
+		{{ lang.nothing_here }}
+	</div>
+{%endif%}
