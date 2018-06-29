@@ -1,0 +1,119 @@
+.modal-dialog .title-list {
+    font-size: 20px;
+    font-weight: bold;
+    color: #263C8F;
+    padding-top: 30px;
+  }
+  
+  .tab-wrapper {
+    border-radius: 10px;
+    .nav-pills > li {
+      > a {
+        border-radius: 0px;
+        border: 1px solid #E0E0E0;
+        border-bottom: none;
+        font-weight: 500;
+        font-size: 15px;
+        color: #263C8F;
+      }
+      &.active > a {
+        border: none;
+        border-top: 1px solid #ffa656;
+        background: #ffa656;
+        color: white;
+      }
+      &:first-child a {
+        border-top-left-radius: 10px;
+        border-right: none;
+      }
+      &:last-child a {
+        border-top-right-radius: 10px;
+        border-left: none;
+      }
+    }
+    .tab-content {
+      border: 1px solid #E0E0E0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      padding: 20px 30px 15px 30px;
+      .mandatory-icon {
+          color: red;
+      }
+      .fa-star, .fa-star-o {
+          font-size: 1.5em;
+      }
+      textarea {
+        resize: none;
+      }
+    }
+  }
+  
+  #pnlDialogSelectLesson {
+    .modal-dialog {
+      overflow-y: initial !important;
+    }
+    .modal-body {
+      overflow-y: auto;
+    }
+  }
+  
+  .rate-class .rate-icon i {
+    font-size: 30px;
+    color: #F2C94C;
+    margin-right: 2px;
+  }
+  
+  .form-heading {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .form-heading2, .tab-content .filter-radio {
+    margin-bottom: 5px;
+  }
+  
+  .color-red {
+    color: red;
+  }
+  
+  .checking-circle .fa {
+    margin-right: 5px;
+  }
+  
+  .past-performance-list .past-performance-item {
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 15px;
+    padding-bottom: 24px;
+  }
+  
+  .star-rating i {
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .tab-wrapper .nav-pills > li {
+      > a {
+        border: 1px solid #E0E0E0;
+      }
+      &:last-child a, &:first-child a {
+        border-top: 1px solid #E0E0E0;
+        border-right: 1px solid #E0E0E0;
+        border-left: 1px solid #E0E0E0;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      &.active > a {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-top: 1px solid #ffa656;
+        border-right: 1px solid #ffa656;
+        border-left: 1px solid #ffa656;
+        background: #ffa656;
+        color: white;
+      }
+    }
+  }

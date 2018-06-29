@@ -13830,89 +13830,95 @@ body.new-design {
     padding: 0;
     background: url("../images/tileable_wood_texture.png"); }
 
+.modal-dialog .title-list {
+  font-size: 20px;
+  font-weight: bold;
+  color: #263C8F;
+  padding-top: 30px; }
 
-
-
-
-  .modal-dialog .title-list{
-    font-size: 20px;
-    font-weight: bold;
-    color: #263C8F;
-    padding-bottom: 15px;
-  }
-  .tab-wrapper{
-    border-radius: 10px;
-  }
-
-  .tab-wrapper .nav-pills>li>a{
+.tab-wrapper {
+  border-radius: 10px; }
+  .tab-wrapper .nav-pills > li > a {
     border-radius: 0px;
-    border:1px solid #E0E0E0;
+    border: 1px solid #E0E0E0;
     border-bottom: none;
     font-weight: 500;
     font-size: 15px;
-    color: #263C8F;
-  }
-
-  .tab-wrapper .nav-pills>li.active>a{
-    border:none;
-    border-top:1px solid #ffa656;
+    color: #263C8F; }
+  .tab-wrapper .nav-pills > li.active > a {
+    border: none;
+    border-top: 1px solid #ffa656;
     background: #ffa656;
-    color: white;
-  }
-
-  .tab-wrapper .nav-pills>li:first-child a{
+    color: white; }
+  .tab-wrapper .nav-pills > li:first-child a {
     border-top-left-radius: 10px;
-    border-right: none;
-  }
-  .tab-wrapper .nav-pills>li:last-child a{
+    border-right: none; }
+  .tab-wrapper .nav-pills > li:last-child a {
     border-top-right-radius: 10px;
-    border-left: none;
-  }
-
-.tab-wrapper .tab-content{
+    border-left: none; }
+  .tab-wrapper .tab-content {
     border: 1px solid #E0E0E0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    padding: 20px 30px 15px 30px;
-  }
+    padding: 20px 30px 15px 30px; }
+    .tab-wrapper .tab-content .mandatory-icon {
+      color: red; }
+    .tab-wrapper .tab-content .fa-star, .tab-wrapper .tab-content .fa-star-o {
+      font-size: 1.5em; }
+    .tab-wrapper .tab-content textarea {
+      resize: none; }
 
-/*#pnlDialogSelectLesson  .modal-dialog{
-  overflow-y: initial !important;
-  height: 600px;
-}
-#pnlDialogSelectLesson  .modal-body{
-  height: 400px;
-  overflow-y: auto;
-}*/
-.tab-wrapper .tab-content .mandatory-icon{
-  color: red;
-}
+#pnlDialogSelectLesson .modal-dialog {
+  overflow-y: initial !important; }
+#pnlDialogSelectLesson .modal-body {
+  overflow-y: auto; }
 
-.tab-wrapper .tab-content .fa-star, .tab-wrapper .tab-content .fa-star-o{
-  font-size: 1.5em;
-}
-
-.rate-class .rate-icon i{
+.rate-class .rate-icon i {
   font-size: 30px;
   color: #F2C94C;
-  margin-right: 2px;
-}
+  margin-right: 2px; }
 
-.tab-wrapper .tab-content textarea{
-  resize: none;
-}
-
-.form-heading{
+.form-heading {
   font-size: 16px;
   font-weight: 500;
   margin-top: 15px;
-  margin-bottom: 10px;
-}
-.form-heading2, .tab-content .filter-radio{
-  margin-bottom: 5px;
-}
+  margin-bottom: 10px; }
 
+.form-heading2, .tab-content .filter-radio {
+  margin-bottom: 5px; }
+
+.color-red {
+  color: red; }
+
+.checking-circle .fa {
+  margin-right: 5px; }
+
+.past-performance-list .past-performance-item {
+  border-bottom: 1px solid #E0E0E0;
+  margin-bottom: 15px;
+  padding-bottom: 24px; }
+
+.star-rating i {
+  cursor: pointer; }
+
+@media (max-width: 768px) {
+  .tab-wrapper .nav-pills > li > a {
+    border: 1px solid #E0E0E0; }
+  .tab-wrapper .nav-pills > li:last-child a, .tab-wrapper .nav-pills > li:first-child a {
+    border-top: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+    border-left: 1px solid #E0E0E0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; }
+  .tab-wrapper .nav-pills > li.active > a {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 1px solid #ffa656;
+    border-right: 1px solid #ffa656;
+    border-left: 1px solid #ffa656;
+    background: #ffa656;
+    color: white; } }
 
 /*# sourceMappingURL=style.css.map */

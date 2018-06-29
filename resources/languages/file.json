@@ -1,9 +1,0 @@
-{
-	"name" : "Name",
-	"update_date" : "Upload date",
-	"size" : "Size",
-	"open_document" : "Open document",
-	"nothing_here" : "There are nothing here",
-	"delete_document" : "Delete document",
-	"file_not_found":"Oops! File type is not supported or File not found"
-}

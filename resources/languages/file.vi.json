@@ -1,9 +1,0 @@
-{
-	"name" : "tên",
-	"update_date" : "ngày tải lên",
-	"size" : "độ lớn",
-	"open_document" : "Mở tài liệu",
-	"nothing_here" : "Không có thông tin gì",
-	"delete_document" : "Xóa tài liệu", 
-	"file_not_found":"Oops! kiểu tập tin không được hỗ trợ hoặc tập tin không tìm thấy"
-}
