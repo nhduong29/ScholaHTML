@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)https://demo.schola.tv/student/schedule-class/native -->
 <html class="gr__demo_schola_tv">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -64,62 +63,7 @@
     <script src="resources/assets/public/js/student/scheduleHandler.js" type="text/javascript"></script>
     <script src="resources/assets/public/js/classAccess/classAccess.js" type="text/javascript"></script>
     <script type="text/javascript" src="resources/assets/public/plugins/star-rating/jquery.star.rating.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('.select-single-dialog').select2({width: '100%'});
-            resizeDialog();
-            window.onresize = function(event) {
-                resizeDialog();
-            }
-            var radio_learning_path_is_checked = $('#radio4').attr("checked") != "undefined" &&  $('#radio4').attr("checked") == "checked";
-            if(radio_learning_path_is_checked){
-                showHideBox('.next-lesson-level-wrapper','show');
-            }else{
-                showHideBox('.next-lesson-level-wrapper','hide');
-            }
-            scheduleView.init(URL);
-            scheduleHandler.init(URL);
-            $('.star-rating').each(function (index, element) {
-                $(element).addRating({
-                    max : 5,
-                    half : true,
-                    fieldName : 'rating',
-                    fieldId : 'rating',
-                    icon : 'star',
-                    callback : scheduleHandler.rate
-                });
-            });
-            scheduleHandler.rate($('#star-rating-'),0);
-
-
-        });
-        var URL = {
-            cancelClass:                'https://demo.schola.tv/student/learning-progress/cancel-class',
-            cancelClassConfirmDialog:   'https://demo.schola.tv/student/learning-progress/cancel-class-confirm-dialog',
-            rateClass:                  'https://demo.schola.tv/student/learning-progress/rate-class',
-            rateClassConfirmDialog:     'https://demo.schola.tv/student/learning-progress/rate-class-confirm-dialog',
-            checkCancelClassConfirmDialog:   'https://demo.schola.tv/student/learning-progress/check-cancel-class-confirm-dialog-time',
-            action: 'https://demo.schola.tv/student/action',
-        };
-        
-
-        function resizeDialog() {
-            height = $(window).height() - 90;
-            $('#pnlDialogSelectLesson  .modal-dialog').css({'max-height': height + 'px'});
-            height_modal_body = height - 50 - 70;
-            $('#pnlDialogSelectLesson .modal-body').css({'max-height': height_modal_body + 'px'});
-        }
-
-        function showHideBox(domElement, showHide){
-            if(showHide == 'show'){
-                $(domElement).show();
-            }
-            if(showHide == 'hide'){
-                $(domElement).hide();
-            }
-        }
-    </script>
+    <script type="text/javascript" src="resources/assets/public/js/dialog.js"></script>
 
     <link rel="stylesheet" type="text/css" href="resources/assets/public/css/dataTables.jqueryui.min.css" media="screen">
     <title>Student Performance</title>
@@ -132,401 +76,410 @@
 </button>
 <div id="content">
     <div class="container-fluid">
-                        <!--Dialog begin here-->
-                        <div id="pnlDialogSelectLesson">
-                            <div id="studentPerformance" class="modal fade custom-dialog no-header in" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span
-                                                    class="icon material-icons">close</span></button>
-                                                    <div class="title-list text-center">Student Performance</div>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="frmScheduleLesson">
-                                                <div class="tab-wrapper">
-                                                    <!-- Nav tabs -->
-                                                    <ul class="nav nav-pills nav-justified" role="">
-                                                        <li role="presentation" class="active">
-                                                            <a href="#reviewCurrentClass" aria-controls="reviewCurrentClass" role="tab" data-toggle="tab">Review Current Class</a>
-                                                        </li>
-                                                        <li role="presentation">
-                                                            <a href="#pastPerformance" aria-controls="pastPerformance" role="tab" data-toggle="tab">Past Performance & Note</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!-- Tab panes -->
-                                                    <div class="tab-content">
-                                                        <div class="tab-pane active" id="reviewCurrentClass">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="text-left color-blue form-heading">Give the students stars <span class="mandatory-icon">*</span></div>
-                                                                    <div class="rate-class mt15">
-                                                                        <div class="rate-icon mt15">
-                                                                            <div id="star-rating-1001" class="star-rating star-rating-1001" data-schedule-id="1001"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6 text-center ">
-                                                                    <div class="color-blue form-heading">Class status</div>
-                                                                    <div class="mt20">
-                                                                        <select class="select-single-dialog" name="class_status_id" id="class_status_id" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Completed Normal
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Student No Show
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Student Tech Issue
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Tell parents how did your student do in class today <span class="mandatory-icon">*</span></div>
-                                                                    <textarea class="form-control" id="reportForParent" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Any internal notes for Schola or other teachers about student?</div>
-                                                                    <textarea class="form-control" id="internalNote" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <!--Begin Content Learning-->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Content Learning <span class="mandatory-icon">*</span></div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Vocabulary Retention</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" name="class_status_id" id="vocabulary" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Developing
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Developing1
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Developing2
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Pronunciation</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="pronunciation" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Developing1
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Developing2
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Developing3
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Alphabet Skills</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="alphabet" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Often
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--End Content Learning-->
-                                                            <!--Begin Classroom Behavior-->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Classroom Behavior <span class="mandatory-icon">*</span></div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Follow Instruction</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" name="class_status_id" id="instruction" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Often
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Participation</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="participation" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Often
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Speaks Clearly</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="speak" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Often
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Often
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--End Classroom Behavior-->
-                                                            <!--Begin Computer-->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Computer Skills <span class="mandatory-icon">*</span></div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Mouse / Touchpad Activities</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" name="class_status_id" id="mouse" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Developing
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Developing
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Developing
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--End Computer-->
-                                                            <!--Begin Feedback-->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Lesson Completion and Feedback</div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Degree of Completion</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" name="class_status_id" id="completion" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Finished all
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Finished all
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Finished all
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">General Difficulty</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="general-difficulty" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                Just right
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                Just right
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Just right
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 text-center ">
-                                                                    <div class="color-blue form-heading2">Lesson Typos</div>
-                                                                    <div>
-                                                                        <select class="select-single-dialog" id="lesson-typos" tabindex="-1" aria-hidden="true">
-                                                                            <option value="1">
-                                                                                None
-                                                                            </option>
-                                                                            <option value="2">
-                                                                                None
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                None
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--End Feedback-->
-                                                            <!--Begin learning path-->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="text-left color-blue form-heading">Do you want to change the student's learning path?</div>
-                                                                </div>
-                                                                <div class="col-md-12 text-left">
-                                                                    <div class="filter-radio">
-                                                                        <div class="radio radio-orange radio-inline">
-                                                                            <input type="radio" name="radio2" id="radio3" value="option1" onclick="showHideBox('.next-lesson-level-wrapper','hide')" checked >
-                                                                            <label for="radio3">No</label>
-                                                                        </div>
-                                                                        <div class="radio radio-orange radio-inline">
-                                                                            <input type="radio" name="radio2" id="radio4" value="option2" onclick="showHideBox('.next-lesson-level-wrapper','show')">
-                                                                            <label for="radio4">Yes</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row next-lesson-level-wrapper">
-                                                                <div class="col-md-4 text-center">
-                                                                        <div class="color-blue form-heading2">Next Lesson level <span class="mandatory-icon">*</span></div>
-                                                                        <div>
-                                                                            <select class="select-single-dialog" name="class_status_id" id="next-lesson-level" tabindex="-1" aria-hidden="true">
-                                                                                <option value="1">
-                                                                                    0/1/2/3/4/5
-                                                                                </option>
-                                                                                <option value="2">
-                                                                                    0/1/2/3/4/5
-                                                                                </option>
-                                                                                <option value="3">
-                                                                                    0/1/2/3/4/5
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4 text-center ">
-                                                                        <div class="color-blue form-heading2">Next Lesson <span class="mandatory-icon">*</span></div>
-                                                                        <div>
-                                                                            <select class="select-single-dialog" name="class_status_id" id="next-lesson" tabindex="-1" aria-hidden="true">
-                                                                                <option value="1">
-                                                                                    1
-                                                                                </option>
-                                                                                <option value="2">
-                                                                                    2
-                                                                                </option>
-                                                                                <option value="3">
-                                                                                    3
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                            </div>
-                                                            <!--End Computer-->
-                                                        </div>
-                                                        <div role="tabpanel" class="tab-pane" id="pastPerformance">
-                                                            <div class="past-performance-list mb30 tab-item tab-1">
-                                                                <div class="past-performance-item">
-                                                                   <div class="row">
-                                                                    <div class="col-md-7 col-xs-12">
-                                                                        <div class="form-heading color-blue">L1U1 Lesson3 - Describing Myself - Sciences </div>
-                                                                        <div class="time mb5 color-blue">17/12/17 from 12:00 - 12:30</div>
-                                                                    </div>
-                                                                    <div class="col-md-5 col-xs-12">
-                                                                        <div class="rate-class mt15">
-                                                                           <div class="rate-icon">
-                                                                                <div id="star-rating-1002" class="star-rating star-rating-1002" data-schedule-id="1002"></div>
-                                                                           </div>
-                                                                        </div>
-                                                                     </div>
-                                                                   </div>
-                                                                   <div class="row">
-                                                                       <div class="col-md-12">
-                                                                            <p class="comment-for-parrent mt10">
-                                                                            Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent
-                                                                            </p>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div class="color-blue form-heading2">Internal Notes</div>
-                                                                             <p class="comment-for-parrent mt10">
-                                                                             Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes
-                                                                             </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row checking-circle">
-                                                                        <div class="col-md-12">
-                                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-red" aria-hidden="true"></i></span>
-                                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-orange" aria-hidden="true"></i></span>
-                                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-green" aria-hidden="true"></i></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="practice-item">
-                                                                        <div class="row">
-                                                                         <div class="col-md-7 col-xs-12">
-                                                                             <div class="form-heading color-blue">L1U1 Lesson3 - Describing Myself - Sciences </div>
-                                                                             <div class="time mb5 color-blue">17/12/17 from 12:00 - 12:30</div>
-                                                                         </div>
-                                                                         <div class="col-md-5 col-xs-12">
-                                                                             <div class="rate-class mt15">
-                                                                                <div class="rate-icon">
-                                                                                   <div id="star-rating-1003" class="star-rating star-rating-1003" data-schedule-id="1003"></div>
-                                                                                </div>
-                                                                             </div>
-                                                                          </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                 <p class="comment-for-parrent mt10">
-                                                                                 Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent
-                                                                                 </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                             <div class="col-md-12">
-                                                                                 <div class="color-blue form-heading2">Internal Notes</div>
-                                                                                  <p class="comment-for-parrent mt10">
-                                                                                  Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes
-                                                                                  </p>
-                                                                             </div>
-                                                                         </div>
-                                                                         <div class="row checking-circle">
-                                                                             <div class="col-md-12">
-                                                                                 <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-red" aria-hidden="true"></i></span>
-                                                                                 <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-orange" aria-hidden="true"></i></span>
-                                                                                 <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-green" aria-hidden="true"></i></span>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-                                                             </div>
+        <!--Dialog begin here-->
+        <div id="pnlDialogSelectLesson">
+            <div id="studentPerformance" class="modal fade custom-dialog no-header in" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span
+                                    class="icon material-icons">close</span></button>
+                                    <div class="title-list text-center">Student Performance</div>
+                        </div>
+                        <div class="modal-body">
+                            <form id="frmScheduleLesson">
+                                <div class="tab-wrapper">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-pills nav-justified" role="">
+                                        <li role="presentation" class="active">
+                                            <a href="#reviewCurrentClass" aria-controls="reviewCurrentClass" role="tab" data-toggle="tab">Review Current Class</a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#pastPerformance" aria-controls="pastPerformance" role="tab" data-toggle="tab">Past Performance & Note</a>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <!-- Begin Review Current Class -->
+                                        <div class="tab-pane active" id="reviewCurrentClass">
+                                            <!--Begin Give the students stars -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="text-left color-blue form-heading">Give the students stars <span class="mandatory-icon">*</span></div>
+                                                    <div class="rate-class mt15">
+                                                        <div class="rate-icon mt15">
+                                                            <div id="star-rating-1001" class="star-rating star-rating-1001" data-schedule-id="1001"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
+                                                <div class="col-md-6 text-center ">
+                                                    <div class="color-blue form-heading">Class status</div>
+                                                    <div class="mt20">
+                                                        <select class="select-single-dialog" name="class_status_id" id="class_status_id" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Completed Normal
+                                                            </option>
+                                                            <option value="2">
+                                                                Student No Show
+                                                            </option>
+                                                            <option value="3">
+                                                                Student Tech Issue
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Give the students stars -->
+                                            <!--Begin Tell parents -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Tell parents how did your student do in class today <span class="mandatory-icon">*</span></div>
+                                                    <textarea class="form-control" id="reportForParent" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Any internal notes for Schola or other teachers about student?</div>
+                                                    <textarea class="form-control" id="internalNote" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <!--End Tell parents -->
+                                            <!--Begin Content Learning-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Content Learning <span class="mandatory-icon">*</span></div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Vocabulary Retention</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" name="class_status_id" id="vocabulary" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Developing
+                                                            </option>
+                                                            <option value="2">
+                                                                Developing1
+                                                            </option>
+                                                            <option value="3">
+                                                                Developing2
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Pronunciation</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="pronunciation" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Developing1
+                                                            </option>
+                                                            <option value="2">
+                                                                Developing2
+                                                            </option>
+                                                            <option value="3">
+                                                                Developing3
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Alphabet Skills</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="alphabet" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Often
+                                                            </option>
+                                                            <option value="2">
+                                                                Often
+                                                            </option>
+                                                            <option value="3">
+                                                                Often
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Content Learning-->
+                                            <!--Begin Classroom Behavior-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Classroom Behavior <span class="mandatory-icon">*</span></div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Follow Instruction</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" name="class_status_id" id="instruction" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Often
+                                                            </option>
+                                                            <option value="2">
+                                                                Often
+                                                            </option>
+                                                            <option value="3">
+                                                                Often
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Participation</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="participation" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Often
+                                                            </option>
+                                                            <option value="2">
+                                                                Often
+                                                            </option>
+                                                            <option value="3">
+                                                                Often
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Speaks Clearly</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="speak" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Often
+                                                            </option>
+                                                            <option value="2">
+                                                                Often
+                                                            </option>
+                                                            <option value="3">
+                                                                Often
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Classroom Behavior-->
+                                            <!--Begin Computer-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Computer Skills <span class="mandatory-icon">*</span></div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Mouse / Touchpad Activities</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" name="class_status_id" id="mouse" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Developing
+                                                            </option>
+                                                            <option value="2">
+                                                                Developing
+                                                            </option>
+                                                            <option value="3">
+                                                                Developing
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Computer-->
+                                            <!--Begin Feedback-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Lesson Completion and Feedback</div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Degree of Completion</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" name="class_status_id" id="completion" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Finished all
+                                                            </option>
+                                                            <option value="2">
+                                                                Finished all
+                                                            </option>
+                                                            <option value="3">
+                                                                Finished all
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">General Difficulty</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="general-difficulty" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                Just right
+                                                            </option>
+                                                            <option value="2">
+                                                                Just right
+                                                            </option>
+                                                            <option value="3">
+                                                                Just right
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center ">
+                                                    <div class="color-blue form-heading2">Lesson Typos</div>
+                                                    <div>
+                                                        <select class="select-single-dialog" id="lesson-typos" tabindex="-1" aria-hidden="true">
+                                                            <option value="1">
+                                                                None
+                                                            </option>
+                                                            <option value="2">
+                                                                None
+                                                            </option>
+                                                            <option value="3">
+                                                                None
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Feedback-->
+                                            <!--Begin learning path-->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="text-left color-blue form-heading">Do you want to change the student's learning path?</div>
+                                                </div>
+                                                <div class="col-md-12 text-left">
+                                                    <div class="filter-radio">
+                                                        <div class="radio radio-orange radio-inline">
+                                                            <input type="radio" name="radio2" id="radio3" value="option1" onclick="showHideBox('.next-lesson-level-wrapper','hide')" checked >
+                                                            <label for="radio3">No</label>
+                                                        </div>
+                                                        <div class="radio radio-orange radio-inline">
+                                                            <input type="radio" name="radio2" id="radio4" value="option2" onclick="showHideBox('.next-lesson-level-wrapper','show')">
+                                                            <label for="radio4">Yes</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row next-lesson-level-wrapper">
+                                                <div class="col-md-4 text-center">
+                                                        <div class="color-blue form-heading2">Next Lesson level <span class="mandatory-icon">*</span></div>
+                                                        <div>
+                                                            <select class="select-single-dialog" name="class_status_id" id="next-lesson-level" tabindex="-1" aria-hidden="true">
+                                                                <option value="1">
+                                                                    0/1/2/3/4/5
+                                                                </option>
+                                                                <option value="2">
+                                                                    0/1/2/3/4/5
+                                                                </option>
+                                                                <option value="3">
+                                                                    0/1/2/3/4/5
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 text-center ">
+                                                        <div class="color-blue form-heading2">Next Lesson <span class="mandatory-icon">*</span></div>
+                                                        <div>
+                                                            <select class="select-single-dialog" name="class_status_id" id="next-lesson" tabindex="-1" aria-hidden="true">
+                                                                <option value="1">
+                                                                    1
+                                                                </option>
+                                                                <option value="2">
+                                                                    2
+                                                                </option>
+                                                                <option value="3">
+                                                                    3
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <!--End Computer-->
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary-2 btn-no-bg"  data-dismiss="modal">Cancel</button>
-                                            <button id="btnUpdateSchedule" type="button" class="btn btn-primary-2">Confirm</button>
+                                        <!-- End Review Current Class -->
+                                        <!-- Begin Pát performance  -->
+                                        <div role="tabpanel" class="tab-pane" id="pastPerformance">
+                                            <div class="past-performance-list mb30 tab-item tab-1">
+                                                <div class="past-performance-item">
+                                                    <div class="row">
+                                                    <div class="col-md-7 col-xs-12">
+                                                        <div class="form-heading color-blue">L1U1 Lesson3 - Describing Myself - Sciences </div>
+                                                        <div class="time mb5 color-blue">17/12/17 from 12:00 - 12:30</div>
+                                                    </div>
+                                                    <div class="col-md-5 col-xs-12">
+                                                        <div class="rate-class mt15">
+                                                            <div class="rate-icon">
+                                                                <div id="star-rating-1002" class="star-rating star-rating-1002" data-schedule-id="1002"></div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="comment-for-parrent mt10">
+                                                            Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="color-blue form-heading2">Internal Notes</div>
+                                                                <p class="comment-for-parrent mt10">
+                                                                Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes
+                                                                </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row checking-circle">
+                                                        <div class="col-md-12">
+                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-red" aria-hidden="true"></i></span>
+                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-orange" aria-hidden="true"></i></span>
+                                                            <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-green" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="practice-item">
+                                                        <div class="row">
+                                                            <div class="col-md-7 col-xs-12">
+                                                                <div class="form-heading color-blue">L1U1 Lesson3 - Describing Myself - Sciences </div>
+                                                                <div class="time mb5 color-blue">17/12/17 from 12:00 - 12:30</div>
+                                                            </div>
+                                                            <div class="col-md-5 col-xs-12">
+                                                                <div class="rate-class mt15">
+                                                                <div class="rate-icon">
+                                                                    <div id="star-rating-1003" class="star-rating star-rating-1003" data-schedule-id="1003"></div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                    <p class="comment-for-parrent mt10">
+                                                                    Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent Comment for parrent
+                                                                    </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="color-blue form-heading2">Internal Notes</div>
+                                                                    <p class="comment-for-parrent mt10">
+                                                                    Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes Internal notes
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row checking-circle">
+                                                                <div class="col-md-12">
+                                                                    <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-red" aria-hidden="true"></i></span>
+                                                                    <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-orange" aria-hidden="true"></i></span>
+                                                                    <span class="color-blue">Vocabulary Retention <i class="fa fa-circle color-green" aria-hidden="true"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                         </div>
+                                        <!-- End Pát performance  -->
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary-2 btn-no-bg"  data-dismiss="modal">Cancel</button>
+                            <button id="btnUpdateSchedule" type="button" class="btn btn-primary-2">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Dialog end here-->
     </div>
 </div>
 </body>
