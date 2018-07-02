@@ -92,19 +92,19 @@
 	};
 
 	$.fn.showRating = function(numRating, force) {
-        obj = this;
-        $(obj).find('i').each(function(){
-            var icon = obj.settings.icon+'_border';
-            $(this).removeClass('selected');
+        var obj = this;
+        if ($('#' + obj.settings.fieldId).val() == '' || force) {
+            $(obj).find('i').each(function () {
+                var icon = obj.settings.icon + '_border';
+                $(this).removeClass('selected');
 
-            if($(this).data('rating') <= numRating)
-            {
-                icon = obj.settings.icon;
-                $(this).addClass('selected');
-                $(this).css('cursor', 'pointer');
-            }
-            $(this).html(icon);
-        })
+                if ($(this).data('rating') <= numRating) {
+                    icon = obj.settings.icon;
+                    $(this).addClass('selected');
+                }
+                $(this).html(icon);
+            })
+        }
 	}
 
 	$.fn.modalshowRating = function(numRating, force) {

@@ -10,30 +10,23 @@ $(document).ready(function() {
     }else{
         showHideBox('.next-lesson-level-wrapper','hide');
     }
-    scheduleView.init(URL);
-    scheduleHandler.init(URL);
     $('.star-rating').each(function (index, element) {
+        var rating_id = $(element).data('rating-id');
         $(element).addRating({
             max : 5,
             half : true,
-            fieldName : 'rating',
-            fieldId : 'rating',
+            fieldName : rating_id,
+            fieldId : rating_id,
             icon : 'star',
-            callback : scheduleHandler.rate
+            callback : ratingById
         });
     });
-    scheduleHandler.rate($('#star-rating-'),0);
+    ratingById($('#star-rating-'),0);
+
 
 
 });
-var URL = {
-    cancelClass:                'https://demo.schola.tv/student/learning-progress/cancel-class',
-    cancelClassConfirmDialog:   'https://demo.schola.tv/student/learning-progress/cancel-class-confirm-dialog',
-    rateClass:                  'https://demo.schola.tv/student/learning-progress/rate-class',
-    rateClassConfirmDialog:     'https://demo.schola.tv/student/learning-progress/rate-class-confirm-dialog',
-    checkCancelClassConfirmDialog:   'https://demo.schola.tv/student/learning-progress/check-cancel-class-confirm-dialog-time',
-    action: 'https://demo.schola.tv/student/action',
-};
+
 
 
 function resizeDialog() {
@@ -50,4 +43,16 @@ function showHideBox(domElement, showHide){
     if(showHide == 'hide'){
         $(domElement).hide();
     }
+}
+
+function ratingById (ratingElement, rate) {
+    var scheduleId = $(ratingElement).data("rating-id");
+    if (scheduleId && scheduleId != 0) {
+        ratingRequest(scheduleId, rate);
+    }
+}
+
+function ratingRequest (ratingId, rate) {
+    console.log("rating ID " + ratingId);
+    console.log("rate value " + rate);
 }
