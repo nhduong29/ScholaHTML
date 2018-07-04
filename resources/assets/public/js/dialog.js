@@ -21,11 +21,30 @@ $(document).ready(function() {
             callback : ratingById
         });
     });
-    ratingById($('#star-rating-'),0);
+	
+	setRatingValue($("#star-rating-1001"), 3);
+	setRatingValue($("#star-rating-1002"));
 
 
 
 });
+
+function setRatingValue(element, value){
+	var rating_id = $(element).data('rating-id');
+	element.settings = {
+		max : 5,
+		half : true,
+		fieldName : rating_id,
+		fieldId : rating_id,
+		icon : 'star',
+		callback : ratingById
+	};
+		if(value){
+			element.setRating(value);
+		}else{
+			element.setRating("");
+		}
+}
 
 
 
