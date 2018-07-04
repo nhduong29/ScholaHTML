@@ -12,18 +12,20 @@ $(document).ready(function() {
     }
     $('.star-rating').each(function (index, element) {
         var rating_id = $(element).data('rating-id');
+        var rating_value = $(element).data('rating-value');
         $(element).addRating({
             max : 5,
             half : true,
             fieldName : rating_id,
             fieldId : rating_id,
             icon : 'star',
+            value : rating_value,
             callback : ratingById
         });
     });
 	
-	setRatingValue($("#star-rating-1001"), 3);
-	setRatingValue($("#star-rating-1002"));
+	//setRatingValue($("#star-rating-1001"), 3);
+	//setRatingValue($("#star-rating-1002"));
 
 
 
@@ -37,6 +39,7 @@ function setRatingValue(element, value){
 		fieldName : rating_id,
 		fieldId : rating_id,
 		icon : 'star',
+        value : value,
 		callback : ratingById
 	};
 		if(value){
