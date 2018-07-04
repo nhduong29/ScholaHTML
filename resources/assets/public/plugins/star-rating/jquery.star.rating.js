@@ -17,6 +17,7 @@
 			fieldName : 'rating',
 			fieldId : 'rating',
 			icon : 'star',
+			value: 0,
             callback : null
 		}, options );
 		this.settings = settings;
@@ -39,7 +40,9 @@
                     }
 			    );
 		}
-		$(this).append('<input type="hidden" name="'+settings.fieldName+'" id="'+settings.fieldId+'" />');
+        obj.showRating(settings.value,true);
+		$(this).append('<input type="hidden" name="'+settings.fieldName+'" id="'+settings.fieldId+'" value="'+settings.value+'"/>');
+
 	};
 
 	$.fn.addModalRating = function(options) {
