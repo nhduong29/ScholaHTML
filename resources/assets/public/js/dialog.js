@@ -13,6 +13,7 @@ $(document).ready(function() {
     $('.star-rating').each(function (index, element) {
         var rating_id = $(element).data('rating-id');
         var rating_value = $(element).data('rating-value');
+        var disable = $(element).data('rating-disable');
         $(element).addRating({
             max : 5,
             half : true,
@@ -20,6 +21,7 @@ $(document).ready(function() {
             fieldId : rating_id,
             icon : 'star',
             value : rating_value,
+            disable : disable,
             callback : ratingById
         });
     });

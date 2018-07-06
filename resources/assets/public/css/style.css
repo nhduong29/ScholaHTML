@@ -13903,6 +13903,10 @@ body.new-design {
 .star-rating i {
   cursor: pointer; }
 
+.star-rating[data-rating-disable="true"] i {
+  cursor: default;
+  opacity: 0.8; }
+
 @media (max-width: 768px) {
   .tab-wrapper .nav-pills > li > a {
     border: 1px solid #E0E0E0; }

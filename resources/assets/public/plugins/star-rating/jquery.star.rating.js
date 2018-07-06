@@ -18,6 +18,7 @@
 			fieldId : 'rating',
 			icon : 'star',
 			value: 0,
+			disable: false,
             callback : null
 		}, options );
 		this.settings = settings;
@@ -26,11 +27,13 @@
 		{
 			var star = $('<i/>').addClass('material-icons').html(this.settings.icon+'_border').data('rating', i).appendTo(this)
                 .click(function(){
-                    var rate = $(this).data('rating');
-                    obj.setRating(rate);
-                    if (obj.settings.callback != null) {
-                        obj.settings.callback($(this).parent(), rate);
-                    }
+					if(!obj.settings.disable){
+						var rate = $(this).data('rating');
+						obj.setRating(rate);
+						if (obj.settings.callback != null) {
+							obj.settings.callback($(this).parent(), rate);
+						}
+					}
 				})
                 .hover(
                     function(e){
