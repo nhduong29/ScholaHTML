@@ -66,127 +66,118 @@
     <script type="text/javascript" src="resources/assets/public/js/dialog.js"></script>
 
     <link rel="stylesheet" type="text/css" href="resources/assets/public/css/dataTables.jqueryui.min.css" media="screen">
-    <style>
-        .hc-header{
-            height: 500px;
-        }
-        .hc-header-inner{
-            min-height: 100%;  /* Fallback for vh unit */
-  min-height: 100vh; /* You might also want to use
-                        'height' property instead.
-                        
-                        Note that for percentage values of
-                        'height' or 'min-height' properties,
-                        the 'height' of the parent element
-                        should be specified explicitly.
-  
-                        In this case the parent of '.vertical-center'
-                        is the <body> element */
+    <link href="resources/assets/public/css/help-center.css" rel="stylesheet">
 
-  /* Make it a flex container */
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex; 
-  
-  /* Align the bootstrap's container vertically */
-    -webkit-box-align : center;
-  -webkit-align-items : center;
-       -moz-box-align : center;
-       -ms-flex-align : center;
-          align-items : center;
-  
-  /* In legacy web browsers such as Firefox 9
-     we need to specify the width of the flex container */
-  width: 100%;
-  
-  /* Also 'margin: 0 auto' doesn't have any effect on flex items in such web browsers
-     hence the bootstrap's container won't be aligned to the center anymore.
-  
-     Therefore, we should use the following declarations to get it centered again */
-         -webkit-box-pack : center;
-            -moz-box-pack : center;
-            -ms-flex-pack : center;
-  -webkit-justify-content : center;
-          justify-content : center;
-        }
-        #form-buscar{
-            width: 400px;
-            margin: 0 auto;
-        }
-        #form-buscar >.form-group >.input-group > .form-control {
-            height: 40px;
-        }
-        #form-buscar >.form-group >.input-group > .input-group-btn > .btn{
-                height: 40px; 
-                font-size: 16px;
-                font-weight: 300; 
-                
-            
-        }  
-
-        #form-buscar >.form-group >.input-group > .form-control {
-            font-size: 16px;
-            font-weight: 300;
-        
-        }
-
-        #form-buscar >.form-group >.input-group > .form-control:focus {
-        border-color: #33A444;
-        outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 1px rgba(0, 109, 0, 0.8);
-                box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 1px rgba(0, 109, 0, 0.8);
-        }
-    </style>
-    <title>Student Performance</title>
+    <title>Help Center</title>
 
 </head>
-<body class="new-design modal-open" data-gr-c-s-loaded="true" >
-    <div class="help-center text-center">
-        <div class="hc-header">
-            <div class="hc-header-inner">
-                <h1>How can we <span>help you?</span></h1>
-                <div class="">
-                    <div class="">
-                        <div class="hc-search">
-                                <form role="form" id="form-buscar">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input id="1" class="form-control" type="text" name="search" placeholder="Search..." required/>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-success" type="submit">
-                                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+<body>
+
+<!-- Masthead -->
+<header class="hc-header text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mb-5">How can we help you?</h1>
+            </div>
+            <div class="col-md-offset-2 col-md-8">
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 col-md-9 mb-2 mb-md-0">
+                            <input type="text" class="form-control form-control-lg" placeholder="Start typing you search...">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="hc-main-item">
-            <div class="row">
-                <div class="col-md-4">
-                    How to Guides
-                </div>
-                <div class="col-md-4">
-                    FQA
-                </div>
-                <div class="col-md-4">
-                    Commonly Used Software
-                </div>
-            </div>
-        </div>
-        <div class="hc-recomend-article">
-            <h2>Get started</h2>
-            <p class="">test test test test test test test test test</p>
-            <div class="hc-accordion">
-                accordion
+                </form>
             </div>
         </div>
     </div>
+</header>
+
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-screen-desktop m-auto text-primary"></i>
+                    </div>
+                    <h3>How to Guides</h3>
+                    <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-layers m-auto text-primary"></i>
+                    </div>
+                    <h3>FQA</h3>
+                    <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-check m-auto text-primary"></i>
+                    </div>
+                    <h3>Used Software</h3>
+                    <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <ul class="list-inline mb-2">
+                    <li class="list-inline-item">
+                        <a href="#">About</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="#">Contact</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms of Use</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                </ul>
+                <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2018. All Rights Reserved.</p>
+            </div>
+            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fa fa-facebook fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fa fa-twitter fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fa fa-instagram fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
