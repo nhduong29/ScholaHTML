@@ -1,0 +1,63 @@
+
+<html>
+  <head>
+    <title>Roundware Test</title>
+
+    <style>
+      #listenMap {
+        height: 400px;
+        width: 100%;
+      }
+      #speakMap {
+        height: 400px;
+        width: 100%;
+      }
+      #waveform {
+        border: 1px black solid;
+        height: 128px;
+        width: 100%;
+      }
+      #inputmeter {
+        border: 1px black solid;
+        background-color: #ffffff;
+        height: 200px;
+        width: 300px;
+      }
+      /* #countdown {
+        font-size: 2em
+      } */
+      ul { list-style: none; }
+      li { margin: 1em; }
+      audio { display: block; }
+    </style>
+  </head>
+  <body>
+    
+
+    <h2>2. Make Recording</h2>
+    <button id="initRecorder">Inititialize Recorder</button>
+    <div id="inputmeter"></div>
+    <button id="startRecordButton" disabled>Start Recording</button>
+    <button id="stopRecordButton" disabled>Stop Recording</button>
+ 
+    <script type="text/javascript" src="test/modernizr-custom.js"></script>
+    <!-- local development -->
+    <!-- <script type="text/javascript" src="roundware.umd.js"></script> -->
+    <!-- online deployment -->
+    <script type="text/javascript" src="test/roundware.umd.min.js"></script>
+    <script type="text/javascript" src="test/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="test/WavAudioEncoder.js"></script>
+    <script type="text/javascript" src="test/recording.js"></script>
+    <script type="text/javascript" src="test/recorder.min.js"></script>
+    <!-- <script type="text/javascript" src="wavesurfer/wavesurfer.js"></script> -->
+    <!-- <script type="text/javascript" src="wavesurfer/wavesurfer.umd.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/plugin/wavesurfer.timeline.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/plugin/wavesurfer.microphone.min.js"></script> -->
+    <script src="test/wavesurfer.min.js"></script>
+    <script src="test/wavesurfer.timeline.min.js"></script>
+    <script src="test/wavesurfer.microphone.min.js"></script>
+    <script type="text/javascript" src="test/main.js"></script>
+
+  </body>
+</html>
